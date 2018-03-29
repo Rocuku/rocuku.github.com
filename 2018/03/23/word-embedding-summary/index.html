@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="词汇表征方式——从one-hot到词嵌入 one-hot表征 1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。 例如单词a在词典中的位置为1，则其表征向量为\([1\;0\;0\;0… 0]^T\) one-hot的缺点：  任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强 维度太高，">
+<meta name="keywords" content="NLP,Word Embedding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="词嵌入（Word Embedding）的几种常见方法">
+<meta property="og:url" content="http://yoursite.com/2018/03/23/word-embedding-summary/index.html">
+<meta property="og:site_name" content="Chatee">
+<meta property="og:description" content="词汇表征方式——从one-hot到词嵌入 one-hot表征 1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。 例如单词a在词典中的位置为1，则其表征向量为\([1\;0\;0\;0… 0]^T\) one-hot的缺点：  任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强 维度太高，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/03/23/word-embedding-summary/1521627423621.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/23/word-embedding-summary/1521687650138.png">
+<meta property="og:updated_time" content="2018-03-29T09:50:03.220Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="词嵌入（Word Embedding）的几种常见方法">
+<meta name="twitter:description" content="词汇表征方式——从one-hot到词嵌入 one-hot表征 1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。 例如单词a在词典中的位置为1，则其表征向量为\([1\;0\;0\;0… 0]^T\) one-hot的缺点：  任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强 维度太高，">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/23/word-embedding-summary/1521627423621.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/23/word-embedding-summary/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>词嵌入（Word Embedding）的几种常见方法 | Chatee</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chatee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/23/word-embedding-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chatee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">词嵌入（Word Embedding）的几种常见方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-23T13:04:27+08:00">2018-03-23</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="词汇表征方式从one-hot到词嵌入">词汇表征方式——从one-hot到词嵌入</h2>
+<h3 id="one-hot表征">one-hot表征</h3>
+<p>1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。<br>
+例如单词a在词典中的位置为1，则其表征向量为<span class="math inline">\([1\;0\;0\;0… 0]^T\)</span></p>
+<p><strong>one-hot的缺点：</strong></p>
+<ul>
+<li>任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强</li>
+<li>维度太高，计算压力大</li>
+<li>向量过于稀疏</li>
+</ul>
+<h3 id="词嵌入">词嵌入</h3>
+<p>词嵌入的出现解决了由one-hot进行表征的缺点。<br>
+词嵌入是将每个词的one-hot向量映射到更低维的空间，使用低维、稠密、实值的词向量来表示每一个词，每一个维度相当于词的某一个特征。词嵌入使得表示词语之间的相关性成为可能，这种相关性体现在两方面：</p>
+<ul>
+<li>相似的词语之间的距离相近<br>
+</li>
+<li>能够通过多维空间中的距离相似度推理具有<strong>类比</strong>关系的两组词语</li>
+</ul>
+<p>两个词之间的余弦相似度（Cosine similarity）：<br>
+<span class="math display">\[
+sim(u,v) = \frac{u^tv}{\|u\|_2\|v\|_2} 
+\]</span></p>
+<a id="more"></a>
+<h3 id="词嵌入矩阵">词嵌入矩阵</h3>
+<p>使用词嵌入模型训练词典的目的是获得一个该词典对应的词嵌入矩阵，使用这个词嵌入矩阵与对应的one-hot向量相乘就可以获得该词的词嵌入向量。<br>
+在实际工程中，大部分时候我们不自己进行词嵌入模型的训练，而是直接使用训练好的词嵌入矩阵。</p>
+<h3 id="符号说明">符号说明</h3>
+<p>在具体介绍几种词嵌入方法之前先对一些基本符号进行规定</p>
+<ul>
+<li><span class="math inline">\(o_w\)</span>为词<span class="math inline">\(w\)</span>的one-hot向量</li>
+<li><span class="math inline">\(E\)</span>为词嵌入矩阵</li>
+<li><span class="math inline">\(e_w\)</span>为词<span class="math inline">\(w\)</span>的词嵌入向量，<span class="math inline">\(e_w=E\cdot o_w\)</span></li>
+<li><span class="math inline">\(N\)</span>为词典的大小</li>
+</ul>
+<hr>
+<h2 id="word2vec">Word2vec</h2>
+<p>Word2vec通过构造监督学习问题来进行训练，而训练的目的不是解决构造出来的监督学习问题，而是获得词嵌入矩阵。<br>
+Word2vec提出的模型基于神经网络，三层架构，输入层、隐藏层、输出层。<br>
+Word2vec有两种实现模型，一种是skip-gram，一种是CBOW（Continuous Bag of Words）。</p>
+<ul>
+<li>skip-gram通过目标词推测上下文，在大型语料库中表现较好</li>
+<li>CBOW是从原始上下文中推测出目标词，在数据量较小的时候表现较好</li>
+</ul>
+<p><img src="/2018/03/23/word-embedding-summary/1521627423621.png" alt="Word2vec_network"> 首先定义<span class="math inline">\(p(o|c)\)</span>，表示词<span class="math inline">\(o\)</span>出现在另一个词<span class="math inline">\(c\)</span>的上下文语境里的条件概率<br>
+<span class="math display">\[p(o|c)=\frac{exp(\theta_o^Te_c)}{\sum_{n=1}^Nexp(\theta_n^Te_c)}\]</span> 其中，<span class="math inline">\(\theta\)</span>为softmax层（也就是输出层）的参数矩阵，<span class="math inline">\(\theta_c\)</span>就是参数矩阵的词<span class="math inline">\(c\)</span>这一行</p>
+<h3 id="cbow">CBOW：</h3>
+<p>CBOW的Loss函数 <span class="math display">\[J=\frac1N\sum_{n=1}^N\sum_{-m\le j\le m, j\not=0}log\  p(w_n | w_{n+j})\]</span> 其中，<span class="math inline">\(j\)</span>是上下文窗口的大小</p>
+<h3 id="skim-gram">skim-gram：</h3>
+<p>skim-gram的Loss函数 <span class="math display">\[J=\frac1N\sum_{n=1}^N\sum_{-m\le j\le m, j\not=0}log\  p(w_{n+j} | w_n)\]</span> 其中，<span class="math inline">\(j\)</span>是上下文窗口的大小</p>
+<h3 id="针对softmax层的优化">针对softmax层的优化</h3>
+<p><span class="math inline">\({\sum_{n=1}^Nexp(\theta_n^Te_c)}\)</span>这一项相当于需要计算词典中所有词和目标词的余弦相似度，计算量很大，有两种优化方法：</p>
+<ol type="1">
+<li><p><strong>层次Softmax（Hierarchical SoftMax）</strong><br>
+通过将原本的softmax层构造成一颗二叉树，将目标概率的计算复杂度从最初的<span class="math inline">\(O(N)\)</span>降低到了<span class="math inline">\(O(logN)\)</span>。构造二叉树的方法有很多，不同构造方法会对计算效率和准确率有略微的影响。通常霍夫曼编码树效果还不错，能满足一般需求。</p></li>
+<li><p><strong>负采样（negtive sampling）</strong><br>
+负采样不再使用一个具有词汇表大小时间复杂度高的庞大维度的softmax，而是将其转换为词汇表大小个二分类问题，使用逻辑回归解决每个二分类任务。每个的训练样本均是1个正样本，外加k个负样本。<br>
+<strong>负样本的获得方法（subsampling思想）：</strong><br>
+<span class="math display">\[P(w_c)=\frac{f(w_c)^\alpha}{\sum_{n=1}^Nf(w_n)^\alpha}
+\]</span> 其中，通常<span class="math inline">\(\alpha=0.75\)</span>，<span class="math inline">\(f(w_c)\)</span>为词<span class="math inline">\(c\)</span>在语料库中的词频。<br>
+这种获得方法既不用频率分布，也不用均匀分布，而在两者之间进行采样的。这样既不会造成常见词出现频率过高，也不会导致获得的词没有代表性。</p></li>
+</ol>
+<p>负采样的效果比层次softmax的效果要好，目前使用的比较多的也是负采样。</p>
+<hr>
+<h2 id="gloveglobal-vectors-for-word-representation">GloVe（global vectors for word representation）</h2>
+<p>GloVe基于两种方法：</p>
+<ul>
+<li><strong>基于奇异值分解（SVD）的LSA算法</strong><br>
+此处使用的tf-idf主要是全局统计特征。</li>
+<li><strong>Word2vec</strong><br>
+基于局部滑动窗口计算，利用了局部的上下文特征。</li>
+</ul>
+<p>GloVe方法就是将这两中特征合并到一起的，即使用了语料库的全局统计特征，也使用了局部的上下文特征（即滑动窗口）。为了做到这一点GloVe模型引入了共现矩阵（Co-occurrence Probabilities Matrix）。</p>
+<ul>
+<li><span class="math inline">\(X\)</span>为共现矩阵，其元素为<span class="math inline">\(X_{i,j}\)</span>。</li>
+<li><span class="math inline">\(X_{i,j}\)</span>表示在整个语料库中，单词<span class="math inline">\(i\)</span>和单词<span class="math inline">\(j\)</span>共同出现在一个窗口中的次数。</li>
+</ul>
+<p>Glove模型的Loss函数： <span class="math display">\[J=\sum_{i,j}^{N}{f(X_{i,j})(w_i^Tw_j+b_i+b_j-log(X_{i,j}))^2}\]</span></p>
+<p>其中<span class="math inline">\(w_i\)</span>，<span class="math inline">\(w_j\)</span>是单词<span class="math inline">\(i\)</span>和单词<span class="math inline">\(j\)</span>的词向量，<span class="math inline">\(b_i\)</span>，<span class="math inline">\(b_j\)</span>是偏差标量，<span class="math inline">\(f\)</span>是权重函数。<br>
+权重函数定义为： <span class="math display">\[f(x)=\begin{cases}
+(x/x_{max})^{\alpha} &amp;&amp;x &lt; x_{max}\\&amp;&amp;&amp;&amp;\\
+1 &amp;&amp; x  \ge x_{max}
+\end{cases}\]</span> 通常，<span class="math inline">\(x_{max}=100\)</span>, <span class="math inline">\(α=0.75\)</span>。感觉也是subsampling。</p>
+<p>Glove没有用到神经网络。<br>
+与Word2vec模型相比，GloVe在充分利用了语料库的全局统计信息的同时，也提高了词向量在大语料上的训练速度（一个共现矩阵的遍历要比整个语料库的遍历容易的多）。而与传统的SVD技术相比，SGD的训练也更加简单高效。同时，GloVe得到的词向量更能把握住词与词之间的线性关系。</p>
+<hr>
+<h2 id="fasttext">fastText</h2>
+<p>fastText 是用于解决文本分类问题的，输入一个词的序列（一段文本或者一句话)，输出这个词序列属于不同类别的概率。 fastText 模型架构和 Word2Vec 中的 CBOW 模型很类似。不同之处在于，fastText预测标签，而 CBOW 模型预测中间词。 <img src="/2018/03/23/word-embedding-summary/1521687650138.png" alt="fastText架构"> fastText的Loss函数：<br>
+<span class="math display">\[
+J=\frac1N\sum_{n=1}^Ny_nlog(f(BAx_n))
+\]</span> 其中，<span class="math inline">\(&lt;x_n,y_n&gt;\)</span>是一条训练样本，<span class="math inline">\(y_n\)</span>是训练目标，<span class="math inline">\(x_n\)</span>是词序列的N-gram特征。<br>
+fastText的两个技巧：</p>
+<ul>
+<li><strong>Hierarchical SoftMax</strong> 与Word2vec中相同，用于加速softmax层的计算</li>
+<li><strong>N-gram features</strong> 加入N-gram features提高泛化性能</li>
+</ul>
+<hr>
+<h2 id="wordrank">WordRank</h2>
+<p>WordRank的资料比较少。下面这部分主要来自论文WordRank: Learning Word Embeddings via Robust Ranking，看的的半懂不懂的。<br>
+WordRank是通过Robust Ranking来做的词嵌入。</p>
+<ul>
+<li><span class="math inline">\(u_w\)</span>是词<span class="math inline">\(w\)</span>的词嵌入向量，矩阵<span class="math inline">\(U := \{u_w\}_{w\in W}\)</span></li>
+<li><span class="math inline">\(v_c\)</span>是上下文的词嵌入向量，矩阵<span class="math inline">\(V := \{v_c\}_{c\in C}\)</span></li>
+</ul>
+<p>把词<span class="math inline">\(w\)</span>可能的上下文<span class="math inline">\(c\)</span>打分排序 <span class="math display">\[
+rank(w,c)\le \overline{rank}(w,c)=\sum_{c&#39;\in C \setminus \{c\}}\ell(\langle u_w,v_c-v_c&#39;\rangle)
+\]</span> Loss函数 <span class="math display">\[
+J = \sum_{w\in W}\sum_{c\in \Omega_w}r_{w,c}\cdot\rho(\frac {\overline{rank}(w,c) + \beta}{\alpha})
+\]</span> 其中， <span class="math display">\[
+r_{w,c}=\begin{cases}
+(X_{w,c}/x_{max})^\epsilon &amp; if\  X_{w,c} \le x_{max} \\&amp;&amp;&amp;&amp;\\
+1 &amp; otherwise
+\end{cases}
+\]</span> 通常，<span class="math inline">\(x_{max} = 100\)</span>，<span class="math inline">\(\epsilon = 0.75\)</span>，这个<span class="math inline">\(r_{w,c}\)</span>和GloVe里的权重是一个意思。</p>
+<hr>
+<h2 id="几种方法的比较">几种方法的比较</h2>
+<p>FastText在语法类比任务中效果最好，GloVe在多义词方面表现最好，那么wordRank在语义类比任务中效果最好。<br>
+其原因在于，FastText引入词的形态学信息，而WordRank则是把寻找最相似词形式化为一个排序问题。即，给定词w, WordRank输出一个序列化列表，将和词w共同出现最多的词排在列表前面。</p>
+<ol type="1">
+<li>在语义类比中，三种模型在低频词语上表现相对较差，在高频词语上表现效果较好；</li>
+<li>在语法类比中，FastText优于Word2Vec和WordRank 。FastText模型在低频词语上表现的相当好，但是当词频升高时，准确率迅速降低，而WordRank和Word2Vec在很少出现和很频繁出现的词语上准确率较低；</li>
+<li>FastText在综合类比中表现更好，整体类比结果与语法类比的结果比较相似，因为语法类比任务的数量远远多于语义类比，所以在综合结果中语法类比任务的结果占有更大的权重。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/Word-Embedding/" rel="tag"># Word Embedding</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/27/ensemble-learning/" rel="prev" title="集成学习（Ensemble Learning）概述">
+                集成学习（Ensemble Learning）概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词汇表征方式从one-hot到词嵌入"><span class="nav-number">1.</span> <span class="nav-text">词汇表征方式——从one-hot到词嵌入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#one-hot表征"><span class="nav-number">1.1.</span> <span class="nav-text">one-hot表征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词嵌入"><span class="nav-number">1.2.</span> <span class="nav-text">词嵌入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词嵌入矩阵"><span class="nav-number">1.3.</span> <span class="nav-text">词嵌入矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#符号说明"><span class="nav-number">1.4.</span> <span class="nav-text">符号说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#word2vec"><span class="nav-number">2.</span> <span class="nav-text">Word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cbow"><span class="nav-number">2.1.</span> <span class="nav-text">CBOW：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#skim-gram"><span class="nav-number">2.2.</span> <span class="nav-text">skim-gram：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对softmax层的优化"><span class="nav-number">2.3.</span> <span class="nav-text">针对softmax层的优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gloveglobal-vectors-for-word-representation"><span class="nav-number">3.</span> <span class="nav-text">GloVe（global vectors for word representation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fasttext"><span class="nav-number">4.</span> <span class="nav-text">fastText</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wordrank"><span class="nav-number">5.</span> <span class="nav-text">WordRank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种方法的比较"><span class="nav-number">6.</span> <span class="nav-text">几种方法的比较</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
