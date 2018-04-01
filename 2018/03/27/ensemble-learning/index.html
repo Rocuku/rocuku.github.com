@@ -100,18 +100,18 @@
 
 
   <meta name="description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同">
-<meta name="keywords" content="Ensemble Learning,Machine Learning">
+<meta name="keywords" content="学习笔记,Ensemble Learning,Machine Learning">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集成学习（Ensemble Learning）概述">
+<meta property="og:title" content="学习笔记——集成学习（Ensemble Learning）">
 <meta property="og:url" content="http://yoursite.com/2018/03/27/ensemble-learning/index.html">
-<meta property="og:site_name" content="Chatee">
+<meta property="og:site_name" content="ro&#39;s blog">
 <meta property="og:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/27/ensemble-learning/1522107491734.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/27/ensemble-learning/1522108697859.png">
-<meta property="og:updated_time" content="2018-03-29T09:49:41.709Z">
+<meta property="og:updated_time" content="2018-04-01T05:59:47.034Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="集成学习（Ensemble Learning）概述">
+<meta name="twitter:title" content="学习笔记——集成学习（Ensemble Learning）">
 <meta name="twitter:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/27/ensemble-learning/1522107491734.png">
 
@@ -130,7 +130,7 @@
   };
 </script>
 
-  <title>集成学习（Ensemble Learning）概述 | Chatee</title>
+  <title>学习笔记——集成学习（Ensemble Learning） | ro's blog</title>
   
 
 
@@ -190,7 +190,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Chatee</span>
+        <span class="site-title">ro's blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -337,7 +337,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chatee">
+      <meta itemprop="name" content="ro's blog">
     </span>
 
     
@@ -345,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">集成学习（Ensemble Learning）概述</h1>
+          <h1 class="post-title" itemprop="name headline">学习笔记——集成学习（Ensemble Learning）</h1>
         
 
         <div class="post-meta">
@@ -378,7 +378,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
 
                 
                 
@@ -387,6 +387,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/27/ensemble-learning/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/03/27/ensemble-learning/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -530,8 +540,9 @@ w_{m+1,i}=\frac {w_{mi}}{Z_{m}}exp(−\alpha_my_iG_m(x_i)),\  i=1,2,...,N
 <p>基于这两个需求，LightGBM 选择了基于 histogram 的决策树算法。相比于另一个主流的算法 pre-sorted（如 xgboost 中的 exact 算法），histogram 在内存消耗和计算代价上都有不少优势。</p>
 <hr>
 <h2 id="stacking">Stacking</h2>
-<p>Stacking 是一种集成学习技术，通过元分类器或元回归聚合多个分类或回归模型。基础层次模型（level model）基于完整的训练集进行训练，然后元模型基于基础层次模型的输出进行训练。下面两张图能比较好的反应Stacking的流程。 图片来源文章[1] <img src="/2018/03/27/ensemble-learning/1522107491734.png" alt="Alt text"></p>
-<p>图片来源文章[2] <img src="/2018/03/27/ensemble-learning/1522108697859.png" alt="Alt text"></p>
+<p>Stacking 是一种集成学习技术，通过元分类器或元回归聚合多个分类或回归模型。基础层次模型（level model）基于完整的训练集进行训练，然后元模型基于基础层次模型的输出进行训练。下面两张图能比较好的反应Stacking的流程。</p>
+<p>图片来源文章[1] <img src="/2018/03/27/ensemble-learning/1522107491734.png" alt="Stacking1"></p>
+<p>图片来源文章[2] <img src="/2018/03/27/ensemble-learning/1522108697859.png" alt="Stacking2"></p>
 <p><strong>使用k-fold的原因</strong><br>
 在实现Stacking时，要注意的一点是，避免标签泄漏(Label Leak)。在训练次学习器时，需要上一层学习器对Train Data的测试结果作为特征。如果我们在Train Data上训练，然后在Train Data上预测，就会造成Label Leak。为了避免Label Leak，需要对每个学习器使用K-fold，将K个模型对Valid Set的预测结果拼起来，作为下一层学习器的输入。</p>
 <p><strong>Stacking模型实例</strong><br>
@@ -594,6 +605,8 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
       
         <div class="post-tags">
           
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
             <a href="/tags/Ensemble-Learning/" rel="tag"># Ensemble Learning</a>
           
             <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
@@ -609,8 +622,8 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/23/word-embedding-summary/" rel="next" title="词嵌入（Word Embedding）的几种常见方法">
-                <i class="fa fa-chevron-left"></i> 词嵌入（Word Embedding）的几种常见方法
+              <a href="/2018/03/23/word-embedding-summary/" rel="next" title="学习笔记——词嵌入（Word Embedding）">
+                <i class="fa fa-chevron-left"></i> 学习笔记——词嵌入（Word Embedding）
               </a>
             
           </div>
@@ -618,6 +631,10 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/30/toxic-comment-classification-challenge-summary/" rel="prev" title="Toxic Comment Classification Challenge 比赛总结">
+                Toxic Comment Classification Challenge 比赛总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -643,6 +660,9 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
           </div>
           
 
+  
+    <div class="comments" id="comments">
+    </div>
   
 
 
@@ -691,7 +711,7 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -729,7 +749,17 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -948,6 +978,30 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 
