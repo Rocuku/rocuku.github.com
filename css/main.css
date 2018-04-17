@@ -1322,7 +1322,8 @@ pre .javascript .function {
 .posts-expand .post-body img {
   box-sizing: border-box;
   margin: auto;
-  padding: 5px;
+  padding: 3px;
+  border: 1px solid #ddd;
 }
 .posts-expand .post-body .fancybox img {
   margin: 0 auto 25px;
@@ -1822,7 +1823,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #67611a;
+  background: #b39087;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2367,6 +2368,12 @@ a {
 hr {
   margin: 20px 0;
   height: 2px;
+}
+.posts-expand .post-body img {
+  box-sizing: border-box;
+  margin: auto;
+  padding: 5px;
+  border: 0px solid #ddd;
 }
 .main-inner {
   margin-top: 80px;
