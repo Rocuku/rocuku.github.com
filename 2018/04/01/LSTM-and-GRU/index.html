@@ -123,13 +123,14 @@
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522560698046.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522568573450.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522561916110.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1524886607803.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522563449679.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522563477971.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522563537379.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522563543521.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1522569111247.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/01/LSTM-and-GRU/1524043159596.png">
-<meta property="og:updated_time" content="2018-04-18T09:23:37.917Z">
+<meta property="og:updated_time" content="2018-04-28T03:38:26.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——RNN相关知识">
 <meta name="twitter:description" content="从RNN基本结构开始 RNN（Recurrent Neural Networks，循环神经网络）相较于传统神经网络，允许了信息的持久化，即神经元的输出可以在下一个时间戳直接作用到自身。 传统神经网络对下面两种情况无法很好的处理  输入和输出的长度（维度）在不同的例子中不同（句子的长度不同） 在输入的不同维度上学到的特征无法共享（比如文本的不同位置上）  RNN的链式结构决定了它适用于时序相关问题，">
@@ -449,7 +450,7 @@
 <li>输入和输出的长度（维度）在不同的例子中不同（句子的长度不同）</li>
 <li>在输入的不同维度上学到的特征无法共享（比如文本的不同位置上）</li>
 </ul>
-<p>RNN的链式结构决定了它适用于时序相关问题，更能够很好的应对上面的两种情况 <a id="more"></a> <img src="/2018/04/01/LSTM-and-GRU/1522560273813.png" alt="Alt text"></p>
+<p>RNN的链式结构决定了它适用于<strong>时序</strong>相关问题，更能够很好的应对上面的两种情况 <a id="more"></a> <img src="/2018/04/01/LSTM-and-GRU/1522560273813.png" alt="Alt text"></p>
 <p><strong>标准RNN神经元结构</strong> <img src="/2018/04/01/LSTM-and-GRU/1522560672562.png" alt="Alt text"></p>
 <h3 id="rnn的前向传播forward-propagation">RNN的前向传播（Forward Propagation）</h3>
 <p><img src="/2018/04/01/LSTM-and-GRU/1523944487512.png" alt="Alt text"> RNN比较常见的N对N结构图，后面的计算都根据这张图的结构来进行。</p>
@@ -458,6 +459,11 @@
 &amp;o^{(t)} = Vh^{(t)}  + c  \\
 &amp;\hat y^{(t)} = \sigma (o^{(t)})
 \end{align*}\]</span> 其中，<span class="math inline">\(\sigma\)</span>是输出层的激活函数（一般根据输出类型选择sigmoid/softmax等），隐藏层的激活函数通常都使用tanh。</p>
+<p>明确一下维度：<br>
+假设 <span class="math inline">\(x^{(t)}.shape=(300,1)\)</span>，<span class="math inline">\(h^{(t)}.shape=(100,1)\)</span>，则有 <span class="math display">\[\begin{align*}
+&amp;U.shape = (100,300)\\
+&amp;W.shape = (100,100)\\
+\end{align*}\]</span></p>
 <h3 id="rnn的反向传播back-propagation">RNN的反向传播（Back Propagation）</h3>
 <p>RNN的后向传播也叫做BPTT（back-propagation through time）。</p>
 <p>继续上面的计算，假设<span class="math inline">\(L^{(t)}\)</span> 为<span class="math inline">\(t\)</span>时刻的损失函数，则总损失<span class="math inline">\(L=\sum_{t=1}^TL^{(t)}\)</span>，令<span class="math inline">\(\delta^{(t)} = \frac{\partial L}{\partial h^{(t)}}\)</span> <span class="math display">\[\begin{align*}
@@ -472,19 +478,19 @@
 &amp;\delta^{(T)}=\sum_{t=1}^{T}V^T\frac{\partial L^{(t)}}{\partial o^{(t)}}
 \end{align*}\]</span> 具体计算过程中要考虑求导过程中矩阵转置等问题，比较复杂。Reference里的<a href="https://www.cnblogs.com/pinard/p/6509630.html" target="_blank" rel="noopener">第5篇</a>的正向反向传播公式推导非常细致，另外还包括LSTM的公式推导。</p>
 <h3 id="rnn的几种常见结构">RNN的几种常见结构</h3>
-<h4 id="标准结构">标准结构</h4>
+<h4 id="many-to-many结构">Many-to-many结构</h4>
 <p><img src="/2018/04/01/LSTM-and-GRU/1523944487512.png" alt="Alt text"> 每一个时刻的输入都对应一个输出</p>
 <ul>
 <li>词性标注</li>
 <li>Char RNN（输入为字符，输出为下一个字符的概率）</li>
 </ul>
-<h4 id="多对1结构">多对1结构</h4>
+<h4 id="many-to-one结构">Many-to-one结构</h4>
 <p><img src="/2018/04/01/LSTM-and-GRU/1523953919901.png" alt="Alt text"> 输入序列，输出单个值</p>
 <ul>
 <li>根据一段文字进行情感分类</li>
 <li>一段音频/视频的分类</li>
 </ul>
-<h4 id="对多结构">1对多结构</h4>
+<h4 id="one-to-many结构">One-to-many结构</h4>
 <p><img src="/2018/04/01/LSTM-and-GRU/1523953906124.png" alt="Alt text"> <img src="/2018/04/01/LSTM-and-GRU/1523953915894.png" alt="Alt text"> 输入为单个值，输出序列 有两种常见方式，一种是只在第一个时刻输入X，一种是在每个时刻都输入同一个X</p>
 <ul>
 <li>从图像生成文字（image caption）</li>
@@ -502,21 +508,16 @@
 <h4 id="双向rnn">双向RNN</h4>
 <p>标准的RNN在t时刻的输出只能根据t时刻及t时刻之前的输入来决定，但是在很多任务中，t时刻的输出很可能也和t时刻之后的输入有关。</p>
 <p>例如这个两个句子中的人名判断：<br>
-Teddy is a nice person.<br>
-Teddy bear is popular in American.</p>
-<p><strong>双向RNN结构图</strong> <img src="/2018/04/01/LSTM-and-GRU/1524036767323.png" alt="Alt text"> 双向RNN（Bi-RNN）就是为了解决这个问题而创造的。双向RNN相当于正向传播计算一次<span class="math inline">\(h^{(t)}\)</span>，再计算一次反向传播回去的<span class="math inline">\(g^{(t)}\)</span>，最后的输出<span class="math inline">\(\hat y^{(t)}\)</span>同时取决于<span class="math inline">\(h^{(t)}\)</span>和<span class="math inline">\(g^{(t)}\)</span>。相当于每个训练序列向前和向后分别训练一个RNN再接到同一个输出层上去。</p>
+- Teddy Roosevelt was a great president.<br>
+- Teddy bears are on sale!</p>
+<p>双向RNN（Bidirectional RNN, Bi-RNN, BRNN）就是为了解决这个问题而创造的。双向RNN相当于正向传播计算一次<span class="math inline">\(h^{(t)}\)</span>，再计算一次反向传播回去的<span class="math inline">\(g^{(t)}\)</span>，最后的输出<span class="math inline">\(\hat y^{(t)}\)</span>同时取决于<span class="math inline">\(h^{(t)}\)</span>和<span class="math inline">\(g^{(t)}\)</span>。相当于每个训练序列向前和向后分别训练一个RNN再接到同一个输出层上去。</p>
+<p><strong>双向RNN结构图</strong> <img src="/2018/04/01/LSTM-and-GRU/1524036767323.png" alt="Alt text"> <span class="math inline">\(o^{(t)} = V[h^{(t)}, g^{(t)}] + c\)</span></p>
 <h4 id="深度rnn">深度RNN</h4>
 <p><img src="/2018/04/01/LSTM-and-GRU/1524036717808.png" alt="Alt text"> 给RNN增加深度也就是使模型变得更强大，相当于增加网络复杂度来更贴合训练数据。 循环神经网络可以通过许多方式变得更深：</p>
 <ul>
-<li><ol type="a">
 <li>隐藏循环状态可以被分解为具有层次的组。</li>
-</ol></li>
-<li><ol start="2" type="a">
 <li>可以向输入到隐藏，隐藏到隐藏以及隐藏到输出的部分引入更深的计算 (如 MLP(多层感知器))。这可以延长链接不同时间步的最短路径。</li>
-</ol></li>
-<li><ol start="3" type="a">
 <li>可以引入跳跃连接来缓解路径延长的效应。</li>
-</ol></li>
 </ul>
 <h3 id="一些关于rnn的思考">一些关于RNN的思考</h3>
 <h4 id="rnn的梯度爆炸和梯度消失">1. RNN的梯度爆炸和梯度消失</h4>
@@ -546,6 +547,7 @@ Teddy bear is popular in American.</p>
 <h3 id="lstm的门">LSTM的门</h3>
 <p><img src="/2018/04/01/LSTM-and-GRU/1522561916110.png" alt="Alt text"> 门是一种让信息选择式通过的方法。一个门的结构如上图，包含一个sigmoid神经网络层（使用<span class="math inline">\(\sigma\)</span>表示）和一个pointwise乘法操作。<br>
 Sigmoid层输出0到1之间的数值，描述每个部分有多少量可以通过。0代表“不许任何量通过”，1就指“允许任意量通过”。</p>
+<p><strong>Sigmoid函数</strong> <img src="/2018/04/01/LSTM-and-GRU/1524886607803.png" alt="Alt text"></p>
 <p>相较于标准RNN，LSTM拥有三个门，来保护和控制细胞状态。</p>
 <h4 id="遗忘门forget-gate">遗忘门（forget gate）</h4>
 <p><img src="/2018/04/01/LSTM-and-GRU/1522563449679.png" alt="Alt text"> 遗忘门通过观察<span class="math inline">\(h_{t-1}\)</span>和<span class="math inline">\(x_t\)</span>，对于细胞状态<span class="math inline">\(C_{t-1}\)</span>中的每一个元素，输出一个0~1之间的数。1表示“完全保留”，0表示“完全丢弃”。</p>
@@ -796,7 +798,7 @@ Sigmoid层输出0到1之间的数值，描述每个部分有多少量可以通�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从rnn基本结构开始"><span class="nav-number">1.</span> <span class="nav-text">从RNN基本结构开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rnn的前向传播forward-propagation"><span class="nav-number">1.1.</span> <span class="nav-text">RNN的前向传播（Forward Propagation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rnn的反向传播back-propagation"><span class="nav-number">1.2.</span> <span class="nav-text">RNN的反向传播（Back Propagation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rnn的几种常见结构"><span class="nav-number">1.3.</span> <span class="nav-text">RNN的几种常见结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标准结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">标准结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多对1结构"><span class="nav-number">1.3.2.</span> <span class="nav-text">多对1结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对多结构"><span class="nav-number">1.3.3.</span> <span class="nav-text">1对多结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder-decoder结构"><span class="nav-number">1.3.4.</span> <span class="nav-text">Encoder-Decoder结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双向rnn"><span class="nav-number">1.3.5.</span> <span class="nav-text">双向RNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深度rnn"><span class="nav-number">1.3.6.</span> <span class="nav-text">深度RNN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些关于rnn的思考"><span class="nav-number">1.4.</span> <span class="nav-text">一些关于RNN的思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rnn的梯度爆炸和梯度消失"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. RNN的梯度爆炸和梯度消失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rnn中梯度爆炸和消失的解决方法"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. RNN中梯度爆炸和消失的解决方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么rnn中多使用tanh而不是relu"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 为什么RNN中多使用tanh而不是ReLU</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lstm"><span class="nav-number">2.</span> <span class="nav-text">LSTM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lstm的门"><span class="nav-number">2.1.</span> <span class="nav-text">LSTM的门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#遗忘门forget-gate"><span class="nav-number">2.1.1.</span> <span class="nav-text">遗忘门（forget gate）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输入门input-gate"><span class="nav-number">2.1.2.</span> <span class="nav-text">输入门（input gate）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出门output-gate"><span class="nav-number">2.1.3.</span> <span class="nav-text">输出门（output gate）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gru"><span class="nav-number">3.</span> <span class="nav-text">GRU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attention机制"><span class="nav-number">4.</span> <span class="nav-text">Attention机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从rnn基本结构开始"><span class="nav-number">1.</span> <span class="nav-text">从RNN基本结构开始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rnn的前向传播forward-propagation"><span class="nav-number">1.1.</span> <span class="nav-text">RNN的前向传播（Forward Propagation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rnn的反向传播back-propagation"><span class="nav-number">1.2.</span> <span class="nav-text">RNN的反向传播（Back Propagation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rnn的几种常见结构"><span class="nav-number">1.3.</span> <span class="nav-text">RNN的几种常见结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#many-to-many结构"><span class="nav-number">1.3.1.</span> <span class="nav-text">Many-to-many结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#many-to-one结构"><span class="nav-number">1.3.2.</span> <span class="nav-text">Many-to-one结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#one-to-many结构"><span class="nav-number">1.3.3.</span> <span class="nav-text">One-to-many结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder-decoder结构"><span class="nav-number">1.3.4.</span> <span class="nav-text">Encoder-Decoder结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双向rnn"><span class="nav-number">1.3.5.</span> <span class="nav-text">双向RNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#深度rnn"><span class="nav-number">1.3.6.</span> <span class="nav-text">深度RNN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些关于rnn的思考"><span class="nav-number">1.4.</span> <span class="nav-text">一些关于RNN的思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rnn的梯度爆炸和梯度消失"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. RNN的梯度爆炸和梯度消失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rnn中梯度爆炸和消失的解决方法"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. RNN中梯度爆炸和消失的解决方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么rnn中多使用tanh而不是relu"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 为什么RNN中多使用tanh而不是ReLU</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lstm"><span class="nav-number">2.</span> <span class="nav-text">LSTM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lstm的门"><span class="nav-number">2.1.</span> <span class="nav-text">LSTM的门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#遗忘门forget-gate"><span class="nav-number">2.1.1.</span> <span class="nav-text">遗忘门（forget gate）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输入门input-gate"><span class="nav-number">2.1.2.</span> <span class="nav-text">输入门（input gate）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出门output-gate"><span class="nav-number">2.1.3.</span> <span class="nav-text">输出门（output gate）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gru"><span class="nav-number">3.</span> <span class="nav-text">GRU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attention机制"><span class="nav-number">4.</span> <span class="nav-text">Attention机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
