@@ -99,20 +99,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ro&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/tags/Word-Embedding/index.html">
+  <meta name="description" content="结论：尽量避免使用vector&amp;lt;bool&amp;gt;，可以用deque和bitset替代">
+<meta name="keywords" content="豆知识,C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 vector&amp;lt;bool&amp;gt;">
+<meta property="og:url" content="http://yoursite.com/2016/08/08/vector-bool/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="结论：尽量避免使用vector&amp;lt;bool&amp;gt;，可以用deque和bitset替代">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T01:15:18.063Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ro&#39;s blog">
+<meta name="twitter:title" content="关于 vector&amp;lt;bool&amp;gt;">
+<meta name="twitter:description" content="结论：尽量避免使用vector&amp;lt;bool&amp;gt;，可以用deque和bitset替代">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Word-Embedding/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/08/vector-bool/"/>
 
 
 
@@ -122,7 +127,7 @@
   };
 </script>
 
-  <title>Tag: Word Embedding | ro's blog</title>
+  <title>关于 vector&lt;bool&gt; | ro's blog</title>
   
 
 
@@ -169,7 +174,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -304,58 +309,217 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Word Embedding<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/08/vector-bool/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/03/23/word-embedding-summary/" itemprop="url">
-              
-                <span itemprop="name">学习笔记——词嵌入（Word Embedding）</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">关于 vector&lt;bool&gt;</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-03-23T13:04:27+08:00"
-              content="2018-03-23" >
-          03-23
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-08T15:09:28+08:00">2016-08-08</time>
+            
 
-    </header>
-  </article>
+            
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/08/08/vector-bool/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/08/vector-bool/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>结论：尽量避免使用<code>vector&lt;bool&gt;</code>，可以用<code>deque</code>和<code>bitset</code>替代</strong></p>
+<a id="more"></a>
+<hr>
+<h2 id="官方说明">官方说明</h2>
+<p><a href="http://www.cplusplus.com/reference/vector/vector-bool/" target="_blank" rel="noopener">STL文档</a>中对<code>vector&lt;bool&gt;</code>的说明：</p>
+<p><strong>Vector of bool</strong></p>
+<p>This is a specialized version of vector, which is used for elements of type bool and optimizes for space.</p>
+<p>It behaves like the unspecialized version of vector, with the following changes:</p>
+<ul>
+<li>The storage is not necessarily an array of bool values, but the library implementation may optimize storage so that each value is stored in a single bit.</li>
+<li>Elements are not constructed using the allocator object, but their value is directly set on the proper bit in the internal storage.</li>
+<li>Member function flip and a new signature for member swap.</li>
+<li>A special member type, reference, a class that accesses individual bits in the container’s internal storage with an interface that emulates a bool reference. Conversely, member type const_reference is a plain bool.</li>
+<li>The pointer and iterator types used by the container are not necessarily neither pointers nor conforming iterators, although they shall simulate most of their expected behavior.</li>
+</ul>
+<p>These changes provide a quirky interface to this specialization and favor memory optimization over processing (which may or may not suit your needs). In any case, it is not possible to instantiate the unspecialized template of vector for bool directly.</p>
+<p>Workarounds to avoid this range from using a different type (char, unsigned char) or container (like deque) to use wrapper types or further specialize for specific allocator types.</p>
+<p>bitset is a class that provides a similar functionality for fixed-size arrays of bits.</p>
+<hr>
+<h2 id="简单解释">简单解释</h2>
+<p><code>vector&lt;bool&gt;</code>实际是一个伪容器，并不保存真正的<code>bool</code>，而是打包<code>bool</code>以节省空间。</p>
+<p>因此使用<code>operator[]</code>取到的并不是对元素的引用，而是<code>vector&lt; bool&gt;:reference</code>的对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; x = &#123;<span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>&#125;;</span><br><span class="line"><span class="keyword">bool</span> *p = &amp;x[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+<p>会报错：</p>
+<p><code>taking address of temporary [-fpermissive]</code></p>
+<p>如果一定要使用<code>vctor&lt;bool&gt;</code>的话，应该不要使用下标的方式进行访问，应当使用迭代器或者<code>vector</code>提供的其他函数进行使用，以免出现上述意想不到的结果。</p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/豆知识/" rel="tag"># 豆知识</a>
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/08/classifier-evaluation/" rel="prev" title="分类器性能度量标准">
+                分类器性能度量标准 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -376,8 +540,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -486,6 +659,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#官方说明"><span class="nav-number">1.</span> <span class="nav-text">官方说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单解释"><span class="nav-number">2.</span> <span class="nav-text">简单解释</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -613,6 +802,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
 
   
 
@@ -690,6 +883,29 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
