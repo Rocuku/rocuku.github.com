@@ -99,20 +99,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ro&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/categories/C/index.html">
+  <meta name="description" content="结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal">
+<meta name="keywords" content="豆知识,MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 的 float 精度问题">
+<meta property="og:url" content="http://yoursite.com/2017/12/12/mysql-float/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-12T06:06:12.127Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ro&#39;s blog">
+<meta name="twitter:title" content="MySQL 的 float 精度问题">
+<meta name="twitter:description" content="结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/C/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/12/mysql-float/"/>
 
 
 
@@ -122,7 +127,7 @@
   };
 </script>
 
-  <title>Category: C++ | ro's blog</title>
+  <title>MySQL 的 float 精度问题 | ro's blog</title>
   
 
 
@@ -169,7 +174,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -304,59 +309,209 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>C++<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/12/mysql-float/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2016/08/08/vector-bool/" itemprop="url">
-              
-                <span itemprop="name">关于 vector&lt;bool&gt;</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">MySQL 的 float 精度问题</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-08T15:09:28+08:00"
-              content="2016-08-08" >
-          08-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-12T14:04:30+08:00">2017-12-12</time>
+            
 
-    </header>
-  </article>
+            
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/豆知识/" itemprop="url" rel="index"><span itemprop="name">豆知识</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/12/mysql-float/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/12/12/mysql-float/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal</strong></p>
+<a id="more"></a>
+<p>MySQL 中的默认 float 型占 4 字节，只能在值的二进制表示在 32 位以内的时候保证精度，超出就会被四舍五入，导致数据的不准确。double 型和 float 型原理上一样，只是占了 8 字节，所以可以保存 64 位。这两种类型原本不保证精确性。</p>
+<blockquote>
+<p>For FLOAT, the SQL standard permits an optional specification of the precision (but not the range of the exponent) in bits following the keywordFLOAT in parentheses. MySQL also supports this optional precision specification, but the precision value is used only to determine storage size. A precision from 0 to 23 results in a 4-byte single-precision FLOAT column. A precision from 24 to 53 results in an 8-byte double-precision DOUBLEcolumn.</p>
+</blockquote>
+<p>因此在要求绝对精度的时候，使用 decimal 型存储比较靠谱。</p>
+<p><code>decimal(a,b)</code></p>
+<ul>
+<li>a 指定指定小数点左边和右边可以存储的十进制数字的最大个数，最大精度 38。</li>
+<li>b 指定小数点右边可以存储的十进制数字的最大个数。小数位数必须是从 0 到 a 之间的值。默认小数位数是 0。</li>
+</ul>
+<p><strong>电表项目数据存储遇到的问题，用 float 存的电能值莫名其妙就不精确了。</strong></p>
+<p>参考：<a href="http://yongxiong.leanote.com/post/mysql_float_double_decimal" target="_blank" rel="noopener">MySQL如何选择float, double, decimal</a></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/豆知识/" rel="tag"># 豆知识</a>
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/01/LSTM-and-GRU/" rel="next" title="学习笔记——RNN相关知识">
+                <i class="fa fa-chevron-left"></i> 学习笔记——RNN相关知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/27/ensemble-learning/" rel="prev" title="学习笔记——集成学习（Ensemble Learning）">
+                学习笔记——集成学习（Ensemble Learning） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -393,7 +548,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -455,7 +610,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -628,6 +785,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
 
   
 
@@ -705,6 +866,29 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
