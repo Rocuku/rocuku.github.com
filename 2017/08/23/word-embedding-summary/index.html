@@ -103,24 +103,24 @@
 <meta name="keywords" content="学习笔记,NLP,Word Embedding">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习笔记——词嵌入（Word Embedding）">
-<meta property="og:url" content="http://yoursite.com/2018/03/23/word-embedding-summary/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/23/word-embedding-summary/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
 <meta property="og:description" content="词汇表征方式——从one-hot到词嵌入 one-hot表征 1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。 例如单词a在词典中的位置为1，则其表征向量为\([1\;0\;0\;0… 0]^T\) one-hot的缺点：  任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强 维度太高，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/03/23/word-embedding-summary/1521627423621.png">
-<meta property="og:image" content="http://yoursite.com/2018/03/23/word-embedding-summary/1521687650138.png">
-<meta property="og:updated_time" content="2018-04-01T05:59:27.194Z">
+<meta property="og:image" content="http://yoursite.com/2017/08/23/word-embedding-summary/1521627423621.png">
+<meta property="og:image" content="http://yoursite.com/2017/08/23/word-embedding-summary/1521687650138.png">
+<meta property="og:updated_time" content="2018-05-12T04:12:20.223Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——词嵌入（Word Embedding）">
 <meta name="twitter:description" content="词汇表征方式——从one-hot到词嵌入 one-hot表征 1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。 例如单词a在词典中的位置为1，则其表征向量为\([1\;0\;0\;0… 0]^T\) one-hot的缺点：  任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强 维度太高，">
-<meta name="twitter:image" content="http://yoursite.com/2018/03/23/word-embedding-summary/1521627423621.png">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/23/word-embedding-summary/1521627423621.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/23/word-embedding-summary/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/23/word-embedding-summary/"/>
 
 
 
@@ -328,7 +328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/23/word-embedding-summary/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/23/word-embedding-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -357,7 +357,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-23T13:04:27+08:00">2018-03-23</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-23T13:04:27+08:00">2017-08-23</time>
             
 
             
@@ -393,8 +393,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/23/word-embedding-summary/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/03/23/word-embedding-summary/" itemprop="commentCount"></span>
+                <a href="/2017/08/23/word-embedding-summary/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/08/23/word-embedding-summary/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -465,7 +465,7 @@ Word2vec有两种实现模型，一种是skip-gram，一种是CBOW（Continuous 
 <li>skip-gram通过目标词推测上下文，在大型语料库中表现较好</li>
 <li>CBOW是从原始上下文中推测出目标词，在数据量较小的时候表现较好</li>
 </ul>
-<p><img src="/2018/03/23/word-embedding-summary/1521627423621.png" alt="Word2vec_network"> 首先定义<span class="math inline">\(p(o|c)\)</span>，表示词<span class="math inline">\(o\)</span>出现在另一个词<span class="math inline">\(c\)</span>的上下文语境里的条件概率<br>
+<p><img src="/2017/08/23/word-embedding-summary/1521627423621.png" alt="Word2vec_network"> 首先定义<span class="math inline">\(p(o|c)\)</span>，表示词<span class="math inline">\(o\)</span>出现在另一个词<span class="math inline">\(c\)</span>的上下文语境里的条件概率<br>
 <span class="math display">\[p(o|c)=\frac{exp(\theta_o^Te_c)}{\sum_{n=1}^Nexp(\theta_n^Te_c)}\]</span> 其中，<span class="math inline">\(\theta\)</span>为softmax层（也就是输出层）的参数矩阵，<span class="math inline">\(\theta_c\)</span>就是参数矩阵的词<span class="math inline">\(c\)</span>这一行</p>
 <h3 id="cbow">CBOW：</h3>
 <p>CBOW的Loss函数 <span class="math display">\[J=\frac1N\sum_{n=1}^N\sum_{-m\le j\le m, j\not=0}log\  p(w_n | w_{n+j})\]</span> 其中，<span class="math inline">\(j\)</span>是上下文窗口的大小</p>
@@ -508,7 +508,7 @@ Word2vec有两种实现模型，一种是skip-gram，一种是CBOW（Continuous 
 与Word2vec模型相比，GloVe在充分利用了语料库的全局统计信息的同时，也提高了词向量在大语料上的训练速度（一个共现矩阵的遍历要比整个语料库的遍历容易的多）。而与传统的SVD技术相比，SGD的训练也更加简单高效。同时，GloVe得到的词向量更能把握住词与词之间的线性关系。</p>
 <hr>
 <h2 id="fasttext">fastText</h2>
-<p>fastText 是用于解决文本分类问题的，输入一个词的序列（一段文本或者一句话)，输出这个词序列属于不同类别的概率。 fastText 模型架构和 Word2Vec 中的 CBOW 模型很类似。不同之处在于，fastText预测标签，而 CBOW 模型预测中间词。 <img src="/2018/03/23/word-embedding-summary/1521687650138.png" alt="fastText架构"> fastText的Loss函数：<br>
+<p>fastText 是用于解决文本分类问题的，输入一个词的序列（一段文本或者一句话)，输出这个词序列属于不同类别的概率。 fastText 模型架构和 Word2Vec 中的 CBOW 模型很类似。不同之处在于，fastText预测标签，而 CBOW 模型预测中间词。 <img src="/2017/08/23/word-embedding-summary/1521687650138.png" alt="fastText架构"> fastText的Loss函数：<br>
 <span class="math display">\[
 J=\frac1N\sum_{n=1}^Ny_nlog(f(BAx_n))
 \]</span> 其中，<span class="math inline">\(&lt;x_n,y_n&gt;\)</span>是一条训练样本，<span class="math inline">\(y_n\)</span>是训练目标，<span class="math inline">\(x_n\)</span>是词序列的N-gram特征。<br>
@@ -591,8 +591,8 @@ r_{w,c}=\begin{cases}
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/27/ensemble-learning/" rel="prev" title="学习笔记——集成学习（Ensemble Learning）">
-                学习笔记——集成学习（Ensemble Learning） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/01/LSTM-and-GRU/" rel="prev" title="学习笔记——RNN相关知识">
+                学习笔记——RNN相关知识 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -703,8 +703,6 @@ r_{w,c}=\begin{cases}
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
                     
                       
                     

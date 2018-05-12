@@ -99,18 +99,20 @@
 
 
 
-  <meta name="description" content="arxiv Facebook AI 2015.06 主要工作  创造了数据集SimpleQuestions，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习） 提出了基于Memory Network（MemNNs）框架的 embedding-based QA系统">
-<meta name="keywords" content="KBQA,论文阅读,MemNN">
+  <meta name="description" content="arxiv Facebook AI 2015.06 主要工作  创造了数据集 SimpleQuestions，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习） 提出了基于 Memory Network（MemNNs）框架的 embedding-based QA 系统">
+<meta name="keywords" content="KBQA,MemNN,论文阅读">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Large-scale Simple Question Answering with Memory Networks》">
 <meta property="og:url" content="http://yoursite.com/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="arxiv Facebook AI 2015.06 主要工作  创造了数据集SimpleQuestions，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习） 提出了基于Memory Network（MemNNs）框架的 embedding-based QA系统">
+<meta property="og:description" content="arxiv Facebook AI 2015.06 主要工作  创造了数据集 SimpleQuestions，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习） 提出了基于 Memory Network（MemNNs）框架的 embedding-based QA 系统">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-11T10:15:48.888Z">
+<meta property="og:image" content="http://yoursite.com/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/1526092977629.png">
+<meta property="og:updated_time" content="2018-05-12T04:27:56.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Large-scale Simple Question Answering with Memory Networks》">
-<meta name="twitter:description" content="arxiv Facebook AI 2015.06 主要工作  创造了数据集SimpleQuestions，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习） 提出了基于Memory Network（MemNNs）框架的 embedding-based QA系统">
+<meta name="twitter:description" content="arxiv Facebook AI 2015.06 主要工作  创造了数据集 SimpleQuestions，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习） 提出了基于 Memory Network（MemNNs）框架的 embedding-based QA 系统">
+<meta name="twitter:image" content="http://yoursite.com/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/1526092977629.png">
 
 
 
@@ -424,8 +426,8 @@
 2015.06</p>
 <h2 id="主要工作">主要工作</h2>
 <ul>
-<li>创造了数据集<strong>SimpleQuestions</strong>，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习）</li>
-<li>提出了基于<strong>Memory Network（MemNNs）框架</strong>的 embedding-based QA系统</li>
+<li>创造了数据集 <strong>SimpleQuestions</strong>，用于评估 现有系统的覆盖率 和 不同数据源使用多任务学习进行联合训练的可行性（迁移学习）</li>
+<li>提出了基于 <strong>Memory Network（MemNNs）框架</strong>的 embedding-based QA 系统</li>
 </ul>
 <a id="more"></a>
 <blockquote>
@@ -436,37 +438,85 @@
 </blockquote>
 <p><strong>研究现状：</strong>由于训练集通常只能包含一小部分问题，所以训练大规模的QA系统很难。</p>
 <p><strong>相关KB：</strong>Freebase、Reverb</p>
-<p><strong>相关数据集：</strong>SimpleQuestions、WebQuestions</p>
-<h2 id="simplequestions">SimpleQuestions</h2>
-<p><strong>三元组：</strong> <code>(subject, relationship, object)</code></p>
+<h2 id="simple-qa">Simple QA</h2>
+<p><strong>三元组（triples）：</strong> <code>(subject, relationship, object)</code></p>
+<p><strong>Simple QA：</strong>推理过程只设计到单个 facts</p>
+<h3 id="kb">KB</h3>
+<p><strong>KB 数据量</strong> <img src="/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/1526092977629.png" alt="KB 数据量"></p>
+<h4 id="freebase">Freebase</h4>
+<p>取了 Freebase 的两个选录，FB2M 和 FB5M</p>
+<ul>
+<li><strong>FB2M：</strong> 2M entities 和 5k relationships（文章里说5k，图里是6.7k……）</li>
+<li><strong>FB5M：</strong> 5M entities 和 7.5k relationships</li>
+</ul>
+<h4 id="reverb">Reverb</h4>
+<p>用于迁移学习的 KB。</p>
+<p>选择 Reverb 是因为它和 Freebase 很不同。 Freebase 是 Curated KB，Reverb 是 Extracted KB。</p>
+<h3 id="simplequestions">SimpleQuestions</h3>
+<p>包含 108442 个 questions，答案来自 FB2M。</p>
+<p>收集分为两个阶段：</p>
+<ul>
+<li>选出来自 FB2M 用于产生 questions 的一系列 facts ，其中，删除了所有包含未知 relationship 的 facts，也删除了所有答案数量会超过阈值(10)的 facts</li>
+<li>把选出来的 facts 给标注员产生对应 questions</li>
+</ul>
 <h2 id="memnn模型">MemNN模型</h2>
 <h3 id="igor模块">I、G、O、R模块</h3>
 <ul>
-<li><strong>Input module <em>(I)</em>：</strong>对Freebase facts、questions、Reverb facts进行预处理，将其转化为向量表示。
+<li><strong>Input module <em>(I)</em>：</strong>对 Freebase facts、questions、Reverb facts 进行预处理，将其转化为向量表示。
 <ul>
-<li><strong>预处理Freebase：</strong>把Freebase的数据处理成适配QA任务的形式
+<li><strong>预处理Freebase：</strong>把 Freebase 的数据处理成适配 QA 任务的形式
 <ul>
-<li><strong>grouping：</strong>把具有相同subject和relation的fact聚合成一个新的fact，应对多答案问题。例如<code>(s, r, o1)</code>和<code>(s, r, o2)</code>合成为<code>(s, r, {o1, o2})</code></li>
-<li><strong>删除中间节点：</strong>把多个fact表示的复杂关系简化为1个fact，这样减少推理过程，让simple QA可以解决更多问题。例如<code>(s, r1, o1)</code>和<code>(o1, r2, o2)</code>合成为<code>(s, r2, o2)</code></li>
+<li><strong>grouping：</strong>把具有相同 subject 和 relation 的 fact 聚合成一个新的 fact，应对多答案问题。例如 <span class="math inline">\((s, r, o_1)\)</span> 和 <span class="math inline">\((s, r, o_2)\)</span> 合成为 <span class="math inline">\((s, r, \{o_1, o_2\})\)</span></li>
+<li><strong>删除中间节点：</strong>把多个 fact 表示的复杂关系简化为1个 fact，这样减少推理过程，让 simple QA 可以解决更多问题。例如 <span class="math inline">\((s, r_1, o_1)\)</span> 和 <span class="math inline">\((o_1, r_2, o_2)\)</span> 合成为 <span class="math inline">\((s, r_2, o_2)\)</span></li>
 </ul></li>
-<li><strong>预处理Freebase facts：</strong>向量化三元组，使用 bag-of-symbol 表征， 得到Ns维（entitie和relationship数量之和）的向量。<code>(s, r, {o1, o2, ..., ok})</code>这类聚合三元组里每个实体的代表维度的值为<code>1/k</code>而不是<code>1</code></li>
-<li><strong>预处理questions：</strong>向量化问题，使用 bag-of-ngrams 表征，得到Nv维（字典大小）的向量</li>
-<li><strong>预处理Reverb facts：</strong>向量化三元组，使用 bag-of-symbol 表征 s 和 o，使用 bag-of-words 表征 r，得到Ns+Nv维的向量</li>
+<li><strong>预处理Freebase facts：</strong>向量化三元组，使用 bag-of-symbol 表征， 得到 <span class="math inline">\(N_S\)</span> 维（entities 和 relationships 数量之和）的向量 <span class="math inline">\(f(y)\)</span>。<span class="math inline">\((s, r, \{o_1, o_2, ..., o_k\})\)</span> 这类聚合三元组里每个实体的代表维度的值为 <span class="math inline">\(1/k\)</span> 而不是 <span class="math inline">\(1\)</span></li>
+<li><strong>预处理questions：</strong>向量化问题，使用 bag-of-ngrams 表征，得到 <span class="math inline">\(N_V\)</span> 维（字典大小）的向量 <span class="math inline">\(g(q)\)</span></li>
+<li><strong>预处理Reverb facts：</strong>向量化三元组，使用 bag-of-symbol 表征 s 和 o，使用 bag-of-words 表征 r，得到 <span class="math inline">\(N_S+N_V\)</span> 维的向量 <span class="math inline">\(h(y)\)</span></li>
 </ul></li>
-<li><strong>Generalization module <em>(G)</em>：</strong>用于向memory中添加新元素，就是将 Reverb facts 和 Freebase-based memory structure 建立连接（用于迁移学习）</li>
-<li><strong>Output module <em>(O)</em>：</strong>根据输入，找到对应的suporting fact
+<li><strong>Generalization module <em>(G)</em>：</strong>用于向 memory 中添加新元素，就是将 Reverb facts 和 Freebase-based memory structure 建立连接（用于迁移学习）</li>
+<li><strong>Output module <em>(O)</em>：</strong>根据输入，找到对应的 supporting fact
 <ul>
 <li><strong>生成候选facts：</strong>通过问题的 n-grams of words 在 Freebase 里找到少量相关匹配实体</li>
-<li><strong>Scoring：</strong>使用embedding模型对候选facts进行评分，最高得分的为suporting fact</li>
+<li><strong>Scoring：</strong>使用 embedding 模型对候选 facts 进行评分，最高得分的为 supporting fact
+<ul>
+<li>question <span class="math inline">\(q\)</span> 和 Freebase fact <span class="math inline">\(y\)</span> 之间相似度的计算公式：<span class="math inline">\(S_{QA}(q,y)=cos(W_Vg(q),W_Sf(y))\)</span>，<span class="math inline">\(W_V\)</span> 和 <span class="math inline">\(W_S\)</span> 是 embedding 矩阵，维度分别为 <span class="math inline">\(d\times N_V\)</span> 和 <span class="math inline">\(d\times N_S\)</span></li>
+<li>question <span class="math inline">\(q\)</span> 和 Reverb fact <span class="math inline">\(y\)</span> 之间相似度的计算公式：<span class="math inline">\(S_{RVB}(q,y)=cos(W_Vg(q),W_{VS}h(y))\)</span>，<span class="math inline">\(W_{VS}\)</span> 也是 embedding 矩阵，维度为 <span class="math inline">\(d\times (N_V+N_S)\)</span></li>
+<li><span class="math inline">\(d\)</span> 是超参，embedding 矩阵 <span class="math inline">\(W_V\)</span> 和 <span class="math inline">\(W_S\)</span> 是要通过训练学习的参数</li>
 </ul></li>
-<li><strong>Response module <em>(R)</em>：</strong>直接返回output module选择的supporting fact集合</li>
+</ul></li>
+<li><strong>Response module <em>(R)</em>：</strong>直接返回 output module 选择的 supporting fact 集合</li>
 </ul>
 <h3 id="实验步骤">实验步骤</h3>
 <ol type="1">
-<li><strong>存储Freebase：</strong>用 <em>(I)</em> 预处理Freebase并存进memory里</li>
-<li><strong>训练：</strong>训练MemNN模型回答问题，需要用到 <em>(I)、(O)、(R)</em></li>
-<li><strong>连接Reverb：</strong>把Reverb数据也存入memory里，用于测试MemNN的泛化能力，需要用到 <em>(I)</em> 进行预处理，用到 <em>(G)</em> 将Reverb facts和已经存在的facts连接</li>
+<li><strong>存储Freebase：</strong>用 <em>(I)</em> 预处理 Freebase 并存进 memory 里</li>
+<li><strong>训练：</strong>训练 MemNN 模型回答问题，需要用到 <em>(I)、(O)、(R)</em></li>
+<li><strong>连接Reverb：</strong>把 Reverb 数据也存入 memory 里，用于测试 MemNN 的泛化能力，需要用到 <em>(I)</em> 进行预处理，用到 <em>(G)</em> 将 Reverb facts 和memory里已经存在的 facts 连接</li>
 </ol>
+<h2 id="multitask">Multitask</h2>
+<p>使用多任务学习方式训练 <em>(O)</em> 里的 scoring 部分。</p>
+<p><strong>训练集：</strong></p>
+<ul>
+<li><strong>QA dataset：</strong>SimpleQuestions、WebQuestions</li>
+<li><strong>automatic questions：</strong>由 FB2M 或 FB5M 自动生成</li>
+<li><strong>paraphrases dataset：</strong>Wikianswers</li>
+</ul>
+<p><strong>多任务训练目标：</strong></p>
+<ul>
+<li><strong>对 QA dataset：</strong>supporting fact 在 embedding 空间里与 question 最相近（和 non-supporting fact 相比）
+<ul>
+<li><strong>loss function：</strong><span class="math inline">\(l_{QA}(q,y,y&#39;)=[\gamma-S_{QA}(q,y)+S_{QA}(q,y&#39;)]_+\)</span>，其中 <span class="math inline">\(\gamma\)</span> 是超参</li>
+</ul></li>
+<li><strong>对paraphrases dataset：</strong>question 和它的某一个 paraphrases 最接近（和其他 question 相比）
+<ul>
+<li><strong>loss function：</strong><span class="math inline">\(l_{QQ}(q,q&#39;,q&#39;&#39;)=[\gamma-S_{QQ}(q,q&#39;)+S_{QQ}(q,q&#39;&#39;)]_+\)</span></li>
+</ul></li>
+</ul>
+<p><strong>针对 WebQuestions 的监督：</strong>因为 WebQuestions 只提供文字答案，不提供 supporting fact，所以在训练的时候要用 <em>(O)</em> 中的候选 facts 生成的方法找到相应 fact</p>
+<p><strong>生成负样例：</strong>根据 randomized policy 在训练中生成负样例</p>
+<h2 id="读后感">读后感</h2>
+<p>这篇文章最大的贡献是给出了 SimpleQuestions。<br>
+迁移学习的思路应该多研究一下。<br>
+另外就是数据预处理的思路值得借鉴。</p>
 
       
     </div>
@@ -489,9 +539,9 @@
           
             <a href="/tags/KBQA/" rel="tag"># KBQA</a>
           
-            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
-          
             <a href="/tags/MemNN/" rel="tag"># MemNN</a>
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
           
         </div>
       
@@ -655,8 +705,6 @@
                     
                       
                     
-                      
-                    
                     <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
@@ -707,7 +755,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#simplequestions"><span class="nav-number">2.</span> <span class="nav-text">SimpleQuestions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memnn模型"><span class="nav-number">3.</span> <span class="nav-text">MemNN模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#igor模块"><span class="nav-number">3.1.</span> <span class="nav-text">I、G、O、R模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验步骤"><span class="nav-number">3.2.</span> <span class="nav-text">实验步骤</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#simple-qa"><span class="nav-number">2.</span> <span class="nav-text">Simple QA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kb"><span class="nav-number">2.1.</span> <span class="nav-text">KB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#freebase"><span class="nav-number">2.1.1.</span> <span class="nav-text">Freebase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reverb"><span class="nav-number">2.1.2.</span> <span class="nav-text">Reverb</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#simplequestions"><span class="nav-number">2.2.</span> <span class="nav-text">SimpleQuestions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memnn模型"><span class="nav-number">3.</span> <span class="nav-text">MemNN模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#igor模块"><span class="nav-number">3.1.</span> <span class="nav-text">I、G、O、R模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验步骤"><span class="nav-number">3.2.</span> <span class="nav-text">实验步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multitask"><span class="nav-number">4.</span> <span class="nav-text">Multitask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">5.</span> <span class="nav-text">读后感</span></a></li></ol></div>
             
 
           </div>
@@ -921,6 +969,29 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
