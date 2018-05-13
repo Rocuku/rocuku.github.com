@@ -99,25 +99,25 @@
 
 
 
-  <meta name="description" content="结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal">
-<meta name="keywords" content="豆知识,MySQL">
+  <meta name="description" content="arxiv Facebook AI 2014.10 现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 memory networks（MemNNs）来解决这个问题。这篇就是 MemNNs 的来源。 2014.10 Google DeepMind 有一篇 《Neural Turing">
+<meta name="keywords" content="KBQA,MemNN,论文阅读">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL 的 float 精度问题">
-<meta property="og:url" content="http://yoursite.com/2017/12/12/mysql-float/index.html">
+<meta property="og:title" content="《Memory Networks》">
+<meta property="og:url" content="http://yoursite.com/2017/01/05/memory-networks/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal">
+<meta property="og:description" content="arxiv Facebook AI 2014.10 现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 memory networks（MemNNs）来解决这个问题。这篇就是 MemNNs 的来源。 2014.10 Google DeepMind 有一篇 《Neural Turing">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-12T06:06:12.127Z">
+<meta property="og:updated_time" content="2018-05-13T05:45:49.701Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL 的 float 精度问题">
-<meta name="twitter:description" content="结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal">
+<meta name="twitter:title" content="《Memory Networks》">
+<meta name="twitter:description" content="arxiv Facebook AI 2014.10 现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 memory networks（MemNNs）来解决这个问题。这篇就是 MemNNs 的来源。 2014.10 Google DeepMind 有一篇 《Neural Turing">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/12/mysql-float/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/05/memory-networks/"/>
 
 
 
@@ -127,7 +127,7 @@
   };
 </script>
 
-  <title>MySQL 的 float 精度问题 | ro's blog</title>
+  <title>《Memory Networks》 | ro's blog</title>
   
 
 
@@ -325,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/12/mysql-float/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/05/memory-networks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -342,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL 的 float 精度问题</h1>
+          <h1 class="post-title" itemprop="name headline">《Memory Networks》</h1>
         
 
         <div class="post-meta">
@@ -354,7 +354,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-12T14:04:30+08:00">2017-12-12</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-05T09:15:16+08:00">2017-01-05</time>
             
 
             
@@ -375,7 +375,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/豆知识/" itemprop="url" rel="index"><span itemprop="name">豆知识</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
 
                 
                 
@@ -390,8 +390,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/12/mysql-float/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/12/12/mysql-float/" itemprop="commentCount"></span>
+                <a href="/2017/01/05/memory-networks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/01/05/memory-networks/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,20 +419,76 @@
       
 
       
-        <p><strong>结论：要求绝对精度且数据较大的时候，不要使用 MySQL 的 float 或者 double，使用 decimal</strong></p>
-<a id="more"></a>
-<p>MySQL 中的默认 float 型占 4 字节，只能在值的二进制表示在 32 位以内的时候保证精度，超出就会被四舍五入，导致数据的不准确。double 型和 float 型原理上一样，只是占了 8 字节，所以可以保存 64 位。这两种类型原本不保证精确性。</p>
-<blockquote>
-<p>For FLOAT, the SQL standard permits an optional specification of the precision (but not the range of the exponent) in bits following the keywordFLOAT in parentheses. MySQL also supports this optional precision specification, but the precision value is used only to determine storage size. A precision from 0 to 23 results in a 4-byte single-precision FLOAT column. A precision from 24 to 53 results in an 8-byte double-precision DOUBLEcolumn.</p>
-</blockquote>
-<p>因此在要求绝对精度的时候，使用 decimal 型存储比较靠谱。</p>
-<p><code>decimal(a,b)</code></p>
+        <p><a href="https://arxiv.org/abs/1410.3916v11" target="_blank" rel="noopener">arxiv</a><br>
+<strong>Facebook AI</strong><br>
+2014.10</p>
+<p>现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 <strong>memory networks（MemNNs）</strong>来解决这个问题。这篇就是 <strong>MemNNs</strong> 的来源。</p>
+<p>2014.10 Google DeepMind 有一篇 《Neural Turing Machines》也是用于解决 long-term memory 问题的，算和 MemNNs 是竞争关系吧。</p>
+<h2 id="主要工作">主要工作</h2>
 <ul>
-<li>a 指定指定小数点左边和右边可以存储的十进制数字的最大个数，最大精度 38。</li>
-<li>b 指定小数点右边可以存储的十进制数字的最大个数。小数位数必须是从 0 到 a 之间的值。默认小数位数是 0。</li>
+<li>提出用于解决 long-term memory 问题的 memory networks 架构</li>
 </ul>
-<p><strong>电表项目数据存储遇到的问题，用 float 存的电能值莫名其妙就不精确了。</strong></p>
-<p>参考：<a href="http://yongxiong.leanote.com/post/mysql_float_double_decimal" target="_blank" rel="noopener">MySQL如何选择float, double, decimal</a></p>
+<a id="more"></a>
+<h2 id="基本模型">基本模型</h2>
+<p>包括 1 个 memory <strong>m</strong> 和 4 个组件</p>
+<h3 id="个组件">4个组件</h3>
+<ul>
+<li><p><strong>I（input feature map）</strong><br>
+把输入映射为内部特征向量<br>
+converts the incoming input to the internal feature representation</p></li>
+<li><p><strong>G（generalization）</strong><br>
+使用新的输入更新旧的 memories<br>
+updates old memories given the new input</p></li>
+<li><p><strong>O（output feature map）</strong><br>
+通过新的输入和当前 memory 状态，在特征空间里产生新的输出<br>
+produces a new output (in the feature representation space), given the new input and the current memory state</p></li>
+<li><p><strong>R（response）</strong><br>
+将输出转化为任务要求格式，比如自然语言回答或者一个响应<br>
+converts the output into the response format desired. For example, a textual response or an action</p></li>
+</ul>
+<h3 id="工作流程">工作流程</h3>
+<p>给定输入 <span class="math inline">\(x\)</span>：</p>
+<ol type="1">
+<li>通过 <span class="math inline">\(I(x)\)</span> 将 <span class="math inline">\(x\)</span> 转换为内部特征向量</li>
+<li>使用 <span class="math inline">\(m_i\)</span> 更新 memories：<span class="math inline">\(m_i=G(m_i,I(x),m),\forall i\)</span></li>
+<li>使用输入和 memory 计算输出特征：<span class="math inline">\(o=O(I(x),m)\)</span></li>
+<li>解码 <span class="math inline">\(o\)</span> 获得最终响应：<span class="math inline">\(r=R(o)\)</span></li>
+</ol>
+<p>训练和测试的时候都会进行如上工作流程，输入都会被存进 memory 里，只是在训练时会更新 4 个组件的参数，而测试的时候不会。</p>
+<h2 id="针对文本的-memnn-实现">针对文本的 MemNN 实现</h2>
+<h3 id="基本模型-1">基本模型</h3>
+<p>基本模型里，向 <strong>I</strong> 模块输入句子，获得词嵌入向量。再用 <strong>G</strong> 模块把词嵌入向量存入 memory 的下一个为空 slot 中。这样做的缺点是训练过程中 embedding 参数在改变，所以 memory 里的词嵌入向量会过期，但是在测试过程中直接储存词嵌入向量就比每次输入原始文字然后再对它们重复进行 embedding 操作更有效率。</p>
+<p>模型的核心在 <strong>O</strong> 模块和 <strong>R</strong> 模块。</p>
+<p><strong>O</strong> 模块需要找出 k 个针对输入 x 的 supporting memories。当 <span class="math inline">\(k = 2\)</span> 时：</p>
+<ul>
+<li><span class="math inline">\(k=1\)</span>，先选出得分最高的 supporting memory（最相关）：<span class="math inline">\(o_1=O_1(x, m) = \mathop{\arg\max}\limits_{i=1,...,N}s_O(x,m_i)\)</span></li>
+<li><span class="math inline">\(k=2\)</span>，根据 <span class="math inline">\(o_1\)</span> 选出排第二的 supporting memory：<span class="math inline">\(o_2=O_2(x,m)=\mathop{\arg\max}\limits_{i=1,...,N}s_O([x,m_{o_1}],m_i)\)</span></li>
+<li>最终输出：<span class="math inline">\(o=[x, m_{o_1},m_{o_2}]\)</span></li>
+</ul>
+<p><strong>R</strong> 模块输出文本响应：<span class="math inline">\(r=\arg\max_{w\in W}s_R([x,m_{o_1}m_{o_2}],w)\)</span></p>
+<p>score 函数：<span class="math inline">\(s(x,y)=\Phi_x(x)U^\top U^\top \Phi_y(y)\)</span></p>
+<p>训练使用 margin ranking loss ，即要求正确答案的得分比错误答案的得分高至少一个margin <span class="math inline">\(\gamma\)</span>（<code>这公式后两行的方括号什么情况…</code>）<span class="math display">\[
+\sum_{\bar f \not=m_{o_2}}\max(0,\gamma-s_O(x,m_{o_1})+s_O(x,\bar f))+\\
+\sum_{\bar {f&#39;}\not=m_{o_2}}\max(0,\gamma-s_O([x,m_{o_1}],m_{o_2}])+s_O([x,m_{o_1}],\bar{f&#39;}]))+\\
+\sum_{\bar r\not=r}\max(0,\gamma-s_R([x,m_{o_1},m_{o_2}],r)+s_R([x,m_{o_1},m_{o_2}],\bar r]))
+\]</span> 其中，<span class="math inline">\(r\)</span> 是正确答案， <span class="math inline">\(\bar f\)</span>，<span class="math inline">\(\bar{f&#39;}\)</span> 和 <span class="math inline">\(\bar r\)</span> 都是错误标签（随机从样本中采样出来的）。</p>
+<ul>
+<li>第一行代表有没有正确挑选出得分最高的 supporting memory <span class="math inline">\(m_{o_1}\)</span></li>
+<li>第二行代表正确挑选出了 <span class="math inline">\(m_{o_1}\)</span> 后能不能正确找出 <span class="math inline">\(m_{o_2}\)</span></li>
+<li>第三行代表把正确的 supporting fact 作为输入，能不能挑选出正确的答案输入 <strong>R</strong></li>
+</ul>
+<h3 id="一些扩展">一些扩展</h3>
+<ul>
+<li><strong>使用词序列作为输入</strong><br>
+添加 embedding 模型 segmenter：<span class="math inline">\(seg(c) = W_{seg}^\top U_S\Phi_{seg}(c)\)</span></li>
+<li><strong>使用哈希的高效 memory</strong></li>
+<li><strong>Extend model to take into account when a memory slot was written to</strong>（没太看懂）</li>
+<li><strong>用语言模型处理未知词</strong></li>
+<li><strong>add the “bag of words” matching score to the learned embedding score</strong>（没太看懂）</li>
+</ul>
+<h2 id="读后感">读后感</h2>
+<p>MemNNs 本身只是一个架构，重点在于 I、G、O、R 模块的思想。<br>
+这篇论文的具体实现参考价值不高，MemNNs 本来也是根据后面的一系列研究才具有应用价值的。</p>
 
       
     </div>
@@ -453,9 +509,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/豆知识/" rel="tag"># 豆知识</a>
+            <a href="/tags/KBQA/" rel="tag"># KBQA</a>
           
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/MemNN/" rel="tag"># MemNN</a>
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
           
         </div>
       
@@ -468,8 +526,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/01/LSTM-and-GRU/" rel="next" title="学习笔记——RNN相关知识">
-                <i class="fa fa-chevron-left"></i> 学习笔记——RNN相关知识
+              <a href="/2016/08/08/vector-bool/" rel="next" title="关于 vector&lt;bool&gt;">
+                <i class="fa fa-chevron-left"></i> 关于 vector&lt;bool&gt;
               </a>
             
           </div>
@@ -478,8 +536,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/27/ensemble-learning/" rel="prev" title="学习笔记——集成学习（Ensemble Learning）">
-                学习笔记——集成学习（Ensemble Learning） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/" rel="prev" title="《Large-scale Simple Question Answering with Memory Networks》">
+                《Large-scale Simple Question Answering with Memory Networks》 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -532,8 +590,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -652,6 +719,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本模型"><span class="nav-number">2.</span> <span class="nav-text">基本模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#个组件"><span class="nav-number">2.1.</span> <span class="nav-text">4个组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程"><span class="nav-number">2.2.</span> <span class="nav-text">工作流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#针对文本的-memnn-实现"><span class="nav-number">3.</span> <span class="nav-text">针对文本的 MemNN 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本模型-1"><span class="nav-number">3.1.</span> <span class="nav-text">基本模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些扩展"><span class="nav-number">3.2.</span> <span class="nav-text">一些扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">4.</span> <span class="nav-text">读后感</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
