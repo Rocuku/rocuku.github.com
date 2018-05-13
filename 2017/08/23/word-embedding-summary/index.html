@@ -109,7 +109,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/08/23/word-embedding-summary/1521627423621.png">
 <meta property="og:image" content="http://yoursite.com/2017/08/23/word-embedding-summary/1521687650138.png">
-<meta property="og:updated_time" content="2018-05-12T04:12:20.223Z">
+<meta property="og:updated_time" content="2018-05-13T06:48:01.902Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——词嵌入（Word Embedding）">
 <meta name="twitter:description" content="词汇表征方式——从one-hot到词嵌入 one-hot表征 1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。 例如单词a在词典中的位置为1，则其表征向量为\([1\;0\;0\;0… 0]^T\) one-hot的缺点：  任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强 维度太高，">
@@ -432,6 +432,7 @@
 <li>维度太高，计算压力大</li>
 <li>向量过于稀疏</li>
 </ul>
+<a id="more"></a>
 <h3 id="词嵌入">词嵌入</h3>
 <p>词嵌入的出现解决了由one-hot进行表征的缺点。<br>
 词嵌入是将每个词的one-hot向量映射到更低维的空间，使用低维、稠密、实值的词向量来表示每一个词，每一个维度相当于词的某一个特征。词嵌入使得表示词语之间的相关性成为可能，这种相关性体现在两方面：</p>
@@ -444,7 +445,6 @@
 <span class="math display">\[
 sim(u,v) = \frac{u^tv}{\|u\|_2\|v\|_2} 
 \]</span></p>
-<a id="more"></a>
 <h3 id="词嵌入矩阵">词嵌入矩阵</h3>
 <p>使用词嵌入模型训练词典的目的是获得一个该词典对应的词嵌入矩阵，使用这个词嵌入矩阵与对应的one-hot向量相乘就可以获得该词的词嵌入向量。<br>
 在实际工程中，大部分时候我们不自己进行词嵌入模型的训练，而是直接使用训练好的词嵌入矩阵。</p>
@@ -670,7 +670,7 @@ r_{w,c}=\begin{cases}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -734,7 +734,11 @@ r_{w,c}=\begin{cases}
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

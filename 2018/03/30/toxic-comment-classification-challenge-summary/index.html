@@ -99,22 +99,23 @@
 
 
 
-  <meta name="description" content="算是第1次参加kaggle比赛，也是第一次参加NLP方向的比赛，虽然最后只拿到了前7%的成绩，但是收获还是很多的。 1. 比赛简介 比赛页面 这个比赛要求建立一个多分类器，检测不同类型的负面评论，负面评论分为6类：  toxic severe_toxic obscene threat insult identity_hate  这个比赛的数据集来自维基百科的评论页面。 评估标准是6类的ROC-AU">
+  <meta name="description" content="算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。 比赛简介 Toxic Comment Classification Challenge 这个比赛要求建立一个多分类器，检测不同类型的负面评论">
 <meta name="keywords" content="NLP,Kaggle">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Toxic Comment Classification Challenge 比赛总结">
+<meta property="og:title" content="比赛总结——Toxic Comment Classification Challenge">
 <meta property="og:url" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="算是第1次参加kaggle比赛，也是第一次参加NLP方向的比赛，虽然最后只拿到了前7%的成绩，但是收获还是很多的。 1. 比赛简介 比赛页面 这个比赛要求建立一个多分类器，检测不同类型的负面评论，负面评论分为6类：  toxic severe_toxic obscene threat insult identity_hate  这个比赛的数据集来自维基百科的评论页面。 评估标准是6类的ROC-AU">
+<meta property="og:description" content="算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。 比赛简介 Toxic Comment Classification Challenge 这个比赛要求建立一个多分类器，检测不同类型的负面评论">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/1521790646996.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/1522379016906.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/1522379243917.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/1522392635747.png">
-<meta property="og:updated_time" content="2018-04-01T05:59:37.130Z">
+<meta property="og:image" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/1526198908693.png">
+<meta property="og:updated_time" content="2018-05-13T08:58:18.108Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Toxic Comment Classification Challenge 比赛总结">
-<meta name="twitter:description" content="算是第1次参加kaggle比赛，也是第一次参加NLP方向的比赛，虽然最后只拿到了前7%的成绩，但是收获还是很多的。 1. 比赛简介 比赛页面 这个比赛要求建立一个多分类器，检测不同类型的负面评论，负面评论分为6类：  toxic severe_toxic obscene threat insult identity_hate  这个比赛的数据集来自维基百科的评论页面。 评估标准是6类的ROC-AU">
+<meta name="twitter:title" content="比赛总结——Toxic Comment Classification Challenge">
+<meta name="twitter:description" content="算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。 比赛简介 Toxic Comment Classification Challenge 这个比赛要求建立一个多分类器，检测不同类型的负面评论">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/30/toxic-comment-classification-challenge-summary/1521790646996.png">
 
 
@@ -132,7 +133,7 @@
   };
 </script>
 
-  <title>Toxic Comment Classification Challenge 比赛总结 | ro's blog</title>
+  <title>比赛总结——Toxic Comment Classification Challenge | ro's blog</title>
   
 
 
@@ -347,7 +348,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Toxic Comment Classification Challenge 比赛总结</h1>
+          <h1 class="post-title" itemprop="name headline">比赛总结——Toxic Comment Classification Challenge</h1>
         
 
         <div class="post-meta">
@@ -424,9 +425,12 @@
       
 
       
-        <p>算是第1次参加kaggle比赛，也是第一次参加NLP方向的比赛，虽然最后只拿到了前7%的成绩，但是收获还是很多的。</p>
-<h2 id="比赛简介">1. 比赛简介</h2>
-<p><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge" target="_blank" rel="noopener">比赛页面</a> 这个比赛要求建立一个多分类器，检测不同类型的负面评论，负面评论分为6类：</p>
+        <p>算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。</p>
+<h2 id="比赛简介">比赛简介</h2>
+<p><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge" target="_blank" rel="noopener">Toxic Comment Classification Challenge</a></p>
+<p>这个比赛要求建立一个多分类器，检测不同类型的负面评论</p>
+<a id="more"></a>
+<p>负面评论分为 6 类：</p>
 <ul>
 <li>toxic</li>
 <li>severe_toxic</li>
@@ -435,44 +439,44 @@
 <li>insult</li>
 <li>identity_hate</li>
 </ul>
-<p>这个比赛的数据集来自维基百科的评论页面。 评估标准是6类的ROC-AUC的平均值。</p>
-<a id="more"></a>
-<h2 id="数据分析eda">2. 数据分析（EDA）</h2>
-<p>由于开始做比赛的时候已经比较晚了，讨论串里已经有比较好的EDA了。<br>
+<p>这个比赛的数据集来自维基百科的评论页面。<br>
+评估标准是 6 类的 ROC-AUC 的平均值。<br>
+比赛中途才将评估标准换成 ROC-AUC，本来是 Log Loss</p>
+<hr>
+<h2 id="数据分析eda">数据分析（EDA）</h2>
+<p>由于开始做比赛的时候已经比较晚了，讨论串里已经有比较好的 EDA 了。<br>
 训练数据长这样<br>
 <img src="/2018/03/30/toxic-comment-classification-challenge-summary/1521790646996.png" alt="Alt text"></p>
 <p><a href="https://www.kaggle.com/jagangupta/stop-the-s-toxic-comments-eda" target="_blank" rel="noopener">讨论[1]</a>里对数据的分布之类的基本信息做了分析，有几个比较重要的信息：</p>
 <ol type="1">
-<li><p>类不平衡（class imbalance）问题，训练数据总数为159571，非负面评论数量为143346，6类标签为1的总数量为35098<br>
+<li><p>类不平衡（class imbalance）问题，训练数据总数为 159571，非负面评论数量为 143346，6 类标签为 1 的总数量为 35098<br>
 <img src="/2018/03/30/toxic-comment-classification-challenge-summary/1522379016906.png" alt="Alt text"></p></li>
-<li><p>这是一个Multi-tagging问题<br>
+<li><p>这是一个 Multi-tagging 问题<br>
 <img src="/2018/03/30/toxic-comment-classification-challenge-summary/1522379243917.png" alt="Alt text"></p></li>
 </ol>
-<p>https://www.kaggle.com/fizzbuzz/what-about-non-english-comments/comments https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52217</p>
-<h2 id="数据预处理">3. 数据预处理</h2>
-<h3 id="数据增广">3.1 数据增广</h3>
-<p><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/48038" target="_blank" rel="noopener">讨论[3]</a>里提供的方法，获奖方案都用了这个方法进行数据增广，可惜我比赛期间没有看到。 方法很简单，就是用基于Google Translate API的TextBlob库将评论翻译成其他语言（德语/法语/西班牙语之类的），再翻译回英语，获得成倍的训练数据。</p>
-<p>另外还有<a href="https://www.kaggle.com/jpmiller/extending-train-data-with-markov-chains-auc" target="_blank" rel="noopener">讨论[4]</a>里的方法，用基于马尔可夫链的markovify库生成句子。这个方法可以针对某个tag（比如threat）生成句子。不过讨论作者说这个方法并不能提高LB成绩。我猜测是用这个方法生成的句子只增加了数据量而没有增加信息量吧。</p>
-<h3 id="词汇纠错">3.2 词汇纠错</h3>
-<p>使用库对拼写错误的单词进行纠错，这类的库有挺多种的。例如TextBlob。讨论串里也有参赛选手自己写的，参考<a href="https://www.kaggle.com/cpmpml/spell-checker-using-word2vec" target="_blank" rel="noopener">讨论[5]</a></p>
-<h3 id="词纠正">3.3 词纠正</h3>
-<p>需要纠正的词有挺多种类的，例如下面 - 把数字0～9替换成对应的英文 - 把一些缩写替换成对应的全拼 - 把一些特殊的变体替换成本来的文字</p>
-<h2 id="词嵌入word-embedding">4. 词嵌入（Word Embedding）</h2>
-<p>本次比赛我使用了几种训练好的词嵌入矩阵来获得我需要的输入。 https://www.kaggle.com/rocuku/do-pretrained-embeddings-give-you-the-extra-edge?scriptVersionId=2840149</p>
-<h3 id="word2vec">4.1 Word2vec</h3>
-<h3 id="glove">4.2 GloVe</h3>
-<h3 id="fasttext">4.3 FastText</h3>
-<p>FastText is quite different from the above 2 embeddings. While Word2Vec and GLOVE treats each word as the smallest unit to train on, FastText uses n-gram characters as the smallest unit. For example, the word vector ,“apple”, could be broken down into separate word vectors units as “ap”,“app”,“ple”. The biggest benefit of using FastText is that it generate better word embeddings for rare words, or even words not seen during training because the n-gram character vectors are shared with other words. This is something that Word2Vec and GLOVE cannot achieve.</p>
-<h2 id="模型选取">5.模型选取</h2>
-<h3 id="bi-gru">5.1 Bi-GRU</h3>
-<p>https://www.kaggle.com/yekenot/pooled-gru-fasttext https://www.kaggle.com/chongjiujjin/capsule-net-with-gru</p>
-<h3 id="bi-lstm">5.2 Bi-LSTM</h3>
-<p>https://www.kaggle.com/CVxTz/keras-bidirectional-lstm-baseline-lb-0-069</p>
-<h3 id="bi-gru-conv">5.3 Bi-GRU + Conv</h3>
-<h2 id="ensemble">6. Ensemble</h2>
-<p>用stacking的方式来融合上面训练出来的几个模型，选择LightGBM作为stacker</p>
-<h2 id="获奖方案分析">7. 获奖方案分析</h2>
-<h3 id="st方案">7.1 <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557" target="_blank" rel="noopener">1st方案</a></h3>
+<hr>
+<h2 id="数据预处理">数据预处理</h2>
+<h3 id="数据增广">数据增广</h3>
+<p><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/48038" target="_blank" rel="noopener">讨论[3]</a>里提供的方法，获奖方案都用了这个方法进行数据增广，可惜我比赛期间没有看到。 方法很简单，就是用基于 Google Translate API 的 TextBlob 库将评论翻译成其他语言（德语/法语/西班牙语之类的），再翻译回英语，获得成倍的训练数据。</p>
+<p>另外还有<a href="https://www.kaggle.com/jpmiller/extending-train-data-with-markov-chains-auc" target="_blank" rel="noopener">讨论[4]</a>里的方法，用基于马尔可夫链的 markovify 库生成句子。这个方法可以针对某个 tag（比如 threat）生成句子。不过讨论作者说这个方法并不能提高 LB 成绩。我猜测是用这个方法生成的句子只增加了数据量而没有增加信息量吧。</p>
+<h3 id="词汇纠错">词汇纠错</h3>
+<p>使用库对拼写错误的单词进行纠错，这类的库有挺多种的。例如 TextBlob。讨论串里也有参赛选手自己写的，参考<a href="https://www.kaggle.com/cpmpml/spell-checker-using-word2vec" target="_blank" rel="noopener">讨论[5]</a></p>
+<h3 id="词纠正">词纠正</h3>
+<p>需要纠正的词有挺多种类的，例如下面 - 把数字 0～9 替换成对应的英文 - 把一些缩写替换成对应的全拼 - 把一些特殊的变体替换成本来的文字</p>
+<hr>
+<h2 id="模型">模型</h2>
+<p>LSTM 与 GRU 互换只需要把 LSTM/GRU 那一层互换就行了。</p>
+<p>embedding 矩阵的话 Word2Vec、fastText 和 GloVe 预训练出来的那几个都试了，最后选的 fastText 预训练的 <em>crawl-300d-2M</em> 和 GloVe 预训练的 <em>GloVe.840B.300d</em> 结合使用。</p>
+<h3 id="bi-gru-conv-pooling">Bi-GRU + Conv + Pooling</h3>
+<p>参考<a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">讨论[8]</a> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    inp = Input(shape = (max_len,))</span><br><span class="line">    x = Embedding(max_features, embed_size, weights = [embedding_matrix], </span><br><span class="line">                    trainable = <span class="keyword">False</span>)(inp)</span><br><span class="line">    x = SpatialDropout1D(<span class="number">0.2</span>)(x)</span><br><span class="line">    x = Bidirectional(GRU(<span class="number">128</span>, return_sequences = <span class="keyword">True</span>))(x)</span><br><span class="line">    x = Conv1D(<span class="number">64</span>, kernel_size = <span class="number">2</span>, padding = <span class="string">"valid"</span>, </span><br><span class="line">                kernel_initializer = <span class="string">"he_uniform"</span>)(x)</span><br><span class="line">    avg_pool = GlobalAveragePooling1D()(x)</span><br><span class="line">    max_pool = GlobalMaxPooling1D()(x)</span><br><span class="line">    x = concatenate([avg_pool, max_pool])</span><br><span class="line">    x = Dense(<span class="number">6</span>, activation = <span class="string">"sigmoid"</span>)(x)</span><br><span class="line">    model = Model(inputs = inp, outputs = x)</span><br><span class="line">    model.compile(loss = <span class="string">"binary_crossentropy"</span>, </span><br><span class="line">                  optimizer = Adam(lr = <span class="number">1e-3</span>, decay = <span class="number">0</span>), metrics = [<span class="string">"accuracy"</span>])</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></p>
+<h3 id="capsule-bi-gru">Capsule + Bi-GRU</h3>
+<p>参考<a href="https://www.kaggle.com/chongjiujjin/capsule-net-with-gru/code" target="_blank" rel="noopener">讨论[9]</a>，Capsule 的 keras 实现也在链接里。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    inp = Input(shape=(maxlen,))</span><br><span class="line">    x = Embedding(max_features,embed_size,input_length=maxlen,</span><br><span class="line">                            weights=[embedding_matrix],trainable=<span class="keyword">False</span>)(inp)</span><br><span class="line">    x = SpatialDropout1D(<span class="number">0.28</span>)(x)</span><br><span class="line">    x = Bidirectional(GRU(<span class="number">128</span>, activation=<span class="string">'relu'</span>, dropout=<span class="number">0.25</span>, </span><br><span class="line">                          recurrent_dropout=<span class="number">0.25</span>, return_sequences=<span class="keyword">True</span>))(x)</span><br><span class="line">    capsule = Capsule(num_capsule=<span class="number">10</span>, dim_capsule=<span class="number">16</span>, routings=<span class="number">5</span>,</span><br><span class="line">                      share_weights=<span class="keyword">True</span>)(x)</span><br><span class="line">    capsule = Flatten()(capsule)</span><br><span class="line">    capsule = Dropout(<span class="number">0.25</span>)(capsule)</span><br><span class="line">    output = Dense(<span class="number">6</span>, activation=<span class="string">'sigmoid'</span>)(capsule)</span><br><span class="line">    model = Model(inputs=input1, outputs=output)</span><br><span class="line">    model.compile(loss=<span class="string">'binary_crossentropy'</span>,optimizer=<span class="string">'adam'</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">    model.summary()</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></p>
+<h3 id="attention-lstm">Attention + LSTM</h3>
+<p>参考<a href="https://www.kaggle.com/qqgeogor/keras-lstm-attention-glove840b-lb-0-043" target="_blank" rel="noopener">讨论[10]</a> <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def get_model():</span><br><span class="line">    embedding_layer = Embedding(nb_words,MBEDDING_DIM, weights=[embedding_matrix],</span><br><span class="line">                                input_length=MAX_SEQUENCE_LENGTH, trainable=False)</span><br><span class="line">    lstm_layer = LSTM(num_lstm, dropout=<span class="number">0.25</span>, recurrent_dropout=<span class="number">0.25</span>,</span><br><span class="line">                        return_sequences=True)</span><br><span class="line">    inp = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')</span><br><span class="line">    x = embedding_layer(inp)</span><br><span class="line">    x = lstm_layer(x)</span><br><span class="line">    x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">    merged = Attention(MAX_SEQUENCE_LENGTH)(x)</span><br><span class="line">    merged = Dense(256, activation='relu')(merged)</span><br><span class="line">    merged = Dropout(<span class="number">0.25</span>)(merged)</span><br><span class="line">    merged = BatchNormalization()(merged)</span><br><span class="line">    preds = Dense(6, activation='sigmoid')(merged)</span><br><span class="line">    model = Model(inputs=[inp], outputs=preds)</span><br><span class="line">    model.compile(loss='binary_crossentropy', optimizer='rmsprop', </span><br><span class="line">                    metrics=['accuracy'])</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="获奖方案分析">获奖方案分析</h2>
+<h3 id="st方案">1st方案</h3>
+<p>参考<a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557" target="_blank" rel="noopener">讨论[6]</a></p>
 <p><strong>1. Diverse pre-trained embeddings(baseline public LB of 0.9877)</strong><br>
 尝试不同的词嵌入矩阵</p>
 <p><strong>2. Translations as train/test-time augmentation (TTA) (boosted LB from 0.9877 to 0.9880)</strong><br>
@@ -498,27 +502,47 @@
 <li>用不同oof splits混合模型回导致CV过拟合，但不会使Public LB相较于Private LB过拟合</li>
 </ol>
 <p>2nd和3rd的解决方案也差不多，获奖的重点就在于TTA的使用、好的CV、大量的训练、合适的Stacking。</p>
-<h3 id="优秀的单模型">7.2 <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52644" target="_blank" rel="noopener">优秀的单模型</a></h3>
-<p>基于RNN的一个标准模型，Keras实现。</p>
+<h3 id="优秀的single-model">优秀的Single Model</h3>
+<p>参考<a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52644" target="_blank" rel="noopener">讨论[7]</a><br>
+基于RNN的一个标准模型，Keras实现。</p>
 <p><strong>架构</strong></p>
+<ul>
+<li><strong>第一层：</strong> 集联使用fastText和GloVe词嵌入矩阵。Glove里没有的词就用fastText，但是反之不然。最后还是没有对应词向量的词就用’something’的词向量替代。另外还额外添加了一个值，如果所有字母都大写就把值设置为1，反之为0。</li>
+<li><strong>第二层：</strong> SpatialDropout1D(0.5)</li>
+<li><strong>第三层：</strong> Bidirectional CuDNN LSTM with a kernel size 40。作者发现LSTM作为第一层比GRU的效果要好</li>
+<li><strong>第四层：</strong> Bidirectional CuDNN GRU with a kernel size 40.</li>
+<li><strong>第五层：</strong> 最终状态、max pooling、average pooling和两个特征“特殊单词率”、“全为大写”的级联。</li>
+<li><strong>第六层：</strong> 输出层</li>
+</ul>
+<p><strong>超参数和Preprocessing</strong></p>
+<ul>
+<li>Batch size: 512. I found that bigger batch size makes results more stable.</li>
+<li>Epochs: 15.</li>
+<li>Sequence length: 900.</li>
+<li>Optimizer: Adam with clipped gradient.</li>
+<li>Preprocessing: <a href="https://pypi.python.org/pypi/Unidecode" target="_blank" rel="noopener">Unidecode library</a> to convert text to ASCII first and after that filtering everything except letters and some punctuation.</li>
+</ul>
+<hr>
+<h2 id="reference">Reference：</h2>
 <ol type="1">
-<li><p>第一层<br>
-集联使用fastText和GloVe词嵌入矩阵。Glove里没有的词就用fastText，但是反之不然。最后还是没有对应词向量的词就用’something’的词向量替代。另外还额外添加了一个值，如果所有字母都大写就把值设置为1，反之为0。</p></li>
-<li><p>第二层<br>
-SpatialDropout1D(0.5)</p></li>
-<li><p>第三层<br>
-Bidirectional CuDNN LSTM with a kernel size 40。作者发现LSTM作为第一层比GRU的效果要好</p></li>
-<li><p>第四层<br>
-Bidirectional CuDNN GRU with a kernel size 40.</p></li>
-<li><p>第五层<br>
-A concatenation of the last state, maximum pool, average pool and two features: “Unique words rate” and “Rate of all-caps words”</p></li>
-<li><p>第六层<br>
-输出层</p></li>
+<li><a href="https://www.kaggle.com/jagangupta/stop-the-s-toxic-comments-eda" target="_blank" rel="noopener">Stop the S@#$ - Toxic Comments EDA | Kaggle</a><br>
+</li>
+<li><a href="https://www.kaggle.com/eikedehling/feature-engineering" target="_blank" rel="noopener">Feature engineering | Kaggle</a><br>
+</li>
+<li><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/48038" target="_blank" rel="noopener">A simple technique for extending dataset</a><br>
+</li>
+<li><a href="https://www.kaggle.com/jpmiller/extending-train-data-with-markov-chains-auc" target="_blank" rel="noopener">Extending Train Data with Markov Chains - AUC</a><br>
+</li>
+<li><a href="https://www.kaggle.com/cpmpml/spell-checker-using-word2vec" target="_blank" rel="noopener">Spell Checker using Word2vec</a><br>
+</li>
+<li><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557" target="_blank" rel="noopener">1st place solution overview</a></li>
+<li><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52644" target="_blank" rel="noopener">About my 0.9872 single model</a></li>
+<li><a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">Bi-GRU-CNN-Poolings</a></li>
+<li><a href="https://www.kaggle.com/chongjiujjin/capsule-net-with-gru/code" target="_blank" rel="noopener">Capsule net with GRU</a></li>
+<li><a href="https://www.kaggle.com/qqgeogor/keras-lstm-attention-glove840b-lb-0-043" target="_blank" rel="noopener">keras lstm attention glove840b,lb 0.043</a></li>
 </ol>
-<p><strong>超参数和Preprocessing</strong><br>
-Batch size: 512. I found that bigger batch size makes results more stable. Epochs: 15. Sequence length: 900. Optimizer: Adam with clipped gradient. Preprocessing: Unidecode library (https://pypi.python.org/pypi/Unidecode) to convert text to ASCII first and after that filtering everything except letters and some punctuation.</p>
-<p>pipline https://github.com/neptune-ml/kaggle-toxic-starter</p>
-<p>参考资料： [1] <a href="https://www.kaggle.com/jagangupta/stop-the-s-toxic-comments-eda" target="_blank" rel="noopener">Stop the S@#$ - Toxic Comments EDA | Kaggle</a> [2] <a href="https://www.kaggle.com/eikedehling/feature-engineering" target="_blank" rel="noopener">Feature engineering | Kaggle</a> [3] <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/48038" target="_blank" rel="noopener">A simple technique for extending dataset</a> [4] <a href="https://www.kaggle.com/jpmiller/extending-train-data-with-markov-chains-auc" target="_blank" rel="noopener">Extending Train Data with Markov Chains - AUC</a> [5] <a href="https://www.kaggle.com/cpmpml/spell-checker-using-word2vec" target="_blank" rel="noopener">Spell Checker using Word2vec</a></p>
+<hr>
+<p>最后存了一张特别喜欢的图，出处是 <strong>Rick and Morty</strong> 里递黄油的机器人 <img src="/2018/03/30/toxic-comment-classification-challenge-summary/1526198908693.png" alt="Alt text"></p>
 
       
     </div>
@@ -563,6 +587,10 @@ Batch size: 512. I found that bigger batch size makes results more stable. Epoch
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/talkingdata-adtracking-fraud-detection-challenge-summary/" rel="prev" title="比赛总结——TalkingData AdTracking Fraud Detection Challenge">
+                比赛总结——TalkingData AdTracking Fraud Detection Challenge <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -639,7 +667,7 @@ Batch size: 512. I found that bigger batch size makes results more stable. Epoch
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -703,7 +731,11 @@ Batch size: 512. I found that bigger batch size makes results more stable. Epoch
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -753,7 +785,7 @@ Batch size: 512. I found that bigger batch size makes results more stable. Epoch
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#比赛简介"><span class="nav-number">1.</span> <span class="nav-text">1. 比赛简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析eda"><span class="nav-number">2.</span> <span class="nav-text">2. 数据分析（EDA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预处理"><span class="nav-number">3.</span> <span class="nav-text">3. 数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据增广"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 数据增广</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词汇纠错"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 词汇纠错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词纠正"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 词纠正</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词嵌入word-embedding"><span class="nav-number">4.</span> <span class="nav-text">4. 词嵌入（Word Embedding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#word2vec"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 Word2vec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#glove"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 GloVe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fasttext"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 FastText</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型选取"><span class="nav-number">5.</span> <span class="nav-text">5.模型选取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bi-gru"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Bi-GRU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bi-lstm"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Bi-LSTM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bi-gru-conv"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 Bi-GRU + Conv</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ensemble"><span class="nav-number">6.</span> <span class="nav-text">6. Ensemble</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获奖方案分析"><span class="nav-number">7.</span> <span class="nav-text">7. 获奖方案分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#st方案"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 1st方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优秀的单模型"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 优秀的单模型</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#比赛简介"><span class="nav-number">1.</span> <span class="nav-text">比赛简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析eda"><span class="nav-number">2.</span> <span class="nav-text">数据分析（EDA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预处理"><span class="nav-number">3.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据增广"><span class="nav-number">3.1.</span> <span class="nav-text">数据增广</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词汇纠错"><span class="nav-number">3.2.</span> <span class="nav-text">词汇纠错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词纠正"><span class="nav-number">3.3.</span> <span class="nav-text">词纠正</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">4.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bi-gru-conv-pooling"><span class="nav-number">4.1.</span> <span class="nav-text">Bi-GRU + Conv + Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#capsule-bi-gru"><span class="nav-number">4.2.</span> <span class="nav-text">Capsule + Bi-GRU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attention-lstm"><span class="nav-number">4.3.</span> <span class="nav-text">Attention + LSTM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获奖方案分析"><span class="nav-number">5.</span> <span class="nav-text">获奖方案分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#st方案"><span class="nav-number">5.1.</span> <span class="nav-text">1st方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优秀的single-model"><span class="nav-number">5.2.</span> <span class="nav-text">优秀的Single Model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">6.</span> <span class="nav-text">Reference：</span></a></li></ol></div>
             
 
           </div>

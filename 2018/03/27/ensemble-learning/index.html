@@ -99,20 +99,20 @@
 
 
 
-  <meta name="description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同">
+  <meta name="description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即 好而不同">
 <meta name="keywords" content="学习笔记,Ensemble Learning,Machine Learning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习笔记——集成学习（Ensemble Learning）">
 <meta property="og:url" content="http://yoursite.com/2018/03/27/ensemble-learning/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同">
+<meta property="og:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即 好而不同">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/27/ensemble-learning/1522107491734.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/27/ensemble-learning/1522108697859.png">
-<meta property="og:updated_time" content="2018-04-01T05:59:47.034Z">
+<meta property="og:updated_time" content="2018-05-13T06:48:57.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——集成学习（Ensemble Learning）">
-<meta name="twitter:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同">
+<meta name="twitter:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即 好而不同">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/27/ensemble-learning/1522107491734.png">
 
 
@@ -424,7 +424,8 @@
       
         <h2 id="概述">概述</h2>
 <p>集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。<br>
-集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即“好而不同”。</p>
+集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即 <strong>好而不同</strong>。</p>
+<a id="more"></a>
 <p><strong>根据个体学习器分类</strong></p>
 <ul>
 <li>同质集成（homogeneous）集成中只包含同种类型的个体学习器，例如’决策树集成’、‘神经网络集成’。这里的个体学习器又叫基学习器（base learner）</li>
@@ -441,7 +442,8 @@
 <li>投票法，应用于分类型输出</li>
 <li>学习法，训练数据很多的时候适用，用另一个学习器来进行结合，比如Stacking和Blending</li>
 </ul>
-<p>本文将主要描述Bagging、Boosting、Stacking和Blending的基本概念。 <a id="more"></a> - - -</p>
+<p>本文将主要描述Bagging、Boosting、Stacking和Blending的基本概念。</p>
+<hr>
 <h2 id="baggingbootstrap-aggregating">Bagging（Bootstrap AGGregatING ）</h2>
 <p>Bagging直接基于自主采样法（bootstrap sampling）。<br>
 给定包含m个样本的数据集，我们先随机取出一个样本放入采样集中，再把该样本放回初始数据集，使得下次采样时该样本仍有可能被选中，这样，经过m次随机采样操作，我们得到含m个样本的采样集，初始训练集中有的样本在采样集里多次出现，有的则从未出现，由式<span class="math inline">\(\lim\limits_{m\to \infty} (1-\frac1m)^m\to \frac1e\approx0.368\)</span>可知，初始训练集中约有63.2%的样本出现在采样集中。<br>
@@ -541,8 +543,8 @@ w_{m+1,i}=\frac {w_{mi}}{Z_{m}}exp(−\alpha_my_iG_m(x_i)),\  i=1,2,...,N
 <hr>
 <h2 id="stacking">Stacking</h2>
 <p>Stacking 是一种集成学习技术，通过元分类器或元回归聚合多个分类或回归模型。基础层次模型（level model）基于完整的训练集进行训练，然后元模型基于基础层次模型的输出进行训练。下面两张图能比较好的反应Stacking的流程。</p>
-<p>图片来源文章[1] <img src="/2018/03/27/ensemble-learning/1522107491734.png" alt="Stacking1"></p>
-<p>图片来源文章[2] <img src="/2018/03/27/ensemble-learning/1522108697859.png" alt="Stacking2"></p>
+<p>图片来源文章[1] <img src="/2018/03/27/ensemble-learning/1522107491734.png" alt="Alt text"></p>
+<p>图片来源文章[2] <img src="/2018/03/27/ensemble-learning/1522108697859.png" alt="Alt text"></p>
 <p><strong>使用k-fold的原因</strong><br>
 在实现Stacking时，要注意的一点是，避免标签泄漏(Label Leak)。在训练次学习器时，需要上一层学习器对Train Data的测试结果作为特征。如果我们在Train Data上训练，然后在Train Data上预测，就会造成Label Leak。为了避免Label Leak，需要对每个学习器使用K-fold，将K个模型对Valid Set的预测结果拼起来，作为下一层学习器的输入。</p>
 <p><strong>Stacking模型实例</strong><br>
@@ -622,8 +624,8 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/12/mysql-float/" rel="next" title="MySQL 的 float 精度问题">
-                <i class="fa fa-chevron-left"></i> MySQL 的 float 精度问题
+              <a href="/2018/02/20/RNN-CNN-Pooling/" rel="next" title="学习笔记——RNN、CNN与Pooling在本文分类中的使用">
+                <i class="fa fa-chevron-left"></i> 学习笔记——RNN、CNN与Pooling在本文分类中的使用
               </a>
             
           </div>
@@ -632,8 +634,8 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/30/toxic-comment-classification-challenge-summary/" rel="prev" title="Toxic Comment Classification Challenge 比赛总结">
-                Toxic Comment Classification Challenge 比赛总结 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/30/toxic-comment-classification-challenge-summary/" rel="prev" title="比赛总结——Toxic Comment Classification Challenge">
+                比赛总结——Toxic Comment Classification Challenge <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -711,7 +713,7 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -775,7 +777,11 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
