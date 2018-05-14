@@ -99,18 +99,20 @@
 
 
 
-  <meta name="description" content="arxiv Facebook AI 2015.03 端到端的 MemNNs，能够减少 MemNNs 训练中所需要的监督。 本文框架来源于 MemNNs，又可以看作是 RNNsearch 的扩展 主要工作">
-<meta name="keywords" content="KBQA,论文阅读,MemNNs">
+  <meta name="description" content="arxiv Facebook AI 2015.03 本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。 其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End 结构来解决这个问题。 本文框架来源于 Memory Netwo">
+<meta name="keywords" content="KBQA,MemNNs,论文阅读">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《End-To-End Memory Networks》">
 <meta property="og:url" content="http://yoursite.com/2017/02/15/End-To-End-Memory-Networks/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="arxiv Facebook AI 2015.03 端到端的 MemNNs，能够减少 MemNNs 训练中所需要的监督。 本文框架来源于 MemNNs，又可以看作是 RNNsearch 的扩展 主要工作">
+<meta property="og:description" content="arxiv Facebook AI 2015.03 本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。 其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End 结构来解决这个问题。 本文框架来源于 Memory Netwo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-13T23:56:20.820Z">
+<meta property="og:image" content="http://yoursite.com/2017/02/15/End-To-End-Memory-Networks/1526258584285.png">
+<meta property="og:updated_time" content="2018-05-14T04:35:38.186Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《End-To-End Memory Networks》">
-<meta name="twitter:description" content="arxiv Facebook AI 2015.03 端到端的 MemNNs，能够减少 MemNNs 训练中所需要的监督。 本文框架来源于 MemNNs，又可以看作是 RNNsearch 的扩展 主要工作">
+<meta name="twitter:description" content="arxiv Facebook AI 2015.03 本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。 其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End 结构来解决这个问题。 本文框架来源于 Memory Netwo">
+<meta name="twitter:image" content="http://yoursite.com/2017/02/15/End-To-End-Memory-Networks/1526258584285.png">
 
 
 
@@ -422,9 +424,65 @@
         <p><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">arxiv</a><br>
 <strong>Facebook AI</strong><br>
 2015.03</p>
-<p>端到端的 MemNNs，能够减少 MemNNs 训练中所需要的监督。</p>
-<p>本文框架来源于 MemNNs，又可以看作是 RNNsearch 的扩展</p>
+<p>本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。</p>
+<p>其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End 结构来解决这个问题。</p>
+<p>本文框架来源于 Memory Networks ，又可以看作是具有多步计算的 RNNsearch</p>
+<p>实现：<a href="https://github.com/carpedm20/MemN2N-tensorflow" target="_blank" rel="noopener">MemN2N-tensorflow</a></p>
 <h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出 end-to-end memory networks 架构</li>
+</ul>
+<a id="more"></a>
+<h2 id="模型">模型</h2>
+<p><strong>架构图</strong> <img src="/2017/02/15/End-To-End-Memory-Networks/1526258584285.png" alt="Alt text"> (a) 为单层模型，(b) 为多层模型</p>
+<p>给定输入 <span class="math inline">\(x_1,...,x_n\)</span>，查询（query）<span class="math inline">\(q\)</span>，模型输出回答 <span class="math inline">\(a\)</span></p>
+<h3 id="单层模型">单层模型</h3>
+<p>参考上图 (a)</p>
+<ul>
+<li><strong>Input memory representation</strong>
+<ul>
+<li>给定输入 <span class="math inline">\(\{x_i\}\)</span>，首先将其 embed 为 <span class="math inline">\(d\)</span> 维的 memory 向量 <span class="math inline">\(\{m_i\}\)</span>，由 embedding 矩阵 <span class="math inline">\(A\)</span> 获得</li>
+<li>给定的查询 <span class="math inline">\(q\)</span> 也 embed 为 <span class="math inline">\(d\)</span> 维获得内部状态（internal state）<span class="math inline">\(u\)</span>，由 embedding 矩阵 <span class="math inline">\(B\)</span> 获得</li>
+<li>在 embedding 空间里计算 <span class="math inline">\(u\)</span> 和 <span class="math inline">\(m_i\)</span> 的相似度（使用softmax计算内积）：<span class="math inline">\(p_i=Softmax(u^Tm_i)\)</span></li>
+</ul></li>
+<li><strong>Output memory representation</strong>
+<ul>
+<li>每个 <span class="math inline">\(x_i\)</span> 有一个相关输出向量 <span class="math inline">\(c_i\)</span>，由 embedding 矩阵 <span class="math inline">\(C\)</span> 获得</li>
+<li>response 向量 <span class="math inline">\(o = \sum\limits_ip_ic_i\)</span></li>
+</ul></li>
+<li><strong>Generating the final prediction</strong>
+<ul>
+<li>预测标签 <span class="math inline">\(\hat a=Softmax(W(o+u))\)</span>，<span class="math inline">\(W\)</span> 为训练参数</li>
+</ul></li>
+</ul>
+<h3 id="多层模型">多层模型</h3>
+<p>参考上图 (b)</p>
+<ul>
+<li>每一层的输入 <span class="math inline">\(u^{k+1}=u^k+o^k\)</span></li>
+<li>每一层的 <span class="math inline">\(m_i\)</span>，<span class="math inline">\(c_i\)</span> 都由 embedding 矩阵 <span class="math inline">\(A^k\)</span>，<span class="math inline">\(C^k\)</span> 获得</li>
+<li>网络最终输出 <span class="math inline">\(\hat a=Softmax(Wu^{K+1})=Softmax(W(o^K+u^K))\)</span></li>
+</ul>
+<p>两种权重取值方法：</p>
+<ol type="1">
+<li><strong>Adjacent</strong>
+<ul>
+<li>每一层的输出 embedding 矩阵是下一层的输入 embedding 矩阵（<span class="math inline">\(A^{k+1}=C^k\)</span>）</li>
+<li>预测矩阵和输出 embedding 矩阵相同（<span class="math inline">\(W^T=C^K\)</span>）</li>
+<li>question 的 embedding 矩阵和第一层的输入 embedding 矩阵相同（<span class="math inline">\(B=A^1\)</span>）</li>
+</ul></li>
+<li><strong>Layer-wise（RNN-like）</strong>
+<ul>
+<li>输入输出 embedding 矩阵每层均相同（<span class="math inline">\(A^1=A^2=...=A^K, C^1=C^2=...=C^K\)</span>）</li>
+<li>应用线性映射 <span class="math inline">\(H\)</span> 获得 <span class="math inline">\(u^{k+1}\)</span>：<span class="math inline">\(u^{k+1} = Hu^k+o^k\)</span></li>
+<li>这种取值方法和传统 RNN 很像（把 <span class="math inline">\(u\)</span> 看成是 hidden state），只是明确规定了在 <span class="math inline">\(K\)</span> 跳过程中保存 outputs 到 memory 里（soft），而不是像 RNN 那样对它们进行采样（sampling），因此就在输出结果前多了几步计算（这段和RNN的不同点没理解到位）</li>
+</ul></li>
+</ol>
+<blockquote>
+<p>Here, unlike a standard RNN, we explicitly condition on the outputs stored in memory during the K hops, and we keep these outputs soft, rather than sampling them. Thus our model makes several computational steps before producing an output meant to be seen by the “outside world”.</p>
+</blockquote>
+<h2 id="读后感">读后感</h2>
+<p>感觉这个应该是加入了 Attention 的思想，就是那个加权平均用到的 <span class="math inline">\(p_i\)</span><br>
+有了这个端到端的架构之后，MemNNs 才有了实用价值</p>
 
       
     </div>
@@ -447,9 +505,9 @@
           
             <a href="/tags/KBQA/" rel="tag"># KBQA</a>
           
-            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
-          
             <a href="/tags/MemNNs/" rel="tag"># MemNNs</a>
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
           
         </div>
       
@@ -541,7 +599,7 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">rocuku</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
           </div>
 
           
@@ -584,8 +642,6 @@
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
                     
                       
                     
@@ -669,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单层模型"><span class="nav-number">2.1.</span> <span class="nav-text">单层模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多层模型"><span class="nav-number">2.2.</span> <span class="nav-text">多层模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">3.</span> <span class="nav-text">读后感</span></a></li></ol></div>
             
 
           </div>

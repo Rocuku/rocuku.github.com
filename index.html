@@ -99,13 +99,16 @@
 
 
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="I know nothing except the fact of my ignorance">
+<meta property="og:type" content="website">
 <meta property="og:title" content="ro&#39;s blog">
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="I know nothing except the fact of my ignorance">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ro&#39;s blog">
+<meta name="twitter:description" content="I know nothing except the fact of my ignorance">
 
 
 
@@ -1879,15 +1882,24 @@
 
       
         
-          
-            <p><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">arxiv</a><br>
+          <p><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">arxiv</a><br>
 <strong>Facebook AI</strong><br>
 2015.03</p>
-<p>端到端的 MemNNs，能够减少 MemNNs 训练中所需要的监督。</p>
-<p>本文框架来源于 MemNNs，又可以看作是 RNNsearch 的扩展</p>
+<p>本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。</p>
+<p>其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End 结构来解决这个问题。</p>
+<p>本文框架来源于 Memory Networks ，又可以看作是具有多步计算的 RNNsearch</p>
+<p>实现：<a href="https://github.com/carpedm20/MemN2N-tensorflow" target="_blank" rel="noopener">MemN2N-tensorflow</a></p>
 <h2 id="主要工作">主要工作</h2>
-
-          
+<ul>
+<li>提出 end-to-end memory networks 架构</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/15/End-To-End-Memory-Networks/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1961,7 +1973,7 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">rocuku</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
           </div>
 
           
@@ -2004,8 +2016,6 @@
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
                     
                       
                     
