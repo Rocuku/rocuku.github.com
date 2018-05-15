@@ -99,25 +99,28 @@
 
 
 
-  <meta name="description" content="基本算法 以递归的形式生成一个树 1234567891011121314151617181920212223#输入训练集D和属性集Adef TreeGenerate(D, A):	node = generate_node() #生成节点		if D.all() in types[C]: #如果D中所有节点都属于类别C		node.type = (&apos;leaf&apos;, C) #将node标记为C类叶节点">
-<meta name="keywords" content="学习笔记">
+  <meta name="description" content="arxiv Facebook AI 2016.06 主要工作  提出 Key-Value Memory Networks（KV-MemNNs）架构 构建 QA 数据集 WikiMovies">
+<meta name="keywords" content="KBQA,MemNNs,MemN2N,论文阅读,KV-MemNNs">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习笔记——决策树（Decision Tree）">
-<meta property="og:url" content="http://yoursite.com/2017/03/20/decision-tree/index.html">
+<meta property="og:title" content="《Key-Value Memory Networks for Directly Reading Documents》">
+<meta property="og:url" content="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="基本算法 以递归的形式生成一个树 1234567891011121314151617181920212223#输入训练集D和属性集Adef TreeGenerate(D, A):	node = generate_node() #生成节点		if D.all() in types[C]: #如果D中所有节点都属于类别C		node.type = (&apos;leaf&apos;, C) #将node标记为C类叶节点">
+<meta property="og:description" content="arxiv Facebook AI 2016.06 主要工作  提出 Key-Value Memory Networks（KV-MemNNs）架构 构建 QA 数据集 WikiMovies">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-08T01:42:29.300Z">
+<meta property="og:image" content="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/1526342680974.png">
+<meta property="og:image" content="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/1526349242995.png">
+<meta property="og:updated_time" content="2018-05-15T02:48:43.796Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学习笔记——决策树（Decision Tree）">
-<meta name="twitter:description" content="基本算法 以递归的形式生成一个树 1234567891011121314151617181920212223#输入训练集D和属性集Adef TreeGenerate(D, A):	node = generate_node() #生成节点		if D.all() in types[C]: #如果D中所有节点都属于类别C		node.type = (&apos;leaf&apos;, C) #将node标记为C类叶节点">
+<meta name="twitter:title" content="《Key-Value Memory Networks for Directly Reading Documents》">
+<meta name="twitter:description" content="arxiv Facebook AI 2016.06 主要工作  提出 Key-Value Memory Networks（KV-MemNNs）架构 构建 QA 数据集 WikiMovies">
+<meta name="twitter:image" content="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/1526342680974.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/20/decision-tree/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/"/>
 
 
 
@@ -127,7 +130,7 @@
   };
 </script>
 
-  <title>学习笔记——决策树（Decision Tree） | ro's blog</title>
+  <title>《Key-Value Memory Networks for Directly Reading Documents》 | ro's blog</title>
   
 
 
@@ -325,7 +328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/20/decision-tree/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -342,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">学习笔记——决策树（Decision Tree）</h1>
+          <h1 class="post-title" itemprop="name headline">《Key-Value Memory Networks for Directly Reading Documents》</h1>
         
 
         <div class="post-meta">
@@ -354,7 +357,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-20T15:31:34+08:00">2017-03-20</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-20T07:56:31+08:00">2017-02-20</time>
             
 
             
@@ -375,7 +378,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
 
                 
                 
@@ -390,8 +393,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/20/decision-tree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/03/20/decision-tree/" itemprop="commentCount"></span>
+                <a href="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,24 +422,58 @@
       
 
       
-        <h2 id="基本算法">基本算法</h2>
-<p>以递归的形式生成一个树 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输入训练集D和属性集A</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">TreeGenerate</span><span class="params">(D, A)</span>:</span></span><br><span class="line">	node = generate_node() <span class="comment">#生成节点</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> D.all() <span class="keyword">in</span> types[C]: <span class="comment">#如果D中所有节点都属于类别C</span></span><br><span class="line">		node.type = (<span class="string">'leaf'</span>, C) <span class="comment">#将node标记为C类叶节点</span></span><br><span class="line">			</span><br><span class="line">	<span class="keyword">if</span> A.empty() <span class="keyword">or</span> D.all().A.same(): <span class="comment">#如果A为空集或者D中样本在A上取值相同</span></span><br><span class="line">		C = D.type.most()  <span class="comment">#类别C为D中样本数最多的类别</span></span><br><span class="line">		node.type = (<span class="string">'leaf'</span>, C) <span class="comment">#将node标记为C类叶节点</span></span><br><span class="line"></span><br><span class="line">	a = best_divide(A) <span class="comment">#从A中选择出最优划分属性a</span></span><br><span class="line">	<span class="keyword">for</span> a_val <span class="keyword">in</span> a: <span class="comment">#遍历最优划分a的所有值</span></span><br><span class="line">		d = D.find(a.val = a_val) <span class="comment">#找到D中所有属性a的值等于a_val的样本</span></span><br><span class="line">		<span class="keyword">if</span> d.empty():</span><br><span class="line">			child = generate_node(father = node) <span class="comment">#生成node的分支节点</span></span><br><span class="line">			C = D.type.most() <span class="comment">#类别C为D中样本数最多的类别</span></span><br><span class="line">			child.type = (<span class="string">'leaf'</span>, C) <span class="comment">#将child标记为C类叶节点</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			child = TreeGenerate(d, A\a) <span class="comment">#递归获得child</span></span><br><span class="line">			child.father = node	 <span class="comment">#将child作为node的分支节点</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> node</span><br></pre></td></tr></table></figure></p>
+        <p><a href="https://arxiv.org/abs/1606.03126" target="_blank" rel="noopener">arxiv</a><br>
+<strong>Facebook AI</strong><br>
+2016.06</p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出 Key-Value Memory Networks（KV-MemNNs）架构</li>
+<li>构建 QA 数据集 WikiMovies</li>
+</ul>
 <a id="more"></a>
-<h2 id="划分最优属性">划分最优属性</h2>
-<h3 id="信息增益information-entropy">信息增益（information entropy）</h3>
-<p>假定当前样本集合<span class="math inline">\(D\)</span>中第<span class="math inline">\(k\)</span>类样本所占的比例为<span class="math inline">\(p_k (k=1,2,...,|Y| )\)</span>，则<span class="math inline">\(D\)</span>的信息熵定义为 <span class="math display">\[Ent(D)=-\sum_{k=1}^{|Y|}p_k\log_2p_k\]</span> <span class="math inline">\(Ent(D)\)</span>的值越小，<span class="math inline">\(D\)</span>的纯度越高。</p>
-<p>用属性<span class="math inline">\(a\)</span>对样本集<span class="math inline">\(D\)</span>进行划分所获得的“信息增益”（information gain）为 <span class="math display">\[Gain(D,a)=Ent(D) - \sum_{v=1}^V\frac{|D^v|}{|D|}Ent(D^v)\]</span> 信息增益越大，意味着使用属性<span class="math inline">\(a\)</span>来进行划分所获得的“纯度提升”越大，因此可以使用<span class="math inline">\(a_* = \arg\max\limits_{a \in A}Gain(D,a)\)</span>来选择属性。</p>
-<p>信息增益有一个问题，在某个属性的每个分支节点仅包含一个样本的时候，其信息增益极大，但仅仅是因为每个分支的纯度都达到最大，这样的决策树并不具有泛化能力。</p>
-<p><strong>ID3决策树算法（ID：Iterative Dichotomiser 迭代二分器）</strong>使用信息增益为准则来选择划分属性。</p>
-<h3 id="增益率gain-ratio">增益率（gain ratio）</h3>
-<p>为了解决信息增益存在的问题，可以使用增益率（gain ratio） <span class="math display">\[Gain\_ratio(D,a)=\frac{Gain(D,a)}{IV(a)}\]</span> 其中， <span class="math display">\[IV(a)=-\sum_{v=1}^V\frac{|D^v|}{|D|}log_2\frac{|D^v|}{|D|}\]</span> 称为属性<span class="math inline">\(a\)</span>的固有值（intrinsic value）。属性<span class="math inline">\(a\)</span>的可能取值数目越多，<span class="math inline">\(IV(a)\)</span>的值通常越大。</p>
-<p>增益率准则对可取值数目较少的属性有所偏好，不适合直接使用。</p>
-<p><strong>C4.5决策树算法</strong>选择划分属性时使用了一个启发式：先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择增益率最高的。</p>
-<h3 id="基尼指数gini-index">基尼指数（Gini index）</h3>
-<p>用基尼值来度量数据集<span class="math inline">\(D\)</span>的纯度： <span class="math display">\[Gini(D)=\sum_{k=1}^{|Y|}\sum_{k&#39;\not=k}p_kp_{k&#39;}=1-\sum_{k=1}^{|Y|}p_k^2\]</span> 基尼值反映了从数据集<span class="math inline">\(D\)</span>中随机抽取两个样本，其类别表集不一致的概率，因此基尼值越小，数据集D纯度越高</p>
-<p>属性<span class="math inline">\(a\)</span>的基尼指数定义为： <span class="math display">\[Gini\_index(D,a)=\sum_{v=1}^V\frac{|D^v|}{|D|}Gini(D^v)\]</span></p>
-<p>因此可以使用<span class="math inline">\(a_* = \arg\max\limits_{a \in A}Gini\_index(D,a)\)</span>来选择最优划分属性。</p>
-<p><strong>CART（Classification and Regression Tree）决策树</strong>用尼基指数来作为准则来选择划分属性。</p>
+<h2 id="模型">模型</h2>
+<p><strong>架构图</strong> <img src="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/1526342680974.png" alt="Alt text"> 模型架构基于 MemN2N，不同的地方在于把 memory slots 定义成向量对 <span class="math inline">\((k_1,v_1),...,(k_M,v_M)\)</span></p>
+<h3 id="模型流程">模型流程</h3>
+<p>定位读取 memory 分为 3 步</p>
+<ol type="1">
+<li><strong>Key Hashing：</strong>根据问题 <span class="math inline">\(x\)</span> 预先选择出 N 个memory 对 <span class="math inline">\((k_{h_1},v_{h_1}),...,(k_{h_N},v_{h_N})\)</span>，要求这些 key 至少有一个词和问题里的相同（要求是词频小于 1000 的词，为了排除停用词）</li>
+<li><strong>Key Addressing：</strong>通过比较问题和每个 key 计算 memory 对和问题的相关可能性（relevance probability）：<span class="math inline">\(p_{h_i}=Softmax(A\Phi_X(x)\cdot A\Phi_K(k_{h_i}))\)</span>，其中，<span class="math inline">\(\Phi\)</span> 是维度为 D 的 feature maps，<span class="math inline">\(A\)</span> 是 <span class="math inline">\(d\times D\)</span> 矩阵</li>
+<li><strong>Value Reading：</strong>使用加权和读取 value，返回 <span class="math inline">\(o=\sum\limits_ip_{h_i}A\Phi_V(v_{h_i})\)</span></li>
+</ol>
+<p>上面的步骤重复进行 H hops</p>
+<ul>
+<li><strong>controller</strong> 神经网络使用 <span class="math inline">\(q=A\Phi_X(x)\)</span> 作为 query</li>
+<li>在得到 hop 1 的 <span class="math inline">\(o\)</span> 后，hop 2 的 query 更新为 <span class="math inline">\(q_2=R_1(q+o)\)</span>，<span class="math inline">\(R\)</span> 是 <span class="math inline">\(d\times d\)</span> 矩阵。</li>
+<li>hop <span class="math inline">\(j\)</span> 有 <span class="math inline">\(R_j\)</span>，<span class="math inline">\(q_{j+1}=R_j(q+o)\)</span>，<span class="math inline">\(p_{h_i}=Softmax(q_{j+1}^\top A\Phi_K(k_{h_i}))\)</span></li>
+<li>在 H hop 之后，输出预测结果 <span class="math inline">\(\hat a=\arg\max_{i=1,...,C}Softmax(q_{H+1}^\top B\Phi_Y(y_i))\)</span>，<span class="math inline">\(y_i\)</span> 是可能的候选输出</li>
+</ul>
+<p>矩阵 <span class="math inline">\(A\)</span>，<span class="math inline">\(B\)</span>，<span class="math inline">\(R_1,...,R_H\)</span> 是训练中需要学习的参数</p>
+<h3 id="key-value-实现方式">Key-Value 实现方式</h3>
+<ul>
+<li><strong>KB Triple</strong><br>
+KB，针对 triples <code>(subject, relation, object)</code>，key 是 subject 和 relation，value 是 object。然后需要将 subject 和 object 交换，relation 取反再存一次（KB 大小翻倍）</li>
+<li><strong>Sentence Level</strong><br>
+document，每个 memory slot 编码一个句子的情况，key 和 value 都是用 bag-of-words 的形式编码的整个句子（和标准 MemNN 里一样）</li>
+<li><strong>Window Level</strong><br>
+document，分割成 W 个词的窗口（中心词是实体），key 是用 bag-of-words 编码后的整个窗口，value 是中心词</li>
+<li><strong>Window + Center Encoding</strong><br>
+document，和 <strong>Window Level</strong> 的区别就是使用不同 feature 对中心词和窗口中除了中心词以外的词进行编码</li>
+<li><strong>Window + Title</strong><br>
+document，key 还是上面两条提到的窗口，value 是 document 的 title，另外也保留 <strong>Window Level</strong> 里的所有 memory 对</li>
+</ul>
+<h2 id="wikimovies">WikiMovies</h2>
+<p><strong>WikiMovies 数据形式</strong> <img src="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/1526349242995.png" alt="Alt text"></p>
+<h3 id="知识形式">知识形式</h3>
+<p>包括 3 种知识形式</p>
+<ol type="1">
+<li><strong>Doc：</strong>原始 Wikipedia document</li>
+<li><strong>KB：</strong>传统 KB，根据 Open Movie Database（OMDb）和 MovieLens 创建</li>
+<li><strong>IE：</strong>information extraction 表示的，和 2 类似的 KB</li>
+</ol>
+<h2 id="读后感">读后感</h2>
+<p>面对 KB 存在的问题，选择探究基于文档的 QA，感觉比较有工程价值。<br>
+但是毕竟没有基于开放域<br>
+另外也算是完善 MemN2N 的实现了</p>
 
       
     </div>
@@ -457,7 +494,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+            <a href="/tags/KBQA/" rel="tag"># KBQA</a>
+          
+            <a href="/tags/MemNNs/" rel="tag"># MemNNs</a>
+          
+            <a href="/tags/MemN2N/" rel="tag"># MemN2N</a>
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
+          
+            <a href="/tags/KV-MemNNs/" rel="tag"># KV-MemNNs</a>
           
         </div>
       
@@ -470,8 +515,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/08/classifier-evaluation/" rel="next" title="学习笔记——分类器性能度量标准">
-                <i class="fa fa-chevron-left"></i> 学习笔记——分类器性能度量标准
+              <a href="/2017/02/15/End-To-End-Memory-Networks/" rel="next" title="《End-To-End Memory Networks》">
+                <i class="fa fa-chevron-left"></i> 《End-To-End Memory Networks》
               </a>
             
           </div>
@@ -480,8 +525,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/23/word-embedding-summary/" rel="prev" title="学习笔记——词嵌入（Word Embedding）">
-                学习笔记——词嵌入（Word Embedding） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/08/classifier-evaluation/" rel="prev" title="学习笔记——分类器性能度量标准">
+                学习笔记——分类器性能度量标准 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -683,7 +728,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本算法"><span class="nav-number">1.</span> <span class="nav-text">基本算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#划分最优属性"><span class="nav-number">2.</span> <span class="nav-text">划分最优属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#信息增益information-entropy"><span class="nav-number">2.1.</span> <span class="nav-text">信息增益（information entropy）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增益率gain-ratio"><span class="nav-number">2.2.</span> <span class="nav-text">增益率（gain ratio）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基尼指数gini-index"><span class="nav-number">2.3.</span> <span class="nav-text">基尼指数（Gini index）</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型流程"><span class="nav-number">2.1.</span> <span class="nav-text">模型流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#key-value-实现方式"><span class="nav-number">2.2.</span> <span class="nav-text">Key-Value 实现方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wikimovies"><span class="nav-number">3.</span> <span class="nav-text">WikiMovies</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#知识形式"><span class="nav-number">3.1.</span> <span class="nav-text">知识形式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">4.</span> <span class="nav-text">读后感</span></a></li></ol></div>
             
 
           </div>
