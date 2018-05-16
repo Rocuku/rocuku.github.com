@@ -324,6 +324,391 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="url">《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-25T09:08:15+08:00">2017-02-25</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://arxiv.org/abs/1506.07285" target="_blank" rel="noopener">arxiv</a><br>
+<strong>MetaMind</strong><br>
+2015.06</p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出 dynamic memory network（DMN），DMN 能进行端到端训练，并且在 bAbI、Stanford Sentiment Treebank、WSJ-PTB 上获得了 state-of-the-art 的结果</li>
+</ul>
+<h2 id="模型">模型</h2>
+<p><strong>input-question-answer</strong><br>
+几乎所有的自然语言问题都可以转换为 QA 任务，DMN 针对解决 QA 任务设计，因此可以用于几乎所有自然语言任务。</p>
+<p><strong>DMN 架构图</strong> <img src="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526434080487.png" alt="Alt text"></p>
+<ul>
+<li><strong>Input Module：</strong>编码原始文本数据 input，将其转换成向量表示</li>
+<li><strong>Question Module：</strong>编码原始文本数据 question，将其转换成向量表示</li>
+<li><strong>Episodic Memory Module：</strong>事件记忆模块，通过 attention 机制选择需要注意的 input 并根据 question 给出 memory 向量。这个模块有 retrieve 新信息的能力</li>
+<li><strong>Answer Module：</strong>根据最终的 memory 向量生成答案</li>
+</ul>
+<p><strong>架构示例</strong> <img src="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526435763402.png" alt="Alt text"></p>
+<h3 id="input-module">Input module</h3>
+<p>使用 RNN 对 input 序列进行编码。本文里使用的 GRU</p>
+<ul>
+<li>模块输入是具有 <span class="math inline">\(T_I\)</span> 个词 <span class="math inline">\(w_1,...,w_{T_I}\)</span> 的序列</li>
+<li>每个 step <span class="math inline">\(t\)</span> 里，网络更新隐藏状态 <span class="math inline">\(h_t=RNN(L[w_t],h_{t-1})\)</span>，<span class="math inline">\(L\)</span> 是 embedding 矩阵。</li>
+<li>模块的输出是 RNN 的隐藏状态。当输入是句子列表的时候，把数据连接成一个单词的长列表，每个句子结尾加一个 end-of-sentence token。每个 end-of-sentence token 处的隐藏状态就是模块的最终表征。（具体架构示例图）</li>
+</ul>
+<h3 id="question-module">Question Module</h3>
+<p>使用 RNN 对 question 进行编码。</p>
+<ul>
+<li>模块输入是具有 <span class="math inline">\(T_Q\)</span> 个词的 question</li>
+<li>隐藏状态 <span class="math inline">\(q_t=GRU(L[w_t^Q],q_{t-1})\)</span>，Input module 和 question module 共享同一个 embedding 矩阵 <span class="math inline">\(L\)</span></li>
+<li>输出是最终的隐藏状态 <span class="math inline">\(q=q_{T_Q}\)</span></li>
+</ul>
+<h3 id="episodic-memory-module">Episodic Memory Module</h3>
+<ul>
+<li>事件记忆模块根据 input module 的输出进行迭代，更新模块内部的事件记忆</li>
+<li>每次迭代中，attention 机制根据 fact 表征 <span class="math inline">\(c\)</span>，question 表征 <span class="math inline">\(q\)</span> 和前一个 memory <span class="math inline">\(m^{i-1}\)</span> 来生成事件 <span class="math inline">\(e^i\)</span></li>
+<li>然后事件和前一个 memory 都用来更新当前 memory：<span class="math inline">\(m^i=GRU(e^i,m^{i-1})\)</span>，GRU 初始化 <span class="math inline">\(m^0=q\)</span></li>
+<li><p><span class="math inline">\(T_M\)</span> 之后，模块最终输出 <span class="math inline">\(m^{T_M}\)</span> 到 answer module</p></li>
+<li><strong>Need for Multiple Episodes</strong>
+<ul>
+<li>每次迭代关注不同的输入</li>
+<li>例如架构示例里第一次关注 football，第二次关注 John</li>
+</ul></li>
+<li><strong>Attention Mechanism</strong>
+<ul>
+<li>gating function：<span class="math inline">\(g_t^i=G(c_t,m^{i-1},q)\)</span>，<span class="math inline">\(c_t\)</span> 为候选 fact，<span class="math inline">\(G\)</span> 是 scoring function</li>
+<li>特征向量 <span class="math inline">\(z(c,m,q)=[c,m,q,c\cdot q,c\cdot m,|c-q|,|c-m|,c^TW^{(b)}q,c^TW^{(b)}m]\)</span></li>
+<li>scoring function <span class="math inline">\(G(c,m,q)=\sigma(W^{(2)}\tanh(W^{(1)}z(c,m,q)+b^{(1)})+b^{(2)})\)</span></li>
+</ul></li>
+<li><strong>Memory Update</strong>
+<ul>
+<li>隐藏状态 <span class="math inline">\(h_t^i=g_t^iGRU(c_t,h_{t-1}^i)+(1-g_t^i)h_{t-1}^i\)</span></li>
+<li>事件 <span class="math inline">\(e^i=h_{T_C}^i\)</span></li>
+</ul></li>
+<li><strong>Criteria for Stopping</strong>
+<ul>
+<li>如果 gate function 选择到输入中一个特殊的 end-of-passes 表征，则停止迭代</li>
+</ul></li>
+</ul>
+<h3 id="answer-module">Answer Module</h3>
+<p>根据任务类型不同，模块可能是最后输出一个 answer，也可能每个 time step 都输出</p>
+<ul>
+<li>初始化 last memory <span class="math inline">\(a_0=m^{T_M}\)</span>，每个 time step，输入 question <span class="math inline">\(q\)</span>，最后一个隐藏状态 <span class="math inline">\(a_{t-1}\)</span></li>
+<li><span class="math inline">\(a_t=GRU([y_{t-1},q],a_{t-1})\)</span></li>
+<li>模块输出 <span class="math inline">\(y_t=softmax(W^{(a)}a_t)\)</span></li>
+</ul>
+<h2 id="读后感">读后感</h2>
+<p>DMN 的开端，之后还有 DMN+<br>
+不是 facebook 做的 memory network，架构感觉区别还挺大的<br>
+感觉实用价值挺高的，只要能构造出 QA 问题就能用，很有意思</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" itemprop="url">《Towards AI-Complete Question Answering: A Set of Prerequisite Toy Tasks》</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T14:43:27+08:00">2017-02-22</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><a href="https://arxiv.org/abs/1502.05698" target="_blank" rel="noopener">arxiv</a><br>
+<strong>Facebook AI</strong><br>
+2015.02</p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>构建数据集 bAbI-tasks 使用 QA 的方式评估阅读理解能力</li>
+</ul>
+<p><strong>dataset：</strong><a href="https://research.fb.com/downloads/babi/" target="_blank" rel="noopener">babi</a><br>
+<strong>source：</strong><a href="https://github.com/facebook/bAbI-tasks" target="_blank" rel="noopener">bAbI-tasks</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1168,7 +1553,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1242,7 +1627,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1494,6 +1879,10 @@
     
       
         
+      
+    
+      
+    
       
     
       
