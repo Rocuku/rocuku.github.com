@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="arxiv MetaMind 2015.06 主要工作  提出 dynamic memory network（DMN），DMN 能进行端到端训练，并且在 bAbI、Stanford Sentiment Treebank、WSJ-PTB 上获得了 state-of-the-art 的结果">
+<meta name="keywords" content="MemNNs,DMN,论文阅读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》">
+<meta property="og:url" content="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="arxiv MetaMind 2015.06 主要工作  提出 dynamic memory network（DMN），DMN 能进行端到端训练，并且在 bAbI、Stanford Sentiment Treebank、WSJ-PTB 上获得了 state-of-the-art 的结果">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526434080487.png">
+<meta property="og:image" content="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526435763402.png">
+<meta property="og:updated_time" content="2018-05-16T04:11:27.662Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》">
+<meta name="twitter:description" content="arxiv MetaMind 2015.06 主要工作  提出 dynamic memory network（DMN），DMN 能进行端到端训练，并且在 bAbI、Stanford Sentiment Treebank、WSJ-PTB 上获得了 state-of-the-art 的结果">
+<meta name="twitter:image" content="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526434080487.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》 | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-25T09:08:15+08:00">2017-02-25</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://arxiv.org/abs/1506.07285" target="_blank" rel="noopener">arxiv</a><br>
+<strong>MetaMind</strong><br>
+2015.06</p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出 dynamic memory network（DMN），DMN 能进行端到端训练，并且在 bAbI、Stanford Sentiment Treebank、WSJ-PTB 上获得了 state-of-the-art 的结果</li>
+</ul>
+<a id="more"></a>
+<h2 id="模型">模型</h2>
+<p><strong>input-question-answer</strong><br>
+几乎所有的自然语言问题都可以转换为 QA 任务，DMN 针对解决 QA 任务设计，因此可以用于几乎所有自然语言任务。</p>
+<p><strong>DMN 架构图</strong> <img src="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526434080487.png" alt="Alt text"></p>
+<ul>
+<li><strong>Input Module：</strong>编码原始文本数据 input，将其转换成向量表示</li>
+<li><strong>Question Module：</strong>编码原始文本数据 question，将其转换成向量表示</li>
+<li><strong>Episodic Memory Module：</strong>事件记忆模块，通过 attention 机制选择需要注意的 input 并根据 question 给出 memory 向量。这个模块有 retrieve 新信息的能力</li>
+<li><strong>Answer Module：</strong>根据最终的 memory 向量生成答案</li>
+</ul>
+<p><strong>架构示例</strong> <img src="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/1526435763402.png" alt="Alt text"></p>
+<h3 id="input-module">Input module</h3>
+<p>使用 RNN 对 input 序列进行编码。本文里使用的 GRU</p>
+<ul>
+<li>模块输入是具有 <span class="math inline">\(T_I\)</span> 个词 <span class="math inline">\(w_1,...,w_{T_I}\)</span> 的序列</li>
+<li>每个 step <span class="math inline">\(t\)</span> 里，网络更新隐藏状态 <span class="math inline">\(h_t=RNN(L[w_t],h_{t-1})\)</span>，<span class="math inline">\(L\)</span> 是 embedding 矩阵。</li>
+<li>模块的输出是 RNN 的隐藏状态。当输入是句子列表的时候，把数据连接成一个单词的长列表，每个句子结尾加一个 end-of-sentence token。每个 end-of-sentence token 处的隐藏状态就是模块的最终表征。（具体架构示例图）</li>
+</ul>
+<h3 id="question-module">Question Module</h3>
+<p>使用 RNN 对 question 进行编码。</p>
+<ul>
+<li>模块输入是具有 <span class="math inline">\(T_Q\)</span> 个词的 question</li>
+<li>隐藏状态 <span class="math inline">\(q_t=GRU(L[w_t^Q],q_{t-1})\)</span>，Input module 和 question module 共享同一个 embedding 矩阵 <span class="math inline">\(L\)</span></li>
+<li>输出是最终的隐藏状态 <span class="math inline">\(q=q_{T_Q}\)</span></li>
+</ul>
+<h3 id="episodic-memory-module">Episodic Memory Module</h3>
+<ul>
+<li>事件记忆模块根据 input module 的输出进行迭代，更新模块内部的事件记忆</li>
+<li>每次迭代中，attention 机制根据 fact 表征 <span class="math inline">\(c\)</span>，question 表征 <span class="math inline">\(q\)</span> 和前一个 memory <span class="math inline">\(m^{i-1}\)</span> 来生成事件 <span class="math inline">\(e^i\)</span></li>
+<li>然后事件和前一个 memory 都用来更新当前 memory：<span class="math inline">\(m^i=GRU(e^i,m^{i-1})\)</span>，GRU 初始化 <span class="math inline">\(m^0=q\)</span></li>
+<li><p><span class="math inline">\(T_M\)</span> 之后，模块最终输出 <span class="math inline">\(m^{T_M}\)</span> 到 answer module</p></li>
+<li><strong>Need for Multiple Episodes</strong>
+<ul>
+<li>每次迭代关注不同的输入</li>
+<li>例如架构示例里第一次关注 football，第二次关注 John</li>
+</ul></li>
+<li><strong>Attention Mechanism</strong>
+<ul>
+<li>gating function：<span class="math inline">\(g_t^i=G(c_t,m^{i-1},q)\)</span>，<span class="math inline">\(c_t\)</span> 为候选 fact，<span class="math inline">\(G\)</span> 是 scoring function</li>
+<li>特征向量 <span class="math inline">\(z(c,m,q)=[c,m,q,c\cdot q,c\cdot m,|c-q|,|c-m|,c^TW^{(b)}q,c^TW^{(b)}m]\)</span></li>
+<li>scoring function <span class="math inline">\(G(c,m,q)=\sigma(W^{(2)}\tanh(W^{(1)}z(c,m,q)+b^{(1)})+b^{(2)})\)</span></li>
+</ul></li>
+<li><strong>Memory Update</strong>
+<ul>
+<li>隐藏状态 <span class="math inline">\(h_t^i=g_t^iGRU(c_t,h_{t-1}^i)+(1-g_t^i)h_{t-1}^i\)</span></li>
+<li>事件 <span class="math inline">\(e^i=h_{T_C}^i\)</span></li>
+</ul></li>
+<li><strong>Criteria for Stopping</strong>
+<ul>
+<li>如果 gate function 选择到输入中一个特殊的 end-of-passes 表征，则停止迭代</li>
+</ul></li>
+</ul>
+<h3 id="answer-module">Answer Module</h3>
+<p>根据任务类型不同，模块可能是最后输出一个 answer，也可能每个 time step 都输出</p>
+<ul>
+<li>初始化 last memory <span class="math inline">\(a_0=m^{T_M}\)</span>，每个 time step，输入 question <span class="math inline">\(q\)</span>，最后一个隐藏状态 <span class="math inline">\(a_{t-1}\)</span></li>
+<li><span class="math inline">\(a_t=GRU([y_{t-1},q],a_{t-1})\)</span></li>
+<li>模块输出 <span class="math inline">\(y_t=softmax(W^{(a)}a_t)\)</span></li>
+</ul>
+<h2 id="读后感">读后感</h2>
+<p>DMN 的开端，之后还有 DMN+<br>
+不是 facebook 做的 memory network，架构感觉区别还挺大的<br>
+感觉实用价值挺高的，只要能构造出 QA 问题就能用，很有意思</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MemNNs/" rel="tag"># MemNNs</a>
+          
+            <a href="/tags/DMN/" rel="tag"># DMN</a>
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" rel="next" title="《Towards AI-Complete Question Answering: A Set of Prerequisite Toy Tasks》">
+                <i class="fa fa-chevron-left"></i> 《Towards AI-Complete Question Answering: A Set of Prerequisite Toy Tasks》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" rel="prev" title="《Dynamic Memory Networks for Visual and Textual Question Answering》">
+                《Dynamic Memory Networks for Visual and Textual Question Answering》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#input-module"><span class="nav-number">2.1.</span> <span class="nav-text">Input module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#question-module"><span class="nav-number">2.2.</span> <span class="nav-text">Question Module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#episodic-memory-module"><span class="nav-number">2.3.</span> <span class="nav-text">Episodic Memory Module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#answer-module"><span class="nav-number">2.4.</span> <span class="nav-text">Answer Module</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">3.</span> <span class="nav-text">读后感</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

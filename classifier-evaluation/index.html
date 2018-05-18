@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="混淆矩阵     正类 负类     预测为正 TP（真正） FP（假正）   预测为负 FN（假负） TN（真负）     TP（真正）: 将正类预测为正类数 FP（假正）: 将负类预测为正类数（误报，Type I error） TN（真负）: 将负类预测为负类数 FN（假负）: 将正类预测为负类数（漏报，Type II error）">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记——分类器性能度量标准">
+<meta property="og:url" content="http://yoursite.com/classifier-evaluation/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="混淆矩阵     正类 负类     预测为正 TP（真正） FP（假正）   预测为负 FN（假负） TN（真负）     TP（真正）: 将正类预测为正类数 FP（假正）: 将负类预测为正类数（误报，Type I error） TN（真负）: 将负类预测为负类数 FN（假负）: 将正类预测为负类数（漏报，Type II error）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525588245403.png">
+<meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525593213089.png">
+<meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525585815510.png">
+<meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525591009291.png">
+<meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525586806492.png">
+<meta property="og:updated_time" content="2018-05-08T01:42:33.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学习笔记——分类器性能度量标准">
+<meta name="twitter:description" content="混淆矩阵     正类 负类     预测为正 TP（真正） FP（假正）   预测为负 FN（假负） TN（真负）     TP（真正）: 将正类预测为正类数 FP（假正）: 将负类预测为正类数（误报，Type I error） TN（真负）: 将负类预测为负类数 FN（假负）: 将正类预测为负类数（漏报，Type II error）">
+<meta name="twitter:image" content="http://yoursite.com/classifier-evaluation/1525588245403.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/classifier-evaluation/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>学习笔记——分类器性能度量标准 | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/classifier-evaluation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习笔记——分类器性能度量标准</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T17:20:23+08:00">2017-03-08</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/classifier-evaluation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/classifier-evaluation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="混淆矩阵">混淆矩阵</h2>
+<table>
+<thead>
+<tr class="header">
+<th><a href=""></a></th>
+<th>正类</th>
+<th>负类</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>预测为正</td>
+<td>TP（真正）</td>
+<td>FP（假正）</td>
+</tr>
+<tr class="even">
+<td>预测为负</td>
+<td>FN（假负）</td>
+<td>TN（真负）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>TP</strong>（真正）: 将正类预测为正类数</li>
+<li><strong>FP</strong>（假正）: 将负类预测为正类数（误报，Type I error）</li>
+<li><strong>TN</strong>（真负）: 将负类预测为负类数</li>
+<li><strong>FN</strong>（假负）: 将正类预测为负类数（漏报，Type II error）</li>
+</ul>
+<a id="more"></a>
+<h2 id="几种指标">几种指标</h2>
+<h3 id="准确率accuracy">准确率（accuracy）</h3>
+<p>准确率就是所有预测正确的样本占总样本数的比例。 <span class="math display">\[Accuracy = \frac{TP + TN}{TP + FP + TN + FN}\]</span></p>
+<h3 id="正确率-精确率precision-查准率">正确率 / 精确率（Precision） / 查准率</h3>
+<p>真正样本数占所有正类样本数的比例<br>
+<span class="math display">\[P = Precision= \frac{TP}{TP + FP}\]</span></p>
+<h3 id="tprtrue-positive-rate-灵敏度sensitivity-召回率recall-查全率">TPR（True Positive Rate） / 灵敏度（Sensitivity） / 召回率（Recall） / 查全率</h3>
+<p>真正样本数占所有预测为正类样本数的比例<br>
+<span class="math display">\[R = Recall = TPR= \frac{TP}{TP + FN}\]</span></p>
+<h3 id="tnrtrue-negative-rate-特异度specificity">TNR（True Negative Rate） / 特异度（Specificity）</h3>
+<p>真负样本数占所有预测为负类样本数的比例<br>
+<span class="math display">\[TNR= \frac{TN}{TN + FP}\]</span></p>
+<h3 id="fnrfalse-negatice-rate-漏报率">FNR（False Negatice Rate） / 漏报率</h3>
+<p>假负样本数占所有预测为负类样本数的比例<br>
+<span class="math display">\[FNR= \frac{FN}{TN + FP} = 1 - TNR\]</span></p>
+<h3 id="fprfalse-positice-rate-误报率">FPR（False Positice Rate） / 误报率</h3>
+<p>假正样本数占所有预测为负类样本数的比例<br>
+<span class="math display">\[FPR= \frac{FP}{FP+ TN} =  1 - TPR\]</span></p>
+<h3 id="pr曲线precision-recall-curve">PR曲线（Precision-Recall Curve）</h3>
+<p><strong>理解召回率(Recall)和精确率(Precision)</strong> <img src="/classifier-evaluation/1525588245403.png" alt="Alt text"></p>
+<p><strong>PR曲线</strong><br>
+<img src="/classifier-evaluation/1525593213089.png" alt="Alt text"> PR空间将查全率/召回率(Recall)定义为X轴，查准率/精确率(Precision)定义为Y轴。</p>
+<p>可根据分类器的预测结果对样例进行排序，排在前面的是分类器认为最可能是正例的样本，排在最后的则是分类器认为最不可能是正例的样本。按此顺序逐个把样本作为正例进行预测，则每次可以计算出当前的查全率、查准率，并构造PR曲线。</p>
+<p>由于PR曲线的曲线下面积不方便估算，因此需要用别的值来作为综合考虑Recall和Precision的性能度量。BEP（Break-Even Point，平衡点）为PR曲线上Recall=Precision时的取值，可以用于找出在Recall和Precision取得双高的分类器。</p>
+<p>但BEP还是过于简化，因此引出了F1值。</p>
+<h3 id="f1值f1-score">F1值（F1-score）</h3>
+<p>精确率(Precision)和召回率(Recall)的调和均值 <span class="math display">\[F1 = \frac{2 * P * R}{P + R} = \frac{2 * TP}{样本总数 + TP - TN} = \frac{2 * TP}{2 * TP + FN + FP}\]</span></p>
+<p>一些场景中对精确率(Precision)和召回率(Recall)的重视程度不同，因此定义F1的一般形式 <span class="math display">\[F_\beta = \frac{(1 + \beta^2) * P * R}{(\beta^2 * P) + R}\]</span></p>
+<h3 id="roc-aucarea-under-the-curve-of-roc">ROC-AUC（Area under the Curve of ROC）</h3>
+<h4 id="roc曲线">ROC曲线</h4>
+<p>ROC曲线，即接收者操作特征曲线（receiver operating characteristic curve）。</p>
+<p>ROC空间将FPR（False Positice Rate）定义为X轴，TPR（True Positive Rate）定义为 Y 轴。</p>
+<p>给定一个二元分类模型和它的阈值，就能从所有样本的（阳性／阴性）真实值和预测值计算出一个 (X=FPR, Y=TPR) 座标点。 从 (0, 0) 到 (1,1) 的对角线将ROC空间划分为左上／右下两个区域，在这条线的以上的点代表了一个好的分类结果（胜过随机分类），而在这条线以下的点代表了差的分类结果（劣于随机分类）。</p>
+<p>完美的预测是一个在左上角的点，在ROC空间座标 (0,1)点，X=0 代表着没有伪阳性，Y=1 代表着没有伪阴性（所有的阳性都是真阳性）；也就是说，不管分类器输出结果是阳性或阴性，都是100%正确。一个随机的预测会得到位于从 (0, 0) 到 (1, 1) 对角线（也叫无识别率线）上的一个点；最直观的随机预测的例子就是抛硬币。</p>
+<h4 id="roc-auc">ROC-AUC</h4>
+<p>ROC-AUC为ROC曲线下方的面积。</p>
+<p><strong>AUC的3种取值对应的ROC曲线</strong> <img src="/classifier-evaluation/1525585815510.png" alt="Alt text"></p>
+<p><strong>ROC-AUC的意义是：</strong></p>
+<ul>
+<li>因为是在1x1的方格里求面积，AUC必在0~1之间</li>
+<li>一般来说，如果ROC是光滑的，那么基本可以判断没有太大的overfitting</li>
+<li>假设阈值以上是阳性，以下是阴性；若随机抽取一个阳性样本和一个阴性样本，<strong>分类器正确判断阳性样本的值高于阴性样本之机率=AUC</strong></li>
+<li>AUC值越大的分类器，正确率越高</li>
+</ul>
+<p><strong>从AUC判断分类器优劣的标准：</strong></p>
+<ul>
+<li><strong>AUC = 1</strong>，是完美分类器，采用这个预测模型时，存在至少一个阈值能得出完美预测。绝大多数预测的场合，不存在完美分类器</li>
+<li><strong>0.5 &lt; AUC &lt; 1</strong>，优于随机猜测。这个分类器妥善设定阈值的话，能有预测价值</li>
+<li><strong>AUC = 0.5</strong>，跟随机猜测一样，模型没有预测价值</li>
+<li><strong>AUC &lt; 0.5</strong>，比随机猜测还差；但只要总是反预测而行，就优于随机猜测</li>
+</ul>
+<h2 id="适用场景">适用场景</h2>
+<p><strong>准确率（accuracy）是很常用的一种标准，但是在有类不平衡（class imbalance）问题的时候不好使。</strong><br>
+举个例子，当100个样本里99个是正样本，1个是负样本的时候，如果分类器直接把所有的样本预测为正样本，这个分类器就有99%的准确率了，但实际上这个分类器一个负样本都分辨不出来。</p>
+<p><strong>精确率（Precision）可以在要求不错选的时候使用。</strong><br>
+要求尽量不将负类样本预测为正类的，即不错选任何正类样本。使用场景为嫌疑人定罪，垃圾邮件分类等。这种情况下可以在Recall符合一定条件的情况下选择Precision最高的分类器。</p>
+<p><strong>召回率（Recall）可以在要求不错放的时候使用。</strong><br>
+要求尽量所有正类样本都被挖掘出来，不错放过任何正类样本。使用场景为地震预测，癌症预测等。这种情况下可以在Precision符合一定条件的情况下选择Recall最高的分类器。</p>
+<p><strong>PR曲线在正类样本很稀少的情况下，比起ROC曲线能更有效地反应分类器的好坏。</strong><br>
+因为PR曲线对于类不平衡问题相当敏感，能在正类样本稀少的情况根据precision有明显变化。</p>
+<p><strong>举一个列子</strong> <img src="/classifier-evaluation/1525591009291.png" alt="Alt text"> 上图中为ROC及PR曲线的对比，根据ROC曲线，感觉两个算法效果都还不错（足够接近左上角），而PR曲线则显示效果不好（不够接近右上角）。</p>
+<p>分析<strong>Algorithm 1</strong>上的Point A，这点上 recall = TPR = 0.8<br>
+假设有100个正类样本，则有 TP = 80<br>
+根据图（b）中 precision = 0.05，可以得出 FP = 1520<br>
+根据图（a）中 FPR= 0.1，可以得出 TN = 13680<br>
+则样本总体情况应该是正类样本100个，负类样本15200个，TP = 80，FP = 1520，TN = 13680，FN = 20<br>
+也就是说分类器将1600个样本分为正类，而其中只有80个真正样本。这样一个分类器效果确实不算好。</p>
+<p><strong>另外再例举一个欺诈检测的问题</strong></p>
+<p>200w样本中有100个正类样本。</p>
+<ul>
+<li><strong>Algorithm 1：</strong>预测出100个正类样本，其中有90个真正样本</li>
+<li><strong>Algorithm 2：</strong>预测出1000个正类样本，其中有90个真正样本</li>
+</ul>
+<p>可以直观的看出来<strong>Algorithm 1</strong>更好，因为错选的更少。</p>
+<p><strong>在ROC曲线中：</strong></p>
+<ul>
+<li><strong>Algorithm 1：</strong>TPR=90/100=0.9, FPR= 10/1,999,900=0.00000500025</li>
+<li><strong>Algorithm 2：</strong>TPR=90/100=0.9, FPR=910/1,999,900=0.00045502275</li>
+</ul>
+<p>FPR差为0.0004500225，即在X=0.9时，两条曲线Y轴上相差0.0004500225</p>
+<p><strong>在PR曲线中： </strong></p>
+<ul>
+<li><strong>Algorithm 1：</strong>precision=0.9, recall=0.9</li>
+<li><strong>Algorithm 2：</strong>precision=0.09, recall= 0.9</li>
+</ul>
+<p>Precision差为0.81，即在X=0.9时，两条曲线Y轴上相差0.81</p>
+<p>因此在PR中两种算法的优劣差异能更明显的显示出来。</p>
+<p><strong>ROC-AUC是一个最稳定的选择，适合在正负样本数量都足够的时候选择。</strong><br>
+当测试集中的正负样本的分布变化的时候，ROC曲线能够保持不变。ROC曲线对非平衡数据不敏感。 <img src="/classifier-evaluation/1525586806492.png" alt="Alt text"> (a)和(c)为ROC曲线，(b)和(d)为PR曲线。(a)和(b)为正负样本1:1时的ROC曲线和PR曲线，二者比较接近。(c)和(d)是将负样本的数量增加到原来的10倍后的ROC曲线和PR曲线。可以明显的看出，ROC曲线基本保持原貌，而PR曲线则变化较大。</p>
+<h2 id="reference">Reference</h2>
+<ol type="1">
+<li><a href="http://charleshm.github.io/2016/03/Model-Performance/" target="_blank" rel="noopener">机器学习性能评估指标</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity#Confusion_matrix" target="_blank" rel="noopener">Wikipedia: Sensitivity and specificity</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/ROC%E6%9B%B2%E7%BA%BF" target="_blank" rel="noopener">Wikipedia: ROC曲线</a></li>
+<li><a href="https://www.zhihu.com/question/30643044" target="_blank" rel="noopener">精确率、召回率、F1 值、ROC、AUC 各自的优缺点是什么？</a></li>
+<li><a href="https://www.quora.com/What-is-the-difference-between-a-ROC-curve-and-a-precision-recall-curve-When-should-I-use-each" target="_blank" rel="noopener">What is the difference between a ROC curve and a precision-recall curve? When should I use each?</a></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" rel="next" title="《Dynamic Memory Networks for Visual and Textual Question Answering》">
+                <i class="fa fa-chevron-left"></i> 《Dynamic Memory Networks for Visual and Textual Question Answering》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/decision-tree/" rel="prev" title="学习笔记——决策树（Decision Tree）">
+                学习笔记——决策树（Decision Tree） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#混淆矩阵"><span class="nav-number">1.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种指标"><span class="nav-number">2.</span> <span class="nav-text">几种指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准确率accuracy"><span class="nav-number">2.1.</span> <span class="nav-text">准确率（accuracy）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确率-精确率precision-查准率"><span class="nav-number">2.2.</span> <span class="nav-text">正确率 / 精确率（Precision） / 查准率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tprtrue-positive-rate-灵敏度sensitivity-召回率recall-查全率"><span class="nav-number">2.3.</span> <span class="nav-text">TPR（True Positive Rate） / 灵敏度（Sensitivity） / 召回率（Recall） / 查全率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tnrtrue-negative-rate-特异度specificity"><span class="nav-number">2.4.</span> <span class="nav-text">TNR（True Negative Rate） / 特异度（Specificity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fnrfalse-negatice-rate-漏报率"><span class="nav-number">2.5.</span> <span class="nav-text">FNR（False Negatice Rate） / 漏报率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fprfalse-positice-rate-误报率"><span class="nav-number">2.6.</span> <span class="nav-text">FPR（False Positice Rate） / 误报率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pr曲线precision-recall-curve"><span class="nav-number">2.7.</span> <span class="nav-text">PR曲线（Precision-Recall Curve）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f1值f1-score"><span class="nav-number">2.8.</span> <span class="nav-text">F1值（F1-score）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#roc-aucarea-under-the-curve-of-roc"><span class="nav-number">2.9.</span> <span class="nav-text">ROC-AUC（Area under the Curve of ROC）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#roc曲线"><span class="nav-number">2.9.1.</span> <span class="nav-text">ROC曲线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#roc-auc"><span class="nav-number">2.9.2.</span> <span class="nav-text">ROC-AUC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

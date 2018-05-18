@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="arxiv Facebook AI 2014.10 现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 memory networks（MemNNs）来解决这个问题。这篇就是 MemNNs 的来源。 2014.10 Google DeepMind 有一篇 《Neural Turing">
+<meta name="keywords" content="MemNNs,论文阅读,KBQA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Memory Networks》">
+<meta property="og:url" content="http://yoursite.com/memory-networks/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="arxiv Facebook AI 2014.10 现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 memory networks（MemNNs）来解决这个问题。这篇就是 MemNNs 的来源。 2014.10 Google DeepMind 有一篇 《Neural Turing">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-13T23:56:39.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Memory Networks》">
+<meta name="twitter:description" content="arxiv Facebook AI 2014.10 现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 memory networks（MemNNs）来解决这个问题。这篇就是 MemNNs 的来源。 2014.10 Google DeepMind 有一篇 《Neural Turing">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/memory-networks/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《Memory Networks》 | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/memory-networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Memory Networks》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-05T09:15:16+08:00">2017-01-05</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/memory-networks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/memory-networks/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://arxiv.org/abs/1410.3916v11" target="_blank" rel="noopener">arxiv</a><br>
+<strong>Facebook AI</strong><br>
+2014.10</p>
+<p>现有 RNN 在需要大量长期记忆（long-term memory）的任务中表现的并不好，而 KBQA 这类任务需要依赖这种大量的长期记忆来保存 KB，因此本文提出了 <strong>memory networks（MemNNs）</strong>来解决这个问题。这篇就是 <strong>MemNNs</strong> 的来源。</p>
+<p>2014.10 Google DeepMind 有一篇 《Neural Turing Machines》也是用于解决 long-term memory 问题的，算和 MemNNs 是竞争关系吧。</p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出用于解决 long-term memory 问题的 memory networks 架构</li>
+</ul>
+<a id="more"></a>
+<h2 id="基本模型">基本模型</h2>
+<p>包括 1 个 memory <strong>m</strong> 和 4 个组件</p>
+<h3 id="个组件">4个组件</h3>
+<ul>
+<li><p><strong>I（input feature map）</strong><br>
+把输入映射为内部特征向量<br>
+converts the incoming input to the internal feature representation</p></li>
+<li><p><strong>G（generalization）</strong><br>
+使用新的输入更新旧的 memories<br>
+updates old memories given the new input</p></li>
+<li><p><strong>O（output feature map）</strong><br>
+通过新的输入和当前 memory 状态，在特征空间里产生新的输出<br>
+produces a new output (in the feature representation space), given the new input and the current memory state</p></li>
+<li><p><strong>R（response）</strong><br>
+将输出转化为任务要求格式，比如自然语言回答或者一个响应<br>
+converts the output into the response format desired. For example, a textual response or an action</p></li>
+</ul>
+<h3 id="工作流程">工作流程</h3>
+<p>给定输入 <span class="math inline">\(x\)</span>：</p>
+<ol type="1">
+<li>通过 <span class="math inline">\(I(x)\)</span> 将 <span class="math inline">\(x\)</span> 转换为内部特征向量</li>
+<li>使用 <span class="math inline">\(m_i\)</span> 更新 memories：<span class="math inline">\(m_i=G(m_i,I(x),m),\forall i\)</span></li>
+<li>使用输入和 memory 计算输出特征：<span class="math inline">\(o=O(I(x),m)\)</span></li>
+<li>解码 <span class="math inline">\(o\)</span> 获得最终响应：<span class="math inline">\(r=R(o)\)</span></li>
+</ol>
+<p>训练和测试的时候都会进行如上工作流程，输入都会被存进 memory 里，只是在训练时会更新 4 个组件的参数，而测试的时候不会。</p>
+<h2 id="针对文本的-memnn-实现">针对文本的 MemNN 实现</h2>
+<h3 id="基本模型-1">基本模型</h3>
+<p>基本模型里，向 <strong>I</strong> 模块输入句子，获得词嵌入向量。再用 <strong>G</strong> 模块把词嵌入向量存入 memory 的下一个为空 slot 中。这样做的缺点是训练过程中 embedding 参数在改变，所以 memory 里的词嵌入向量会过期，但是在测试过程中直接储存词嵌入向量就比每次输入原始文字然后再对它们重复进行 embedding 操作更有效率。</p>
+<p>模型的核心在 <strong>O</strong> 模块和 <strong>R</strong> 模块。</p>
+<p><strong>O</strong> 模块需要找出 k 个针对输入 x 的 supporting memories。当 <span class="math inline">\(k = 2\)</span> 时：</p>
+<ul>
+<li><span class="math inline">\(k=1\)</span>，先选出得分最高的 supporting memory（最相关）：<span class="math inline">\(o_1=O_1(x, m) = \mathop{\arg\max}\limits_{i=1,...,N}s_O(x,m_i)\)</span></li>
+<li><span class="math inline">\(k=2\)</span>，根据 <span class="math inline">\(o_1\)</span> 选出排第二的 supporting memory：<span class="math inline">\(o_2=O_2(x,m)=\mathop{\arg\max}\limits_{i=1,...,N}s_O([x,m_{o_1}],m_i)\)</span></li>
+<li>最终输出：<span class="math inline">\(o=[x, m_{o_1},m_{o_2}]\)</span></li>
+</ul>
+<p><strong>R</strong> 模块输出文本响应：<span class="math inline">\(r=\arg\max_{w\in W}s_R([x,m_{o_1}m_{o_2}],w)\)</span></p>
+<p>score 函数：<span class="math inline">\(s(x,y)=\Phi_x(x)U^\top U^\top \Phi_y(y)\)</span></p>
+<p>训练使用 margin ranking loss ，即要求正确答案的得分比错误答案的得分高至少一个margin <span class="math inline">\(\gamma\)</span>（<code>这公式后两行的方括号什么情况…</code>）<span class="math display">\[
+\sum_{\bar f \not=m_{o_2}}\max(0,\gamma-s_O(x,m_{o_1})+s_O(x,\bar f))+\\
+\sum_{\bar {f&#39;}\not=m_{o_2}}\max(0,\gamma-s_O([x,m_{o_1}],m_{o_2}])+s_O([x,m_{o_1}],\bar{f&#39;}]))+\\
+\sum_{\bar r\not=r}\max(0,\gamma-s_R([x,m_{o_1},m_{o_2}],r)+s_R([x,m_{o_1},m_{o_2}],\bar r]))
+\]</span> 其中，<span class="math inline">\(r\)</span> 是正确答案， <span class="math inline">\(\bar f\)</span>，<span class="math inline">\(\bar{f&#39;}\)</span> 和 <span class="math inline">\(\bar r\)</span> 都是错误标签（随机从样本中采样出来的）。</p>
+<ul>
+<li>第一行代表有没有正确挑选出得分最高的 supporting memory <span class="math inline">\(m_{o_1}\)</span></li>
+<li>第二行代表正确挑选出了 <span class="math inline">\(m_{o_1}\)</span> 后能不能正确找出 <span class="math inline">\(m_{o_2}\)</span></li>
+<li>第三行代表把正确的 supporting fact 作为输入，能不能挑选出正确的答案输入 <strong>R</strong></li>
+</ul>
+<h3 id="一些扩展">一些扩展</h3>
+<ul>
+<li><strong>使用词序列作为输入</strong><br>
+添加 embedding 模型 segmenter：<span class="math inline">\(seg(c) = W_{seg}^\top U_S\Phi_{seg}(c)\)</span></li>
+<li><strong>使用哈希的高效 memory</strong></li>
+<li><strong>Extend model to take into account when a memory slot was written to</strong>（没太看懂）</li>
+<li><strong>用语言模型处理未知词</strong></li>
+<li><strong>add the “bag of words” matching score to the learned embedding score</strong>（没太看懂）</li>
+</ul>
+<h2 id="读后感">读后感</h2>
+<p>MemNNs 本身只是一个架构，重点在于 I、G、O、R 模块的思想。<br>
+这篇论文的具体实现参考价值不高，MemNNs 本来也是根据后面的一系列研究才具有应用价值的。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MemNNs/" rel="tag"># MemNNs</a>
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
+          
+            <a href="/tags/KBQA/" rel="tag"># KBQA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/vector-bool/" rel="next" title="关于 vector&lt;bool&gt;">
+                <i class="fa fa-chevron-left"></i> 关于 vector&lt;bool&gt;
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Large-scale-Simple-Question-Answering-with-Memory-Networks/" rel="prev" title="《Large-scale Simple Question Answering with Memory Networks》">
+                《Large-scale Simple Question Answering with Memory Networks》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本模型"><span class="nav-number">2.</span> <span class="nav-text">基本模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#个组件"><span class="nav-number">2.1.</span> <span class="nav-text">4个组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程"><span class="nav-number">2.2.</span> <span class="nav-text">工作流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#针对文本的-memnn-实现"><span class="nav-number">3.</span> <span class="nav-text">针对文本的 MemNN 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本模型-1"><span class="nav-number">3.1.</span> <span class="nav-text">基本模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些扩展"><span class="nav-number">3.2.</span> <span class="nav-text">一些扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">4.</span> <span class="nav-text">读后感</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

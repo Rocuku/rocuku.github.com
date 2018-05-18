@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。 比赛简介 Toxic Comment Classification Challenge 这个比赛要求建立一个多分类器，检测不同类型的负面评论">
+<meta name="keywords" content="NLP,Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="比赛总结——Toxic Comment Classification Challenge">
+<meta property="og:url" content="http://yoursite.com/toxic-comment-classification-challenge-summary/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。 比赛简介 Toxic Comment Classification Challenge 这个比赛要求建立一个多分类器，检测不同类型的负面评论">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/toxic-comment-classification-challenge-summary/1521790646996.png">
+<meta property="og:image" content="http://yoursite.com/toxic-comment-classification-challenge-summary/1522379016906.png">
+<meta property="og:image" content="http://yoursite.com/toxic-comment-classification-challenge-summary/1522379243917.png">
+<meta property="og:image" content="http://yoursite.com/toxic-comment-classification-challenge-summary/1522392635747.png">
+<meta property="og:image" content="http://yoursite.com/toxic-comment-classification-challenge-summary/1526198908693.png">
+<meta property="og:updated_time" content="2018-05-13T08:58:18.108Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="比赛总结——Toxic Comment Classification Challenge">
+<meta name="twitter:description" content="算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。 比赛简介 Toxic Comment Classification Challenge 这个比赛要求建立一个多分类器，检测不同类型的负面评论">
+<meta name="twitter:image" content="http://yoursite.com/toxic-comment-classification-challenge-summary/1521790646996.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/toxic-comment-classification-challenge-summary/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>比赛总结——Toxic Comment Classification Challenge | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/toxic-comment-classification-challenge-summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">比赛总结——Toxic Comment Classification Challenge</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-30T15:05:32+08:00">2018-03-30</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/比赛总结/" itemprop="url" rel="index"><span itemprop="name">比赛总结</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/toxic-comment-classification-challenge-summary/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/toxic-comment-classification-challenge-summary/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>算是第 1 次参加 kaggle 比赛，也是第一次参加 NLP 方向的比赛，虽然最后只拿到了前 7% 的成绩，但是收获还是很多的。</p>
+<h2 id="比赛简介">比赛简介</h2>
+<p><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge" target="_blank" rel="noopener">Toxic Comment Classification Challenge</a></p>
+<p>这个比赛要求建立一个多分类器，检测不同类型的负面评论</p>
+<a id="more"></a>
+<p>负面评论分为 6 类：</p>
+<ul>
+<li>toxic</li>
+<li>severe_toxic</li>
+<li>obscene</li>
+<li>threat</li>
+<li>insult</li>
+<li>identity_hate</li>
+</ul>
+<p>这个比赛的数据集来自维基百科的评论页面。<br>
+评估标准是 6 类的 ROC-AUC 的平均值。<br>
+比赛中途才将评估标准换成 ROC-AUC，本来是 Log Loss</p>
+<hr>
+<h2 id="数据分析eda">数据分析（EDA）</h2>
+<p>由于开始做比赛的时候已经比较晚了，讨论串里已经有比较好的 EDA 了。<br>
+训练数据长这样<br>
+<img src="/toxic-comment-classification-challenge-summary/1521790646996.png" alt="Alt text"></p>
+<p><a href="https://www.kaggle.com/jagangupta/stop-the-s-toxic-comments-eda" target="_blank" rel="noopener">讨论[1]</a>里对数据的分布之类的基本信息做了分析，有几个比较重要的信息：</p>
+<ol type="1">
+<li><p>类不平衡（class imbalance）问题，训练数据总数为 159571，非负面评论数量为 143346，6 类标签为 1 的总数量为 35098<br>
+<img src="/toxic-comment-classification-challenge-summary/1522379016906.png" alt="Alt text"></p></li>
+<li><p>这是一个 Multi-tagging 问题<br>
+<img src="/toxic-comment-classification-challenge-summary/1522379243917.png" alt="Alt text"></p></li>
+</ol>
+<hr>
+<h2 id="数据预处理">数据预处理</h2>
+<h3 id="数据增广">数据增广</h3>
+<p><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/48038" target="_blank" rel="noopener">讨论[3]</a>里提供的方法，获奖方案都用了这个方法进行数据增广，可惜我比赛期间没有看到。 方法很简单，就是用基于 Google Translate API 的 TextBlob 库将评论翻译成其他语言（德语/法语/西班牙语之类的），再翻译回英语，获得成倍的训练数据。</p>
+<p>另外还有<a href="https://www.kaggle.com/jpmiller/extending-train-data-with-markov-chains-auc" target="_blank" rel="noopener">讨论[4]</a>里的方法，用基于马尔可夫链的 markovify 库生成句子。这个方法可以针对某个 tag（比如 threat）生成句子。不过讨论作者说这个方法并不能提高 LB 成绩。我猜测是用这个方法生成的句子只增加了数据量而没有增加信息量吧。</p>
+<h3 id="词汇纠错">词汇纠错</h3>
+<p>使用库对拼写错误的单词进行纠错，这类的库有挺多种的。例如 TextBlob。讨论串里也有参赛选手自己写的，参考<a href="https://www.kaggle.com/cpmpml/spell-checker-using-word2vec" target="_blank" rel="noopener">讨论[5]</a></p>
+<h3 id="词纠正">词纠正</h3>
+<p>需要纠正的词有挺多种类的，例如下面 - 把数字 0～9 替换成对应的英文 - 把一些缩写替换成对应的全拼 - 把一些特殊的变体替换成本来的文字</p>
+<hr>
+<h2 id="模型">模型</h2>
+<p>LSTM 与 GRU 互换只需要把 LSTM/GRU 那一层互换就行了。</p>
+<p>embedding 矩阵的话 Word2Vec、fastText 和 GloVe 预训练出来的那几个都试了，最后选的 fastText 预训练的 <em>crawl-300d-2M</em> 和 GloVe 预训练的 <em>GloVe.840B.300d</em> 结合使用。</p>
+<h3 id="bi-gru-conv-pooling">Bi-GRU + Conv + Pooling</h3>
+<p>参考<a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">讨论[8]</a> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    inp = Input(shape = (max_len,))</span><br><span class="line">    x = Embedding(max_features, embed_size, weights = [embedding_matrix], </span><br><span class="line">                    trainable = <span class="keyword">False</span>)(inp)</span><br><span class="line">    x = SpatialDropout1D(<span class="number">0.2</span>)(x)</span><br><span class="line">    x = Bidirectional(GRU(<span class="number">128</span>, return_sequences = <span class="keyword">True</span>))(x)</span><br><span class="line">    x = Conv1D(<span class="number">64</span>, kernel_size = <span class="number">2</span>, padding = <span class="string">"valid"</span>, </span><br><span class="line">                kernel_initializer = <span class="string">"he_uniform"</span>)(x)</span><br><span class="line">    avg_pool = GlobalAveragePooling1D()(x)</span><br><span class="line">    max_pool = GlobalMaxPooling1D()(x)</span><br><span class="line">    x = concatenate([avg_pool, max_pool])</span><br><span class="line">    x = Dense(<span class="number">6</span>, activation = <span class="string">"sigmoid"</span>)(x)</span><br><span class="line">    model = Model(inputs = inp, outputs = x)</span><br><span class="line">    model.compile(loss = <span class="string">"binary_crossentropy"</span>, </span><br><span class="line">                  optimizer = Adam(lr = <span class="number">1e-3</span>, decay = <span class="number">0</span>), metrics = [<span class="string">"accuracy"</span>])</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></p>
+<h3 id="capsule-bi-gru">Capsule + Bi-GRU</h3>
+<p>参考<a href="https://www.kaggle.com/chongjiujjin/capsule-net-with-gru/code" target="_blank" rel="noopener">讨论[9]</a>，Capsule 的 keras 实现也在链接里。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    inp = Input(shape=(maxlen,))</span><br><span class="line">    x = Embedding(max_features,embed_size,input_length=maxlen,</span><br><span class="line">                            weights=[embedding_matrix],trainable=<span class="keyword">False</span>)(inp)</span><br><span class="line">    x = SpatialDropout1D(<span class="number">0.28</span>)(x)</span><br><span class="line">    x = Bidirectional(GRU(<span class="number">128</span>, activation=<span class="string">'relu'</span>, dropout=<span class="number">0.25</span>, </span><br><span class="line">                          recurrent_dropout=<span class="number">0.25</span>, return_sequences=<span class="keyword">True</span>))(x)</span><br><span class="line">    capsule = Capsule(num_capsule=<span class="number">10</span>, dim_capsule=<span class="number">16</span>, routings=<span class="number">5</span>,</span><br><span class="line">                      share_weights=<span class="keyword">True</span>)(x)</span><br><span class="line">    capsule = Flatten()(capsule)</span><br><span class="line">    capsule = Dropout(<span class="number">0.25</span>)(capsule)</span><br><span class="line">    output = Dense(<span class="number">6</span>, activation=<span class="string">'sigmoid'</span>)(capsule)</span><br><span class="line">    model = Model(inputs=input1, outputs=output)</span><br><span class="line">    model.compile(loss=<span class="string">'binary_crossentropy'</span>,optimizer=<span class="string">'adam'</span>,metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">    model.summary()</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></p>
+<h3 id="attention-lstm">Attention + LSTM</h3>
+<p>参考<a href="https://www.kaggle.com/qqgeogor/keras-lstm-attention-glove840b-lb-0-043" target="_blank" rel="noopener">讨论[10]</a> <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def get_model():</span><br><span class="line">    embedding_layer = Embedding(nb_words,MBEDDING_DIM, weights=[embedding_matrix],</span><br><span class="line">                                input_length=MAX_SEQUENCE_LENGTH, trainable=False)</span><br><span class="line">    lstm_layer = LSTM(num_lstm, dropout=<span class="number">0.25</span>, recurrent_dropout=<span class="number">0.25</span>,</span><br><span class="line">                        return_sequences=True)</span><br><span class="line">    inp = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')</span><br><span class="line">    x = embedding_layer(inp)</span><br><span class="line">    x = lstm_layer(x)</span><br><span class="line">    x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">    merged = Attention(MAX_SEQUENCE_LENGTH)(x)</span><br><span class="line">    merged = Dense(256, activation='relu')(merged)</span><br><span class="line">    merged = Dropout(<span class="number">0.25</span>)(merged)</span><br><span class="line">    merged = BatchNormalization()(merged)</span><br><span class="line">    preds = Dense(6, activation='sigmoid')(merged)</span><br><span class="line">    model = Model(inputs=[inp], outputs=preds)</span><br><span class="line">    model.compile(loss='binary_crossentropy', optimizer='rmsprop', </span><br><span class="line">                    metrics=['accuracy'])</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="获奖方案分析">获奖方案分析</h2>
+<h3 id="st方案">1st方案</h3>
+<p>参考<a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557" target="_blank" rel="noopener">讨论[6]</a></p>
+<p><strong>1. Diverse pre-trained embeddings(baseline public LB of 0.9877)</strong><br>
+尝试不同的词嵌入矩阵</p>
+<p><strong>2. Translations as train/test-time augmentation (TTA) (boosted LB from 0.9877 to 0.9880)</strong><br>
+（这个方法3.1的数据增广里有提到）这个简单的TTA让模型提升了极大的效果，比如：</p>
+<ul>
+<li>Vanilla Bi-GRU model: 0.9862LB</li>
+<li>(w/ train-time augments): 0.9867 LB</li>
+<li>(w/ test-time augments): 0.9865 LB</li>
+<li>(w/ both train/test-time augments): 0.9874 LB</li>
+</ul>
+<p><strong>3. Rough-bore pseudo-labelling (PL) (boosted LB from 0.9880 to 0.9885)</strong><br>
+伪标签，半监督学习方案。这个方法就是将强学习器预测出的测试集结果加入训练集中训练，这个方法一般可以使强学习器的效果获得提升。通过这个方法可以改善训练集和测试集分布不一样的情况。 <img src="/toxic-comment-classification-challenge-summary/1522392635747.png" alt="Alt text"></p>
+<p><strong>4. Robust CV + stacking framework (boosted LB from 0.9885 to 0.9890)</strong><br>
+使用了LightGBM作为stacker，使用准确率（accuracy）、对数损失（log loss）和AUC作为CV标准</p>
+<p>此外，还提到了研究过程中的几个发现：</p>
+<ol type="1">
+<li>对模型结构的小改变对最终结果影响很小（增加dropout层、attention机制之类的）</li>
+<li>preprossing对结果的影响也很小</li>
+<li>许多评论最后一句才决定它是负面评论的，所以这个方案的一些模型里专门额外加入评论的最后25～50词进行训练</li>
+<li>评论里词的顺序很关键，顺序不同可能意思截然相反，所以CNN效果普遍没有RNN效果好</li>
+<li>RNN是效果最好的，其他模型几乎都到不了RNN的效果，唯一能到的是Attention Is All You Need，但是训练耗时很长</li>
+<li>Tensorflow在很多方面都优于Keras，比如实现Attention Is All You Need或者一些扩展。不过Keras在快速迭代速度上很有优势</li>
+<li>用不同oof splits混合模型回导致CV过拟合，但不会使Public LB相较于Private LB过拟合</li>
+</ol>
+<p>2nd和3rd的解决方案也差不多，获奖的重点就在于TTA的使用、好的CV、大量的训练、合适的Stacking。</p>
+<h3 id="优秀的single-model">优秀的Single Model</h3>
+<p>参考<a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52644" target="_blank" rel="noopener">讨论[7]</a><br>
+基于RNN的一个标准模型，Keras实现。</p>
+<p><strong>架构</strong></p>
+<ul>
+<li><strong>第一层：</strong> 集联使用fastText和GloVe词嵌入矩阵。Glove里没有的词就用fastText，但是反之不然。最后还是没有对应词向量的词就用’something’的词向量替代。另外还额外添加了一个值，如果所有字母都大写就把值设置为1，反之为0。</li>
+<li><strong>第二层：</strong> SpatialDropout1D(0.5)</li>
+<li><strong>第三层：</strong> Bidirectional CuDNN LSTM with a kernel size 40。作者发现LSTM作为第一层比GRU的效果要好</li>
+<li><strong>第四层：</strong> Bidirectional CuDNN GRU with a kernel size 40.</li>
+<li><strong>第五层：</strong> 最终状态、max pooling、average pooling和两个特征“特殊单词率”、“全为大写”的级联。</li>
+<li><strong>第六层：</strong> 输出层</li>
+</ul>
+<p><strong>超参数和Preprocessing</strong></p>
+<ul>
+<li>Batch size: 512. I found that bigger batch size makes results more stable.</li>
+<li>Epochs: 15.</li>
+<li>Sequence length: 900.</li>
+<li>Optimizer: Adam with clipped gradient.</li>
+<li>Preprocessing: <a href="https://pypi.python.org/pypi/Unidecode" target="_blank" rel="noopener">Unidecode library</a> to convert text to ASCII first and after that filtering everything except letters and some punctuation.</li>
+</ul>
+<hr>
+<h2 id="reference">Reference：</h2>
+<ol type="1">
+<li><a href="https://www.kaggle.com/jagangupta/stop-the-s-toxic-comments-eda" target="_blank" rel="noopener">Stop the S@#$ - Toxic Comments EDA | Kaggle</a><br>
+</li>
+<li><a href="https://www.kaggle.com/eikedehling/feature-engineering" target="_blank" rel="noopener">Feature engineering | Kaggle</a><br>
+</li>
+<li><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/48038" target="_blank" rel="noopener">A simple technique for extending dataset</a><br>
+</li>
+<li><a href="https://www.kaggle.com/jpmiller/extending-train-data-with-markov-chains-auc" target="_blank" rel="noopener">Extending Train Data with Markov Chains - AUC</a><br>
+</li>
+<li><a href="https://www.kaggle.com/cpmpml/spell-checker-using-word2vec" target="_blank" rel="noopener">Spell Checker using Word2vec</a><br>
+</li>
+<li><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557" target="_blank" rel="noopener">1st place solution overview</a></li>
+<li><a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52644" target="_blank" rel="noopener">About my 0.9872 single model</a></li>
+<li><a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">Bi-GRU-CNN-Poolings</a></li>
+<li><a href="https://www.kaggle.com/chongjiujjin/capsule-net-with-gru/code" target="_blank" rel="noopener">Capsule net with GRU</a></li>
+<li><a href="https://www.kaggle.com/qqgeogor/keras-lstm-attention-glove840b-lb-0-043" target="_blank" rel="noopener">keras lstm attention glove840b,lb 0.043</a></li>
+</ol>
+<hr>
+<p>最后存了一张特别喜欢的图，出处是 <strong>Rick and Morty</strong> 里递黄油的机器人 <img src="/toxic-comment-classification-challenge-summary/1526198908693.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/Kaggle/" rel="tag"># Kaggle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ensemble-learning/" rel="next" title="学习笔记——集成学习（Ensemble Learning）">
+                <i class="fa fa-chevron-left"></i> 学习笔记——集成学习（Ensemble Learning）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/talkingdata-adtracking-fraud-detection-challenge-summary/" rel="prev" title="比赛总结——TalkingData AdTracking Fraud Detection Challenge">
+                比赛总结——TalkingData AdTracking Fraud Detection Challenge <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#比赛简介"><span class="nav-number">1.</span> <span class="nav-text">比赛简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析eda"><span class="nav-number">2.</span> <span class="nav-text">数据分析（EDA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预处理"><span class="nav-number">3.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据增广"><span class="nav-number">3.1.</span> <span class="nav-text">数据增广</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词汇纠错"><span class="nav-number">3.2.</span> <span class="nav-text">词汇纠错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词纠正"><span class="nav-number">3.3.</span> <span class="nav-text">词纠正</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">4.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bi-gru-conv-pooling"><span class="nav-number">4.1.</span> <span class="nav-text">Bi-GRU + Conv + Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#capsule-bi-gru"><span class="nav-number">4.2.</span> <span class="nav-text">Capsule + Bi-GRU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attention-lstm"><span class="nav-number">4.3.</span> <span class="nav-text">Attention + LSTM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获奖方案分析"><span class="nav-number">5.</span> <span class="nav-text">获奖方案分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#st方案"><span class="nav-number">5.1.</span> <span class="nav-text">1st方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优秀的single-model"><span class="nav-number">5.2.</span> <span class="nav-text">优秀的Single Model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">6.</span> <span class="nav-text">Reference：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

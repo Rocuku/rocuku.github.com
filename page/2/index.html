@@ -324,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/26/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/classifier-evaluation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -343,7 +343,190 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/26/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="url">《Dynamic Memory Networks for Visual and Textual Question Answering》</a></h1>
+                <a class="post-title-link" href="/classifier-evaluation/" itemprop="url">学习笔记——分类器性能度量标准</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T17:20:23+08:00">2017-03-08</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/classifier-evaluation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/classifier-evaluation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="混淆矩阵">混淆矩阵</h2>
+<table>
+<thead>
+<tr class="header">
+<th><a href=""></a></th>
+<th>正类</th>
+<th>负类</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>预测为正</td>
+<td>TP（真正）</td>
+<td>FP（假正）</td>
+</tr>
+<tr class="even">
+<td>预测为负</td>
+<td>FN（假负）</td>
+<td>TN（真负）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>TP</strong>（真正）: 将正类预测为正类数</li>
+<li><strong>FP</strong>（假正）: 将负类预测为正类数（误报，Type I error）</li>
+<li><strong>TN</strong>（真负）: 将负类预测为负类数</li>
+<li><strong>FN</strong>（假负）: 将正类预测为负类数（漏报，Type II error）</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/classifier-evaluation/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="url">《Dynamic Memory Networks for Visual and Textual Question Answering》</a></h1>
         
 
         <div class="post-meta">
@@ -391,8 +574,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/26/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/26/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="commentCount"></span>
+                <a href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -436,7 +619,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/26/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/#more" rel="contents">
+            <a class="btn" href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -492,7 +675,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -511,7 +694,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="url">《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》</a></h1>
+                <a class="post-title-link" href="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="url">《Ask Me Anything: Dynamic Memory Networks for Natural Language Processing》</a></h1>
         
 
         <div class="post-meta">
@@ -559,8 +742,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="commentCount"></span>
+                <a href="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -598,7 +781,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/25/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/#more" rel="contents">
+            <a class="btn" href="/Ask-Me-Anything-Dynamic-Memory-Networks-for-Natural-Language-Processing/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -654,7 +837,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -673,7 +856,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" itemprop="url">《Towards AI-Complete Question Answering: A Set of Prerequisite Toy Tasks》</a></h1>
+                <a class="post-title-link" href="/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" itemprop="url">《Towards AI-Complete Question Answering: A Set of Prerequisite Toy Tasks》</a></h1>
         
 
         <div class="post-meta">
@@ -721,8 +904,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" itemprop="commentCount"></span>
+                <a href="/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -762,7 +945,7 @@
 <strong>source：</strong><a href="https://github.com/facebook/bAbI-tasks" target="_blank" rel="noopener">bAbI-tasks</a></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/22/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/#more" rel="contents">
+            <a class="btn" href="/Towards-AI-Complete-Question-Answering-A-Set-of-Prerequisite-Toy-Tasks/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -818,7 +1001,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Key-Value-Memory-Networks-for-Directly-Reading-Documents/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -837,7 +1020,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/" itemprop="url">《Key-Value Memory Networks for Directly Reading Documents》</a></h1>
+                <a class="post-title-link" href="/Key-Value-Memory-Networks-for-Directly-Reading-Documents/" itemprop="url">《Key-Value Memory Networks for Directly Reading Documents》</a></h1>
         
 
         <div class="post-meta">
@@ -885,8 +1068,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/" itemprop="commentCount"></span>
+                <a href="/Key-Value-Memory-Networks-for-Directly-Reading-Documents/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Key-Value-Memory-Networks-for-Directly-Reading-Documents/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -925,7 +1108,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/20/Key-Value-Memory-Networks-for-Directly-Reading-Documents/#more" rel="contents">
+            <a class="btn" href="/Key-Value-Memory-Networks-for-Directly-Reading-Documents/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -981,7 +1164,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/15/End-To-End-Memory-Networks/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/End-To-End-Memory-Networks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -1000,7 +1183,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/15/End-To-End-Memory-Networks/" itemprop="url">《End-To-End Memory Networks》</a></h1>
+                <a class="post-title-link" href="/End-To-End-Memory-Networks/" itemprop="url">《End-To-End Memory Networks》</a></h1>
         
 
         <div class="post-meta">
@@ -1048,8 +1231,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/02/15/End-To-End-Memory-Networks/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/02/15/End-To-End-Memory-Networks/" itemprop="commentCount"></span>
+                <a href="/End-To-End-Memory-Networks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/End-To-End-Memory-Networks/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1091,7 +1274,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/15/End-To-End-Memory-Networks/#more" rel="contents">
+            <a class="btn" href="/End-To-End-Memory-Networks/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1147,7 +1330,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Large-scale-Simple-Question-Answering-with-Memory-Networks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -1166,7 +1349,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/" itemprop="url">《Large-scale Simple Question Answering with Memory Networks》</a></h1>
+                <a class="post-title-link" href="/Large-scale-Simple-Question-Answering-with-Memory-Networks/" itemprop="url">《Large-scale Simple Question Answering with Memory Networks》</a></h1>
         
 
         <div class="post-meta">
@@ -1214,8 +1397,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/" itemprop="commentCount"></span>
+                <a href="/Large-scale-Simple-Question-Answering-with-Memory-Networks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Large-scale-Simple-Question-Answering-with-Memory-Networks/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1254,7 +1437,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/01/11/Large-scale-Simple-Question-Answering-with-Memory-Networks/#more" rel="contents">
+            <a class="btn" href="/Large-scale-Simple-Question-Answering-with-Memory-Networks/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1310,7 +1493,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/05/memory-networks/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/memory-networks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -1329,7 +1512,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/05/memory-networks/" itemprop="url">《Memory Networks》</a></h1>
+                <a class="post-title-link" href="/memory-networks/" itemprop="url">《Memory Networks》</a></h1>
         
 
         <div class="post-meta">
@@ -1377,8 +1560,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/05/memory-networks/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2017/01/05/memory-networks/" itemprop="commentCount"></span>
+                <a href="/memory-networks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/memory-networks/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1418,7 +1601,7 @@
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/01/05/memory-networks/#more" rel="contents">
+            <a class="btn" href="/memory-networks/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1474,7 +1657,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/08/vector-bool/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/vector-bool/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -1493,7 +1676,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/08/08/vector-bool/" itemprop="url">关于 vector&lt;bool&gt;</a></h1>
+                <a class="post-title-link" href="/vector-bool/" itemprop="url">关于 vector&lt;bool&gt;</a></h1>
         
 
         <div class="post-meta">
@@ -1541,8 +1724,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/08/08/vector-bool/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2016/08/08/vector-bool/" itemprop="commentCount"></span>
+                <a href="/vector-bool/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/vector-bool/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1574,7 +1757,7 @@
           <p><strong>结论：尽量避免使用<code>vector&lt;bool&gt;</code>，可以用<code>deque</code>和<code>bitset</code>替代</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/08/08/vector-bool/#more" rel="contents">
+            <a class="btn" href="/vector-bool/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1662,7 +1845,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1990,6 +2173,8 @@
     
       
         
+      
+    
       
     
       
