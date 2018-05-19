@@ -99,23 +99,25 @@
 
 
 
-  <meta name="description" content="I know nothing except the fact of my ignorance">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ro&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/tags/DMN/index.html">
+  <meta name="description" content="BOW Bag-of-Words（BOW），又叫词袋模型，用于文档特征表示。 BOW 忽略文本的语法和语序，用一组无序的单词来表示这段文本。即 BOW 不会保留单词在句子里的顺序/位置信息。">
+<meta name="keywords" content="NLP,学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记——BOW、TF-IDF 与 VSM">
+<meta property="og:url" content="http://yoursite.com/bow-tfidf-vsm/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="I know nothing except the fact of my ignorance">
+<meta property="og:description" content="BOW Bag-of-Words（BOW），又叫词袋模型，用于文档特征表示。 BOW 忽略文本的语法和语序，用一组无序的单词来表示这段文本。即 BOW 不会保留单词在句子里的顺序/位置信息。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-19T01:14:40.954Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ro&#39;s blog">
-<meta name="twitter:description" content="I know nothing except the fact of my ignorance">
+<meta name="twitter:title" content="学习笔记——BOW、TF-IDF 与 VSM">
+<meta name="twitter:description" content="BOW Bag-of-Words（BOW），又叫词袋模型，用于文档特征表示。 BOW 忽略文本的语法和语序，用一组无序的单词来表示这段文本。即 BOW 不会保留单词在句子里的顺序/位置信息。">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/DMN/"/>
+  <link rel="canonical" href="http://yoursite.com/bow-tfidf-vsm/"/>
 
 
 
@@ -125,7 +127,7 @@
   };
 </script>
 
-  <title>Tag: DMN+ | ro's blog</title>
+  <title>学习笔记——BOW、TF-IDF 与 VSM | ro's blog</title>
   
 
 
@@ -172,7 +174,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -307,86 +309,233 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>DMN+<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/bow-tfidf-vsm/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/memory-networks-summary/" itemprop="url">
-              
-                <span itemprop="name">学习笔记——Memory Networks 相关论文总结</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">学习笔记——BOW、TF-IDF 与 VSM</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-18T10:50:20+08:00"
-              content="2018-04-18" >
-          04-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-18T17:15:18+08:00">2017-05-18</time>
+            
 
-    </header>
-  </article>
+            
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/bow-tfidf-vsm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/bow-tfidf-vsm/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="url">
-              
-                <span itemprop="name">《Dynamic Memory Networks for Visual and Textual Question Answering》</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-26T15:18:11+08:00"
-              content="2017-02-26" >
-          02-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <h2 id="bow">BOW</h2>
+<p>Bag-of-Words（BOW），又叫词袋模型，用于文档特征表示。</p>
+<p>BOW 忽略文本的语法和语序，用一组无序的单词来表示这段文本。即 BOW 不会保留单词在句子里的顺序/位置信息。</p>
+<a id="more"></a>
+<h3 id="示例">示例</h3>
+<p>来自维基百科的例子</p>
+<p>两个文档： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(1) John likes to watch movies. Mary likes movies too.</span><br><span class="line">(2) John also likes to watch football games.</span><br></pre></td></tr></table></figure></p>
+<p>根据这两个文档，可以构建出词典： <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &quot;John&quot;,</span><br><span class="line">    &quot;likes&quot;,</span><br><span class="line">    &quot;to&quot;,</span><br><span class="line">    &quot;watch&quot;,</span><br><span class="line">    &quot;movies&quot;,</span><br><span class="line">    &quot;also&quot;,</span><br><span class="line">    &quot;football&quot;,</span><br><span class="line">    &quot;games&quot;,</span><br><span class="line">    &quot;Mary&quot;,</span><br><span class="line">    &quot;too&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>词典里有 10 个不同的词，所以可以将两个文档映射为 10 维的向量 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(1) [1, 2, 1, 1, 2, 0, 0, 0, 1, 1] </span><br><span class="line">(2) [1, 1, 1, 1, 0, 1, 1, 1, 0, 0]</span><br></pre></td></tr></table></figure></p>
+<p>每個向量的索引对应到词典中单词的出现次数。</p>
+<h2 id="tf-idf">TF-IDF</h2>
+<p>TF-IDF（term frequency–inverse document frequency）是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率成反比下降。</p>
+<h3 id="词频term-frequencytf">词频（term frequency，tf）</h3>
+<p><span class="math display">\[tf_{i,j}=\frac{n_{i,j}}{\sum_kn_{k,j}}\]</span> 其中，<span class="math inline">\(n_{i,j}\)</span> 是词 <span class="math inline">\(t_i\)</span> 在文档 $d_j $ 中出现的次数，分母代表该词在所有文档中出现的次数和</p>
+<h3 id="逆向文件频率inverse-document-frequencyidf">逆向文件频率（inverse document frequency，idf）</h3>
+<p><span class="math display">\[idf_i=\log\frac{|D|}{|\{j:t_i \in d_j\}|}\]</span> 其中，<span class="math inline">\(|D|\)</span> 为语料库里文档的总数，<span class="math inline">\(|\{j:t_i \in d_j\}|\)</span> 为包含词 <span class="math inline">\(t_i\)</span> 的文档数目</p>
+<h3 id="tf-idf-1">TF-IDF</h3>
+<p><span class="math display">\[tfidf_{i,j}=tf_{i,j}\times idf_i\]</span></p>
+<h2 id="vsm">VSM</h2>
+<p>Vector Space Model（VSM），即向量空间模型，使用一个向量表示一个文本。</p>
+<p>在 QA 问题里也经常用到，例如</p>
+<ul>
+<li>文档 / KB / memory 用向量 <span class="math inline">\(d_j=(w_{1,j},...,w_{t,j})\)</span> 表示</li>
+<li>查询 / 问题用 <span class="math inline">\(q_j=(w_{1,q},...,w_{t,q})\)</span> 表示</li>
+</ul>
+<p>每一维都代表一个词。如果某个词出现在了文档中，那它在向量中的值就非零。有几种常见方法计算这个值：</p>
+<ul>
+<li>0 / 1（0 代表这个词没有出现，1 代表这个词出现了）</li>
+<li>词频（见上面 tf 部分）</li>
+<li>TF-IDF（见上面 TF-IDF 部分）</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<ol type="1">
+<li><a href="https://zhuanlan.zhihu.com/p/29933242" target="_blank" rel="noopener">Bag-of-words模型入门</a></li>
+<li><a href="https://zh.wikipedia.org/zh/%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">维基百科：词袋模型</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Tf-idf" target="_blank" rel="noopener">维基百科：tf-idf</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F%E7%A9%BA%E9%96%93%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">维基百科：向量空间模型</a></li>
+</ol>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/decision-tree/" rel="next" title="学习笔记——决策树（Decision Tree）">
+                <i class="fa fa-chevron-left"></i> 学习笔记——决策树（Decision Tree）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/word-embedding-summary/" rel="prev" title="学习笔记——词嵌入（Word Embedding）">
+                学习笔记——词嵌入（Word Embedding） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -407,8 +556,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -539,6 +697,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#bow"><span class="nav-number">1.</span> <span class="nav-text">BOW</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">1.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tf-idf"><span class="nav-number">2.</span> <span class="nav-text">TF-IDF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#词频term-frequencytf"><span class="nav-number">2.1.</span> <span class="nav-text">词频（term frequency，tf）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逆向文件频率inverse-document-frequencyidf"><span class="nav-number">2.2.</span> <span class="nav-text">逆向文件频率（inverse document frequency，idf）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tf-idf-1"><span class="nav-number">2.3.</span> <span class="nav-text">TF-IDF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vsm"><span class="nav-number">3.</span> <span class="nav-text">VSM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -672,6 +846,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
 
   
 
