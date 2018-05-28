@@ -107,7 +107,7 @@
 <meta property="og:site_name" content="ro&#39;s blog">
 <meta property="og:description" content="结论：我的脑子坏掉了orz">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-24T09:19:55.007Z">
+<meta property="og:updated_time" content="2018-05-28T05:37:53.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 Keras 的 Embedding Initializer">
 <meta name="twitter:description" content="结论：我的脑子坏掉了orz">
@@ -433,6 +433,15 @@
 <p>把<code>input = [1, 1, 2, 0, 3]</code> one-hot 展开一下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <p>然后上面那个例子里的 Embedding 矩阵是这样： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], </span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], </span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <p>这两个矩阵乘一下不是全是 1 是什么orz</p>
+<p>当然实际上 Embedding 层在实现的时候不是通过矩阵乘法，而是通过<code>K.gather()</code> 来实现的 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">call</span><span class="params">(self, inputs)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> K.dtype(inputs) != <span class="string">'int32'</span>:</span><br><span class="line">        inputs = K.cast(inputs, <span class="string">'int32'</span>)</span><br><span class="line">    out = K.gather(self.embeddings, inputs)</span><br><span class="line">    <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure></p>
+<p>然后<code>K.gather()</code>在文档中的定义为</p>
+<blockquote>
+<p>Retrieves the elements of indices <code>indices</code> in the tensor <code>reference</code>.</p>
+</blockquote>
+<p>源码中对应到 tensorflow 的 <code>tf.nn.embedding_lookup(reference, indices)</code>，theano 和 CNTK 的实现要更复杂一点，就不贴了。</p>
+<p>反正完成的功能就是在给定张量中检索给定下标的向量。</p>
+<p>所以也就知道 Embedding 类不是通过将 input 转换为 one-hot 向量之后再进行向量乘法来获得输出的，而是直接检索 input 的每个值对应到 Embedding 矩阵中的向量。这也符合之前在看 Embedding 实现原理的时候提到的，向量乘法运算量太大了（矩阵很大），通过检索的方法更有效率。</p>
+<p>所以 Embedding 权重矩阵全为 1 的时候，无论查到哪一列向量不都全是 1 嘛……</p>
 
       
     </div>
@@ -550,7 +559,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

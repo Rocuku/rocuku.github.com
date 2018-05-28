@@ -99,27 +99,25 @@
 
 
 
-  <meta name="description" content="arxiv Facebook AI 2015.03 本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。 其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End Memory Networks（MemN2N）来解决这个问题。">
-<meta name="keywords" content="KBQA,论文阅读,MemNNs,MemN2N">
+  <meta name="description" content="结论：get_weights() 放到模型里不会随迭代更新">
+<meta name="keywords" content="豆知识,Keras">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《End-To-End Memory Networks》">
-<meta property="og:url" content="http://yoursite.com/End-To-End-Memory-Networks/index.html">
+<meta property="og:title" content="Keras get_weights() 的错误用法">
+<meta property="og:url" content="http://yoursite.com/keras-get-weights/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="arxiv Facebook AI 2015.03 本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。 其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End Memory Networks（MemN2N）来解决这个问题。">
+<meta property="og:description" content="结论：get_weights() 放到模型里不会随迭代更新">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/End-To-End-Memory-Networks/1526258584285.png">
-<meta property="og:updated_time" content="2018-05-14T06:29:13.993Z">
+<meta property="og:updated_time" content="2018-05-27T10:41:39.399Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《End-To-End Memory Networks》">
-<meta name="twitter:description" content="arxiv Facebook AI 2015.03 本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。 其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End Memory Networks（MemN2N）来解决这个问题。">
-<meta name="twitter:image" content="http://yoursite.com/End-To-End-Memory-Networks/1526258584285.png">
+<meta name="twitter:title" content="Keras get_weights() 的错误用法">
+<meta name="twitter:description" content="结论：get_weights() 放到模型里不会随迭代更新">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/End-To-End-Memory-Networks/"/>
+  <link rel="canonical" href="http://yoursite.com/keras-get-weights/"/>
 
 
 
@@ -129,7 +127,7 @@
   };
 </script>
 
-  <title>《End-To-End Memory Networks》 | ro's blog</title>
+  <title>Keras get_weights() 的错误用法 | ro's blog</title>
   
 
 
@@ -327,7 +325,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/End-To-End-Memory-Networks/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/keras-get-weights/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -344,7 +342,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《End-To-End Memory Networks》</h1>
+          <h1 class="post-title" itemprop="name headline">Keras get_weights() 的错误用法</h1>
         
 
         <div class="post-meta">
@@ -356,7 +354,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-15T14:03:15+08:00">2017-02-15</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-12T08:27:26+08:00">2018-05-12</time>
             
 
             
@@ -377,7 +375,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/豆知识/" itemprop="url" rel="index"><span itemprop="name">豆知识</span></a></span>
 
                 
                 
@@ -392,8 +390,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/End-To-End-Memory-Networks/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/End-To-End-Memory-Networks/" itemprop="commentCount"></span>
+                <a href="/keras-get-weights/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/keras-get-weights/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -421,68 +419,11 @@
       
 
       
-        <p><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">arxiv</a><br>
-<strong>Facebook AI</strong><br>
-2015.03</p>
-<p>本文主要是为了解决之前提出的《Memory Networks》存在的问题：Memory Networks 训练中难以进行反向传播的计算，且网络的每一层均需要 supervision。</p>
-<p>其实这缺陷就是因为 Memory Networks 不是端到端的，因此本文提出 End-to-End Memory Networks（MemN2N）来解决这个问题。</p>
-<p>本文框架来源于 Memory Networks ，又可以看作是具有多步计算的 RNNsearch</p>
-<p>实现：<a href="https://github.com/carpedm20/MemN2N-tensorflow" target="_blank" rel="noopener">MemN2N-tensorflow</a></p>
-<h2 id="主要工作">主要工作</h2>
-<ul>
-<li>提出 end-to-end memory networks 架构</li>
-</ul>
+        <p><strong>结论：get_weights() 放到模型里不会随迭代更新</strong></p>
 <a id="more"></a>
-<h2 id="模型">模型</h2>
-<p><strong>架构图</strong> <img src="/End-To-End-Memory-Networks/1526258584285.png" alt="Alt text"> (a) 为单层模型，(b) 为多层模型</p>
-<p>给定输入 <span class="math inline">\(x_1,...,x_n\)</span>，查询（query）<span class="math inline">\(q\)</span>，模型输出回答 <span class="math inline">\(a\)</span></p>
-<h3 id="单层模型">单层模型</h3>
-<p>参考上图 (a)</p>
-<ul>
-<li><strong>Input memory representation</strong>
-<ul>
-<li>给定输入 <span class="math inline">\(\{x_i\}\)</span>，首先将其 embed 为 <span class="math inline">\(d\)</span> 维的 memory 向量 <span class="math inline">\(\{m_i\}\)</span>，由 embedding 矩阵 <span class="math inline">\(A\)</span> 获得</li>
-<li>给定的查询 <span class="math inline">\(q\)</span> 也 embed 为 <span class="math inline">\(d\)</span> 维获得内部状态（internal state）<span class="math inline">\(u\)</span>，由 embedding 矩阵 <span class="math inline">\(B\)</span> 获得</li>
-<li>在 embedding 空间里计算 <span class="math inline">\(u\)</span> 和 <span class="math inline">\(m_i\)</span> 的相似度（使用softmax计算内积）：<span class="math inline">\(p_i=Softmax(u^Tm_i)\)</span></li>
-</ul></li>
-<li><strong>Output memory representation</strong>
-<ul>
-<li>每个 <span class="math inline">\(x_i\)</span> 有一个相关输出向量 <span class="math inline">\(c_i\)</span>，由 embedding 矩阵 <span class="math inline">\(C\)</span> 获得</li>
-<li>response 向量 <span class="math inline">\(o = \sum\limits_ip_ic_i\)</span></li>
-</ul></li>
-<li><strong>Generating the final prediction</strong>
-<ul>
-<li>预测标签 <span class="math inline">\(\hat a=Softmax(W(o+u))\)</span>，<span class="math inline">\(W\)</span> 为训练参数</li>
-</ul></li>
-</ul>
-<h3 id="多层模型">多层模型</h3>
-<p>参考上图 (b)</p>
-<ul>
-<li>每一层的输入 <span class="math inline">\(u^{k+1}=u^k+o^k\)</span></li>
-<li>每一层的 <span class="math inline">\(m_i\)</span>，<span class="math inline">\(c_i\)</span> 都由 embedding 矩阵 <span class="math inline">\(A^k\)</span>，<span class="math inline">\(C^k\)</span> 获得</li>
-<li>网络最终输出 <span class="math inline">\(\hat a=Softmax(Wu^{K+1})=Softmax(W(o^K+u^K))\)</span></li>
-</ul>
-<p>两种权重取值方法：</p>
-<ol type="1">
-<li><strong>Adjacent</strong>
-<ul>
-<li>每一层的输出 embedding 矩阵是下一层的输入 embedding 矩阵（<span class="math inline">\(A^{k+1}=C^k\)</span>）</li>
-<li>预测矩阵和输出 embedding 矩阵相同（<span class="math inline">\(W^T=C^K\)</span>）</li>
-<li>question 的 embedding 矩阵和第一层的输入 embedding 矩阵相同（<span class="math inline">\(B=A^1\)</span>）</li>
-</ul></li>
-<li><strong>Layer-wise（RNN-like）</strong>
-<ul>
-<li>输入输出 embedding 矩阵每层均相同（<span class="math inline">\(A^1=A^2=...=A^K, C^1=C^2=...=C^K\)</span>）</li>
-<li>应用线性映射 <span class="math inline">\(H\)</span> 获得 <span class="math inline">\(u^{k+1}\)</span>：<span class="math inline">\(u^{k+1} = Hu^k+o^k\)</span></li>
-<li>这种取值方法和传统 RNN 很像（把 <span class="math inline">\(u\)</span> 看成是 hidden state），只是明确规定了在 <span class="math inline">\(K\)</span> 跳过程中保存 outputs 到 memory 里（soft），而不是像 RNN 那样对它们进行采样（sampling），因此就在输出结果前多了几步计算（这段和RNN的不同点没理解到位）</li>
-</ul></li>
-</ol>
-<blockquote>
-<p>Here, unlike a standard RNN, we explicitly condition on the outputs stored in memory during the K hops, and we keep these outputs soft, rather than sampling them. Thus our model makes several computational steps before producing an output meant to be seen by the “outside world”.</p>
-</blockquote>
-<h2 id="读后感">读后感</h2>
-<p>感觉这个应该是加入了 Attention 的思想，就是那个加权平均用到的 <span class="math inline">\(p_i\)</span><br>
-有了这个端到端的架构之后，MemNNs 才有了实用价值</p>
+<p>起因是在构建 MemN2N 模型的时候需要最后一个 Dense 层的权重等于前面 Embedding 层的转置。于是我一拍脑袋就是一通操作 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">answer = Lambda(<span class="keyword">lambda</span> x: np.array(emb_A.get_weights()[<span class="number">0</span>]) * x)(u_temp)</span><br><span class="line">answer = Lambda(<span class="keyword">lambda</span> x: K.sum(x, axis=<span class="number">2</span>))(answer)</span><br></pre></td></tr></table></figure></p>
+<p>然后就出现问题了，发现迭代过程中<code>emb_A.get_weights()</code>不会更新，一直都是初始值，相当于没通过一个不断更新权重的<code>Dense</code>层，而只是每次输出前乘一个常量而已……</p>
+<p>想想还是挺合理的，最后研究了半天也没想出来要怎么把这个 Embedding 层取反，没办法用现有层，只能直接搞个 MemN2N 层里面直接定义权重矩阵运算了……</p>
 
       
     </div>
@@ -503,13 +444,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/KBQA/" rel="tag"># KBQA</a>
+            <a href="/tags/豆知识/" rel="tag"># 豆知识</a>
           
-            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
-          
-            <a href="/tags/MemNNs/" rel="tag"># MemNNs</a>
-          
-            <a href="/tags/MemN2N/" rel="tag"># MemN2N</a>
+            <a href="/tags/Keras/" rel="tag"># Keras</a>
           
         </div>
       
@@ -522,8 +459,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Large-scale-Simple-Question-Answering-with-Memory-Networks/" rel="next" title="《Large-scale Simple Question Answering with Memory Networks》">
-                <i class="fa fa-chevron-left"></i> 《Large-scale Simple Question Answering with Memory Networks》
+              <a href="/talkingdata-adtracking-fraud-detection-challenge-summary/" rel="next" title="比赛总结——TalkingData AdTracking Fraud Detection Challenge">
+                <i class="fa fa-chevron-left"></i> 比赛总结——TalkingData AdTracking Fraud Detection Challenge
               </a>
             
           </div>
@@ -532,8 +469,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Key-Value-Memory-Networks-for-Directly-Reading-Documents/" rel="prev" title="《Key-Value Memory Networks for Directly Reading Documents》">
-                《Key-Value Memory Networks for Directly Reading Documents》 <i class="fa fa-chevron-right"></i>
+              <a href="/keras-valueerror-none-gradient/" rel="prev" title="Keras 报错：An operation has `None` for gradient.">
+                Keras 报错：An operation has `None` for gradient. <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -586,17 +523,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -735,22 +663,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单层模型"><span class="nav-number">2.1.</span> <span class="nav-text">单层模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多层模型"><span class="nav-number">2.2.</span> <span class="nav-text">多层模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">3.</span> <span class="nav-text">读后感</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
