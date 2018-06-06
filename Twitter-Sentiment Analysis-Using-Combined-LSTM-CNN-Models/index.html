@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="翻译一篇 Blog：Twitter Sentiment Analysis Using Combined LSTM-CNN Models 实现源码：github Paper（好像没发表） 其实 LSTM-CNN 的模型结构我在论文《Recurrent Convolutional Neural Networks for Text Classification》（笔记）里已经看到过了，但是论文的 CNN">
+<meta name="keywords" content="RNN,NLP,CNN,翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Twitter Sentiment Analysis Using Combined LSTM-CNN Models">
+<meta property="og:url" content="http://yoursite.com/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="翻译一篇 Blog：Twitter Sentiment Analysis Using Combined LSTM-CNN Models 实现源码：github Paper（好像没发表） 其实 LSTM-CNN 的模型结构我在论文《Recurrent Convolutional Neural Networks for Text Classification》（笔记）里已经看到过了，但是论文的 CNN">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273356825.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273379814.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273994839.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273420865.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273498353.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273455764.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273513412.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273522958.png">
+<meta property="og:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273532433.png">
+<meta property="og:updated_time" content="2018-06-06T08:41:00.092Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Twitter Sentiment Analysis Using Combined LSTM-CNN Models">
+<meta name="twitter:description" content="翻译一篇 Blog：Twitter Sentiment Analysis Using Combined LSTM-CNN Models 实现源码：github Paper（好像没发表） 其实 LSTM-CNN 的模型结构我在论文《Recurrent Convolutional Neural Networks for Text Classification》（笔记）里已经看到过了，但是论文的 CNN">
+<meta name="twitter:image" content="http://yoursite.com/Twitter-Sentiment%20Analysis-Using-Combined-LSTM-CNN-Models/1528273356825.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Twitter Sentiment Analysis Using Combined LSTM-CNN Models | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Twitter Sentiment Analysis Using Combined LSTM-CNN Models</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-23T17:36:57+08:00">2018-02-23</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>翻译一篇 Blog：<a href="http://konukoii.com/blog/2018/02/19/twitter-sentiment-analysis-using-combined-lstm-cnn-models/" target="_blank" rel="noopener">Twitter Sentiment Analysis Using Combined LSTM-CNN Models</a></p>
+<p>实现源码：<a href="https://github.com/pmsosa/CS291K" target="_blank" rel="noopener">github</a></p>
+<p><a href="https://www.academia.edu/35947062/Twitter_Sentiment_Analysis_using_combined_LSTM-CNN_Models" target="_blank" rel="noopener">Paper</a>（好像没发表）</p>
+<p>其实 LSTM-CNN 的模型结构我在论文《Recurrent Convolutional Neural Networks for Text Classification》（<a href="https://rocuku.github.io/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/" target="_blank" rel="noopener">笔记</a>）里已经看到过了，但是论文的 CNN 部分把我搞得有点晕，而这篇 Blog 的描述方式的更浅显，另外还专门比对了一下 LSTM 和 CNN 在模型中的放置顺序问题，结果非常有趣并且很合理。另外就是 Kaggle 的 Toxic 比赛里专门有人<a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">提到</a>这篇 Blog，所以我翻译了一下，方便回看。</p>
+<p><em>以下为翻译部分</em></p>
+<hr>
+<a id="more"></a>
+<h2 id="为什么选择-cnns-和-lstms">为什么选择 CNNs 和 LSTMs</h2>
+<h3 id="cnns">CNNs</h3>
+<p>CNN 最初的出现是为了解决图像相关任务的，它能无视位置因素捕获特定特征。</p>
+<p>举个具体的例子，假设我们用 CNN 来区分汽车和狗的图片，由于 CNN 能够做到无视位置捕捉特征，因此 CNN 学习到汽车有轮子后，无论在图片的哪个位置看到轮子，CNN 都能够激活（轮子）这个特征。</p>
+<p>在我们这个任务中，CNN 能够捕捉到负面短语例如 <em>don’t like</em>，无论这个短语在推文的哪个位置。</p>
+<ul>
+<li>I <strong>don’t like</strong> watching those types of films</li>
+<li>That’s the one thing I really <strong>don’t like</strong>.</li>
+<li>I saw the movie, and I <strong>don’t like</strong> how it ended. <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273356825.png" alt="Alt text"></li>
+</ul>
+<h3 id="lstms">LSTMs</h3>
+<p>LSTM 是一种具有记忆功能的网络，它能够记忆之前输入的内容并依据这些内容进行输出。LSTM 更适用于输入为文本数据的情况，因为一个句子中的每个单词的意义都与其周围的单词有关（前面或后面的单词）。</p>
+<p>在我们这个任务中，LSTM 可以捕捉到推文中变化的情绪。比如，类似 <em>At first I loved it, but then I ended up hating it.</em> 这样的句子，它具有相互矛盾的情感，这通常会导致一般的前馈网络（Feed-Forward network）混乱。但是 LSTM 可以做到让句子末尾的意思比句子开头的意思更为重要。 <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273379814.png" alt="Alt text"></p>
+<h2 id="twitter-数据">Twitter 数据</h2>
+<p>本实验中使用的 Twitter 数据混合使用了两个数据集：</p>
+<ul>
+<li>The University of Michigan Kaggle competition <a href="https://www.kaggle.com/c/si650winter11/data" target="_blank" rel="noopener">dataset</a>.</li>
+<li>The Neik Sanders Twitter Sentiment Analysis <a href="http://sananalytics.com/lab/twitter-sentiment/" target="_blank" rel="noopener">corpus</a>.</li>
+</ul>
+<p>这两个数据集共包含 1,578,627 条标注好的推文。</p>
+<h2 id="cnn-lstm-模型">CNN-LSTM 模型</h2>
+<p>首先我尝试了 CNN-LSTM 模型。首先将 word embedding 输入到初始的卷积层里，然后将其输出通过 max pooling 层获得维度较少的输出并输入到 LSTM 层中。</p>
+<p>这个模型背后的想法是先用卷积层获得局部特征，然后使用 LSTM 层通过局部特征的顺序来获得输入文本的顺序。实际上，这个模型不如我们下面要提出的 LSTM-CNN 模型强大。 <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273994839.png" alt="Alt text"></p>
+<h2 id="lstm-cnn-模型">LSTM-CNN 模型</h2>
+<p>LSTM-CNN 模型首先将 word embedding 输入到一个 LSTM 层里，这里相当于是将原始输入进行了一个编码，它的输出将不光包含当前 token 的信息，也将包含所有前面 token 的信息。然后将 LSTM 层的输出输入到卷积层里，再通过 max pooling 层、全连接层最后输出。 <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273420865.png" alt="Alt text"></p>
+<h2 id="结果">结果</h2>
+<p>实验取 10,000 条推文作为训练集，2,500 条推文作为测试集。训练和测试集中的正负样本数量一致。我们重复测试 5 次取平均值作为结果。</p>
+<p>调参后的参数如下图： <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273498353.png" alt="Alt text"></p>
+<p>最终的结果如下图： <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273455764.png" alt="Alt text"></p>
+<p>CNN-LSTM 模型的准确率比 CNN 模型高 3％，但比 LSTM 模型低 3.2％。同时，LSTM-CNN 模型比 CNN 模型的性能好 8.5％，比 LSTM 模型好 2.7％。</p>
+<p>这些结果似乎表明我们一开始的想法是正确的，通过结合使用 CNN 和 LSTM，我们能够利用 CNN 识别局部特征的能力，以及LSTM 识别文本顺序的能力。只是，模型中卷积层和 LSTM 层的顺序至关重要。</p>
+<p>我们相信模型之间 5.5％ 的准确率差不是巧合。看起来 CNN-LSTM 的初始卷积层丢失了一些文本的顺序/序列信息。因此，如果卷积层的顺序没有给我们提供任何信息，那么 LSTM 层将只起到全连接层的作用。这种模式似乎无法让 LSTM 层起到它该有的作用，事实上，它甚至比常规的 LSTM 模型表现更差。</p>
+<p>另一方面，LSTM-CNN 模型似乎是最好的，因为它的初始 LSTM 层看起来像一个编码器，因此对于输入中的每个 token 都有一个输出 token，其中不仅包含原始 token 的信息，而且还包含之前所有 token 的信息。之后，卷积层将使用具有比原始输入更丰富的信息的数据来寻找局部特征，从而达到更高的准确率。</p>
+<h2 id="进一步观察">进一步观察</h2>
+<p>实验过程中做的一些观察（论文中有更详细的解释）：</p>
+<h3 id="学习率">学习率</h3>
+<p>CNN 和 CNN-LSTM 模型相比于 LSTM 和 LSTM-CNN 模型，需要更多个 epochs 来进行训练，更晚过拟合。 <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273513412.png" alt="Alt text"></p>
+<h3 id="drop-率">Drop 率</h3>
+<p>这个结果不令人意外，在 CNN-LSTM 或 LSTM-CNN 模型的卷积层之后加入 Dropout 层很重要。 <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273522958.png" alt="Alt text"></p>
+<h3 id="预训练-word-embeddings">预训练 word embeddings</h3>
+<p>我尝试使用了预训练 word embeddings，而不是让系统从我们的数据中学习 word embeddings。令人惊讶的是，使用这些预先训练好的GloVe word embeddings 导致了更差的准确率。我想这可能是由于推文中包含很多拼写错误，表情符号，缩写以及其他构建 GloVe word embeddings 时没考虑到的 Twitter 特有的文字。 <img src="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/1528273532433.png" alt="Alt text"></p>
+<h2 id="总结今后的研究方向">总结&amp;今后的研究方向</h2>
+<p>今后的研究中，我可能会尝试使用其他类型的 LSTM（例如 Bi-LSTM）看看这对系统准确率的影响。找找解决推文中的拼写错误和其他不规则词汇的办法也是一个很有趣的方向。我想构建 Twitter 特有的 word embedding 会是一个好办法。最后，找到利用 Twitter 特有的一些功能（转发，喜爱等）进行训练的方法也是一个有趣的方向。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RNN/" rel="tag"># RNN</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/" rel="next" title="Twitter Sentiment Analysis Using Combined LSTM-CNN Models">
+                <i class="fa fa-chevron-left"></i> Twitter Sentiment Analysis Using Combined LSTM-CNN Models
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ensemble-learning/" rel="prev" title="学习笔记——集成学习（Ensemble Learning）">
+                学习笔记——集成学习（Ensemble Learning） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么选择-cnns-和-lstms"><span class="nav-number">1.</span> <span class="nav-text">为什么选择 CNNs 和 LSTMs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cnns"><span class="nav-number">1.1.</span> <span class="nav-text">CNNs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lstms"><span class="nav-number">1.2.</span> <span class="nav-text">LSTMs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#twitter-数据"><span class="nav-number">2.</span> <span class="nav-text">Twitter 数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cnn-lstm-模型"><span class="nav-number">3.</span> <span class="nav-text">CNN-LSTM 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lstm-cnn-模型"><span class="nav-number">4.</span> <span class="nav-text">LSTM-CNN 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">5.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进一步观察"><span class="nav-number">6.</span> <span class="nav-text">进一步观察</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#学习率"><span class="nav-number">6.1.</span> <span class="nav-text">学习率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#drop-率"><span class="nav-number">6.2.</span> <span class="nav-text">Drop 率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预训练-word-embeddings"><span class="nav-number">6.3.</span> <span class="nav-text">预训练 word embeddings</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结今后的研究方向"><span class="nav-number">7.</span> <span class="nav-text">总结&amp;今后的研究方向</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div>「I know nothing except the fact of my ignorance.」</div>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

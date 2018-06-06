@@ -324,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/RNN-CNN-Pooling/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/ensemble-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -343,7 +343,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/RNN-CNN-Pooling/" itemprop="url">学习笔记——RNN、CNN与Pooling在本文分类中的使用</a></h1>
+                <a class="post-title-link" href="/ensemble-learning/" itemprop="url">学习笔记——集成学习（Ensemble Learning）</a></h1>
         
 
         <div class="post-meta">
@@ -355,7 +355,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-20T17:36:57+08:00">2018-02-20</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-27T15:34:56+08:00">2018-03-27</time>
             
 
             
@@ -391,8 +391,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/RNN-CNN-Pooling/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/RNN-CNN-Pooling/" itemprop="commentCount"></span>
+                <a href="/ensemble-learning/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/ensemble-learning/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -421,14 +421,497 @@
 
       
         
-          <p>在 kaggle 的 Toxic 分类比赛里遇到的，文本分类任务中结合使用 RNN、CNN 和 Pooling</p>
-<p>做了一些来源的考察：</p>
+          <h2 id="概述">概述</h2>
+<p>集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。<br>
+集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即 <strong>好而不同</strong>。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/ensemble-learning/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/" itemprop="url">Twitter Sentiment Analysis Using Combined LSTM-CNN Models</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-23T17:36:57+08:00">2018-02-23</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>翻译一篇 Blog：<a href="http://konukoii.com/blog/2018/02/19/twitter-sentiment-analysis-using-combined-lstm-cnn-models/" target="_blank" rel="noopener">Twitter Sentiment Analysis Using Combined LSTM-CNN Models</a></p>
+<p>实现源码：<a href="https://github.com/pmsosa/CS291K" target="_blank" rel="noopener">github</a></p>
+<p><a href="https://www.academia.edu/35947062/Twitter_Sentiment_Analysis_using_combined_LSTM-CNN_Models" target="_blank" rel="noopener">Paper</a>（好像没发表）</p>
+<p>其实 LSTM-CNN 的模型结构我在论文《Recurrent Convolutional Neural Networks for Text Classification》（<a href="https://rocuku.github.io/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/" target="_blank" rel="noopener">笔记</a>）里已经看到过了，但是论文的 CNN 部分把我搞得有点晕，而这篇 Blog 的描述方式的更浅显，另外还专门比对了一下 LSTM 和 CNN 在模型中的放置顺序问题，结果非常有趣并且很合理。另外就是 Kaggle 的 Toxic 比赛里专门有人<a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">提到</a>这篇 Blog，所以我翻译了一下，方便回看。</p>
+<p><em>以下为翻译部分</em></p>
+<hr>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/Twitter-Sentiment Analysis-Using-Combined-LSTM-CNN-Models/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/" itemprop="url">Twitter Sentiment Analysis Using Combined LSTM-CNN Models</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-23T17:36:57+08:00">2018-02-23</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>翻译一篇 Blog：<a href="http://konukoii.com/blog/2018/02/19/twitter-sentiment-analysis-using-combined-lstm-cnn-models/" target="_blank" rel="noopener">Twitter Sentiment Analysis Using Combined LSTM-CNN Models</a></p>
+<p>实现源码：<a href="https://github.com/pmsosa/CS291K" target="_blank" rel="noopener">github</a></p>
+<p><a href="https://www.academia.edu/35947062/Twitter_Sentiment_Analysis_using_combined_LSTM-CNN_Models" target="_blank" rel="noopener">Paper</a>（好像没发表）</p>
+<p>其实 LSTM-CNN 的模型结构我在论文《Recurrent Convolutional Neural Networks for Text Classification》（<a href="https://rocuku.github.io/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/" target="_blank" rel="noopener">笔记</a>）里已经看到过了，但是论文的 CNN 部分把我搞得有点晕，而这篇 Blog 的描述方式的更浅显，另外还专门比对了一下 LSTM 和 CNN 在模型中的放置顺序问题，结果非常有趣并且很合理。另外就是 Kaggle 的 Toxic 比赛里专门有人<a href="https://www.kaggle.com/konohayui/bi-gru-cnn-poolings/code" target="_blank" rel="noopener">提到</a>这篇 Blog，所以我翻译了一下，方便回看。</p>
+<p><em>以下为翻译部分</em></p>
+<hr>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/" itemprop="url">《Recurrent Convolutional Neural Networks for Text Classification》</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-19T17:36:57+08:00">2018-02-19</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI15/paper/download/9745/9552" target="_blank" rel="noopener">AAAI</a><br>
+<strong>Institute of Automation, Chinese Academy of Sciences, China</strong><br>
+2015.01</p>
+<p><strong>keras 实现：</strong><a href="https://github.com/airalcorn2/Recurrent-Convolutional-Neural-Network-Text-Classifier" target="_blank" rel="noopener">Github</a></p>
+<h2 id="主要工作">主要工作</h2>
 <ul>
-<li>Recurrent Convolutional Neural Networks for Text Classification</li>
+<li>提出 recurrent convolutional neural networks（RCNN），不需要像传统文本分类那样人工进行特征工程</li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/RNN-CNN-Pooling/#more" rel="contents">
+            <a class="btn" href="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1058,18 +1541,24 @@
 
       
         
-          
-            <p><a href="https://arxiv.org/abs/1604.00727" target="_blank" rel="noopener">arxiv</a><br>
+          <p><a href="https://arxiv.org/abs/1604.00727" target="_blank" rel="noopener">arxiv</a><br>
 <strong>University of Washington、Microsoft Research</strong><br>
 2016.04</p>
-<p>这篇文章会重点拿来看是因为它在 github 上有开源实现（<a href="https://github.com/davidgolub/SimpleQA" target="_blank" rel="noopener">SimpleQA</a>），虽然是 lua 的……</p>
+<p>这篇文章在 github 上有开源实现（<a href="https://github.com/davidgolub/SimpleQA" target="_blank" rel="noopener">SimpleQA</a>），虽然是 lua 的</p>
 <h2 id="主要工作">主要工作</h2>
+<p>使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果。</p>
 <ul>
-<li>使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果，能从更少数据进行训练</li>
+<li>使用 LSTM 对 question 进行 embed，来解决一个 question 有多种表达方式的问题</li>
+<li>完全使用 character-level 的表征，来解决许多训练的时候没有出现的 KB entity 需要在测试的时候正确预测的问题（对 unseen KB 鲁棒）</li>
+<li>放弃大规模的输出层，改为由 question embedding 和 KB embedding 之间的语义相似度决定输出，来解决 KB 过于庞大导致预测难度很大的问题</li>
 </ul>
-<p>3个问题： 1. 一个问题有多种表达方式 2. 许多训练的时候没有出现的实体需要在测试的时候正确预测 3. KB 中包含的实体数量太多了，导致这个数量级下的实体预测很难实现</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/Character-Level-Question-Answering-with-Attention/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1429,519 +1918,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/decision-tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rocuku">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ro's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/decision-tree/" itemprop="url">学习笔记——决策树（Decision Tree）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-20T15:31:34+08:00">2017-03-20</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/decision-tree/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/decision-tree/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="基本算法">基本算法</h2>
-<p>以递归的形式生成一个树 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输入训练集D和属性集A</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">TreeGenerate</span><span class="params">(D, A)</span>:</span></span><br><span class="line">	node = generate_node() <span class="comment">#生成节点</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> D.all() <span class="keyword">in</span> types[C]: <span class="comment">#如果D中所有节点都属于类别C</span></span><br><span class="line">		node.type = (<span class="string">'leaf'</span>, C) <span class="comment">#将node标记为C类叶节点</span></span><br><span class="line">			</span><br><span class="line">	<span class="keyword">if</span> A.empty() <span class="keyword">or</span> D.all().A.same(): <span class="comment">#如果A为空集或者D中样本在A上取值相同</span></span><br><span class="line">		C = D.type.most()  <span class="comment">#类别C为D中样本数最多的类别</span></span><br><span class="line">		node.type = (<span class="string">'leaf'</span>, C) <span class="comment">#将node标记为C类叶节点</span></span><br><span class="line"></span><br><span class="line">	a = best_divide(A) <span class="comment">#从A中选择出最优划分属性a</span></span><br><span class="line">	<span class="keyword">for</span> a_val <span class="keyword">in</span> a: <span class="comment">#遍历最优划分a的所有值</span></span><br><span class="line">		d = D.find(a.val = a_val) <span class="comment">#找到D中所有属性a的值等于a_val的样本</span></span><br><span class="line">		<span class="keyword">if</span> d.empty():</span><br><span class="line">			child = generate_node(father = node) <span class="comment">#生成node的分支节点</span></span><br><span class="line">			C = D.type.most() <span class="comment">#类别C为D中样本数最多的类别</span></span><br><span class="line">			child.type = (<span class="string">'leaf'</span>, C) <span class="comment">#将child标记为C类叶节点</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			child = TreeGenerate(d, A\a) <span class="comment">#递归获得child</span></span><br><span class="line">			child.father = node	 <span class="comment">#将child作为node的分支节点</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> node</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/decision-tree/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/classifier-evaluation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rocuku">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ro's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/classifier-evaluation/" itemprop="url">学习笔记——分类器性能度量标准</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T17:20:23+08:00">2017-03-08</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/classifier-evaluation/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/classifier-evaluation/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="混淆矩阵">混淆矩阵</h2>
-<table>
-<thead>
-<tr class="header">
-<th><a href=""></a></th>
-<th>正类</th>
-<th>负类</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>预测为正</td>
-<td>TP（真正）</td>
-<td>FP（假正）</td>
-</tr>
-<tr class="even">
-<td>预测为负</td>
-<td>FN（假负）</td>
-<td>TN（真负）</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><strong>TP</strong>（真正）: 将正类预测为正类数</li>
-<li><strong>FP</strong>（假正）: 将负类预测为正类数（误报，Type I error）</li>
-<li><strong>TN</strong>（真负）: 将负类预测为负类数</li>
-<li><strong>FN</strong>（假负）: 将正类预测为负类数（漏报，Type II error）</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/classifier-evaluation/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rocuku">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ro's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="url">《Dynamic Memory Networks for Visual and Textual Question Answering》</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-26T15:18:11+08:00">2017-02-26</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://arxiv.org/abs/1603.01417" target="_blank" rel="noopener">arxiv</a><br>
-<strong>Salesforce</strong><br>
-2016.03</p>
-<h2 id="主要工作">主要工作</h2>
-<ul>
-<li>改进 Dynamic Memory Networks（DMN），提出 DMN+ 模型</li>
-<li>DMN+ 模型在 VQA 数据集和 bAbI-10k 数据集（无 supporting fact 监督）上都达到了 state-of-the-art</li>
-</ul>
-<p>DMN 的结果并不好的情况：</p>
-<ul>
-<li>supporting facts 在训练的时候没有被 marked（无监督?）</li>
-<li>实用诸如图片等其他形式的数据</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/Dynamic-Memory-Networks-for-Visual-and-Textual-Question-Answering/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1984,7 +1965,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2068,7 +2049,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">24</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2122,7 +2111,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div>「I know nothing except the fact of my ignorance.」</div>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -99,18 +99,21 @@
 
 
 
-  <meta name="description" content="arxiv University of Washington、Microsoft Research 2016.04 这篇文章会重点拿来看是因为它在 github 上有开源实现（SimpleQA），虽然是 lua 的…… 主要工作  使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果，能从更少数据进行训练">
-<meta name="keywords" content="KBQA,Attention,论文阅读">
+  <meta name="description" content="arxiv University of Washington、Microsoft Research 2016.04 这篇文章在 github 上有开源实现（SimpleQA），虽然是 lua 的 主要工作 使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果。  使用 LSTM 对 question 进行">
+<meta name="keywords" content="论文阅读,KBQA,Attention">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Character-Level Question Answering with Attention》">
 <meta property="og:url" content="http://yoursite.com/Character-Level-Question-Answering-with-Attention/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="arxiv University of Washington、Microsoft Research 2016.04 这篇文章会重点拿来看是因为它在 github 上有开源实现（SimpleQA），虽然是 lua 的…… 主要工作  使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果，能从更少数据进行训练">
+<meta property="og:description" content="arxiv University of Washington、Microsoft Research 2016.04 这篇文章在 github 上有开源实现（SimpleQA），虽然是 lua 的 主要工作 使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果。  使用 LSTM 对 question 进行">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-14T05:28:00.894Z">
+<meta property="og:image" content="http://yoursite.com/Character-Level-Question-Answering-with-Attention/1526276051294.png">
+<meta property="og:image" content="http://yoursite.com/Character-Level-Question-Answering-with-Attention/1528251037723.png">
+<meta property="og:updated_time" content="2018-06-06T02:17:41.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Character-Level Question Answering with Attention》">
-<meta name="twitter:description" content="arxiv University of Washington、Microsoft Research 2016.04 这篇文章会重点拿来看是因为它在 github 上有开源实现（SimpleQA），虽然是 lua 的…… 主要工作  使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果，能从更少数据进行训练">
+<meta name="twitter:description" content="arxiv University of Washington、Microsoft Research 2016.04 这篇文章在 github 上有开源实现（SimpleQA），虽然是 lua 的 主要工作 使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果。  使用 LSTM 对 question 进行">
+<meta name="twitter:image" content="http://yoursite.com/Character-Level-Question-Answering-with-Attention/1526276051294.png">
 
 
 
@@ -422,12 +425,64 @@
         <p><a href="https://arxiv.org/abs/1604.00727" target="_blank" rel="noopener">arxiv</a><br>
 <strong>University of Washington、Microsoft Research</strong><br>
 2016.04</p>
-<p>这篇文章会重点拿来看是因为它在 github 上有开源实现（<a href="https://github.com/davidgolub/SimpleQA" target="_blank" rel="noopener">SimpleQA</a>），虽然是 lua 的……</p>
+<p>这篇文章在 github 上有开源实现（<a href="https://github.com/davidgolub/SimpleQA" target="_blank" rel="noopener">SimpleQA</a>），虽然是 lua 的</p>
 <h2 id="主要工作">主要工作</h2>
+<p>使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果。</p>
 <ul>
-<li>使用 character-level encoder-decoder 框架解决了 3 个问题，得到了超过 word-level NN 模型的效果，能从更少数据进行训练</li>
+<li>使用 LSTM 对 question 进行 embed，来解决一个 question 有多种表达方式的问题</li>
+<li>完全使用 character-level 的表征，来解决许多训练的时候没有出现的 KB entity 需要在测试的时候正确预测的问题（对 unseen KB 鲁棒）</li>
+<li>放弃大规模的输出层，改为由 question embedding 和 KB embedding 之间的语义相似度决定输出，来解决 KB 过于庞大导致预测难度很大的问题</li>
 </ul>
-<p>3个问题： 1. 一个问题有多种表达方式 2. 许多训练的时候没有出现的实体需要在测试的时候正确预测 3. KB 中包含的实体数量太多了，导致这个数量级下的实体预测很难实现</p>
+<a id="more"></a>
+<h2 id="模型">模型</h2>
+<p>这篇文章也是基于 single-relation question 的。</p>
+<p><strong>架构图</strong> <img src="/Character-Level-Question-Answering-with-Attention/1526276051294.png" alt="Alt text"></p>
+<p>模型有3个组件：</p>
+<ul>
+<li><strong>character-level LSTM-based encoder</strong><br>
+用于编码 question<br>
+分为两步：
+<ol type="1">
+<li>获得 question 里每个 character 的 one-hot 向量 <span class="math inline">\(x_1, x_2, ..., x_n\)</span>，保留空格、标点和大小写</li>
+<li>将 <span class="math inline">\(x_1, x_2, ..., x_n\)</span> 从左至右输入一个两层 gated-feedback LSTM 里，每个 timestep 都输出，获得 question 的 embedding 向量 <span class="math inline">\(s_1,s_2,...,s_n\)</span></li>
+</ol></li>
+<li><strong>character-level CNN-based encoder</strong><br>
+用于编码 entity 和 predicate<br>
+<em>使用 CNN 而不是 LSTM 是因为 KB 太大了，用 LSTM 会没效率。entity 和 predicate 的 CNN 网络参数不共享是因为 entity 的和 predicate 的形式差别很大。</em><br>
+分为两步：
+<ol type="1">
+<li>获得 entity 或 predicate 的 one-hot 向量 <span class="math inline">\(x_1, x_2, ..., x_n\)</span></li>
+<li>将 <span class="math inline">\(x_1, x_2, ..., x_n\)</span> 输入一个 temporal CNN（每个 CNN 包含两个卷积层、三个全连接层以及一个 max pooling 层），获得 entity 或 predicate 的 embedding 向量
+<ul>
+<li><span class="math inline">\(f(x_1,...,x_n) = tanh(W_3\times max(tanh(W_2\times conv(tanh(W_1\times conv(x_1,...,x_n))))))\)</span></li>
+<li>其中 <span class="math inline">\(f(x_{1...n})\)</span> 是大小为 N 的 embedding 向量</li>
+</ul></li>
+</ol></li>
+<li><strong>使用 attention 机制和相关性衡量函数（relevance function）的 LSTM-based decoder</strong><br>
+用于获得 (entity, predicate) 对生成 KB query<br>
+分为两个组件：
+<ol type="1">
+<li>基于 attention 的 LSTM-based decoder
+<ul>
+<li><span class="math inline">\(c_i= \sum\limits_{j=1}^n\alpha_{ij}s_j\)</span></li>
+<li><span class="math inline">\(\alpha_{ij}=\frac{\exp(e_{ij})}{\sum_{k=1}^{T_x}exp(e_{ik})}\)</span></li>
+<li><span class="math inline">\(e_{ij}=v_\alpha^\top tanh(W_\alpha h_{i-1}+U_{\alpha}s_j)\)</span></li>
+</ul></li>
+<li>一对语义相关性衡量函数
+<ul>
+<li><span class="math inline">\(P(e_j)=\frac{\exp(\lambda\cos(h_1,e_j))}{\sum_{i=1}^n\exp(\lambda\cos(h_1,e_i))}\)</span></li>
+<li><span class="math inline">\(P(p_k)=\frac{exp(\lambda\cos(h_2,p_k))}{\sum_{i=1}^m\exp(\lambda\cos(h_2,p_i))}\)</span></li>
+</ul></li>
+</ol></li>
+</ul>
+<p>最后使用 <span class="math inline">\((e^*,p^*)=argmax_{e_i,p_j}(P(e_i)*P(p_j))\)</span> 获得可能性最大的 (entity, predicate) 对作为输出。</p>
+<h2 id="在-simplequestions-上的结果">在 SimpleQuestions 上的结果</h2>
+<p><img src="/Character-Level-Question-Answering-with-Attention/1528251037723.png" alt="Alt text"> 里面的MemNN是《Large-scale Simple Question Answering with Memory Networks》里的，就是原始的强监督 MemNN，不是end-to-end 的。</p>
+<p>WQ 是 WebQuestions， SIQ 是 SimpleQuestions，PRP 是 extracted paraphrases from WikiAnswers</p>
+<h2 id="读后感">读后感</h2>
+<p>在 SimpleQuestions 数据集上获得了很不错的结果，网络结构也很清晰，使用 attention 机制解决 KBQA 问题的一个好例子。<br>
+特殊的点是用到了 character-level 的 encoder，能够较好的应对 OOV 问题。使用 CNN 来处理 KB 部分也很有意思。<br>
+感觉挺有实用参考价值的。</p>
 
       
     </div>
@@ -448,11 +503,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
+          
             <a href="/tags/KBQA/" rel="tag"># KBQA</a>
           
             <a href="/tags/Attention/" rel="tag"># Attention</a>
-          
-            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
           
         </div>
       
@@ -554,7 +609,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -638,7 +693,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">24</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -688,7 +751,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-simplequestions-上的结果"><span class="nav-number">3.</span> <span class="nav-text">在 SimpleQuestions 上的结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">4.</span> <span class="nav-text">读后感</span></a></li></ol></div>
             
 
           </div>
@@ -708,7 +771,8 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+        <div>「I know nothing except the fact of my ignorance.」</div>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

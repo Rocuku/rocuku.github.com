@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="AAAI Institute of Automation, Chinese Academy of Sciences, China 2015.01 keras 实现：Github 主要工作  提出 recurrent convolutional neural networks（RCNN），不需要像传统文本分类那样人工进行特征工程">
+<meta name="keywords" content="论文阅读,NLP,RCNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Recurrent Convolutional Neural Networks for Text Classification》">
+<meta property="og:url" content="http://yoursite.com/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="AAAI Institute of Automation, Chinese Academy of Sciences, China 2015.01 keras 实现：Github 主要工作  提出 recurrent convolutional neural networks（RCNN），不需要像传统文本分类那样人工进行特征工程">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/1526193657640.png">
+<meta property="og:updated_time" content="2018-06-06T08:41:02.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Recurrent Convolutional Neural Networks for Text Classification》">
+<meta name="twitter:description" content="AAAI Institute of Automation, Chinese Academy of Sciences, China 2015.01 keras 实现：Github 主要工作  提出 recurrent convolutional neural networks（RCNN），不需要像传统文本分类那样人工进行特征工程">
+<meta name="twitter:image" content="http://yoursite.com/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/1526193657640.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《Recurrent Convolutional Neural Networks for Text Classification》 | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Recurrent Convolutional Neural Networks for Text Classification》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-19T17:36:57+08:00">2018-02-19</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI15/paper/download/9745/9552" target="_blank" rel="noopener">AAAI</a><br>
+<strong>Institute of Automation, Chinese Academy of Sciences, China</strong><br>
+2015.01</p>
+<p><strong>keras 实现：</strong><a href="https://github.com/airalcorn2/Recurrent-Convolutional-Neural-Network-Text-Classifier" target="_blank" rel="noopener">Github</a></p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出 recurrent convolutional neural networks（RCNN），不需要像传统文本分类那样人工进行特征工程</li>
+</ul>
+<a id="more"></a>
+<h2 id="模型">模型</h2>
+<p><strong>RCNN架构</strong> <img src="/Recurrent-Convolutional-Neural-Networks-for-Text-Classification/1526193657640.png" alt="Alt text"></p>
+<h3 id="word-representation-learning">Word Representation Learning</h3>
+<p>使用一个双向 RNN 网络，结合 word 及其 context 来进行 word representation。</p>
+<p>这个双向 RNN 部分输入是 words 序列 <span class="math inline">\(w_1,w_2,...,w_n\)</span>，输出是 <span class="math inline">\(x_1,x_2,....,x_n\)</span>。<span class="math inline">\(x_i\)</span> 中包括 <span class="math inline">\(c_l(w_i)\)</span>、<span class="math inline">\(c_r(w_i)\)</span> 以及 <span class="math inline">\(e(w_i)\)</span>。其中 <span class="math inline">\(e(w_i)\)</span> 是 <span class="math inline">\(w_i\)</span> 的 word embedding。</p>
+<p><span class="math display">\[
+c_l(w_i)=f(W^{(l)}c_l(w_{i-1})+W^{(sl)}e(w_{i-1}))\\
+c_r(w_i)=f(W^{(r)}c_r(w_{i-1})+W^{(sr)}e(w_{i-1}))\\
+x_i=[c_l(w_i);e(w_i);c_r(w_i)]
+\]</span></p>
+<p>然后再由 <span class="math inline">\(x_i\)</span> 进行一个线性变换在通过一个 tanh 激活函数获得 <span class="math inline">\(y_i^{(2)}\)</span></p>
+<p><span class="math display">\[y_i^{(2)}=tanh(W^{(2)}x_i+b^{(2)})\]</span></p>
+<p><span class="math inline">\(y_i^{(2)}\)</span> 是一个潜在语义向量（latent semantic vector），用于决定最能表示 text 的因子</p>
+<h3 id="text-representation-learning">Text Representation Learning</h3>
+<p>CNN 部分用来进行 text representation，前面提到的那些 RNN 部分就是卷积层的本质</p>
+<p>每个 word 的潜在语义向量都计算好之后输入到一个 max pooling 层里得到 <span class="math inline">\(y^{(3)}\)</span> <span class="math display">\[y^{(3)}=\max\limits_{i=1}^ny_i^{(2)}\]</span> 这里之所以用 max pooling 而不用 average pooling 是因为一段 text 里只有小部分 word 对理解文档意思有帮助。</p>
+<p>最后输出层进行线性变化和 softmax： <span class="math display">\[
+y^{(4)}=W^{(4)}y^{(3)}+b^{(4)}\\
+p_i=\frac{exp(y_i^{(4)})}{\sum_{k=1}^n exp(y_k^{(4)})}
+\]</span></p>
+<h2 id="实现">实现</h2>
+<p><a href="https://github.com/airalcorn2/Recurrent-Convolutional-Neural-Network-Text-Classifier" target="_blank" rel="noopener">Github</a> 上的实现，模型部分如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">document = Input(shape = (<span class="keyword">None</span>, ), dtype = <span class="string">"int32"</span>)</span><br><span class="line">left_context = Input(shape = (<span class="keyword">None</span>, ), dtype = <span class="string">"int32"</span>)</span><br><span class="line">right_context = Input(shape = (<span class="keyword">None</span>, ), dtype = <span class="string">"int32"</span>)</span><br><span class="line"></span><br><span class="line">embedder = Embedding(MAX_TOKENS + <span class="number">1</span>, embedding_dim, weights = [embeddings], trainable = <span class="keyword">False</span>)</span><br><span class="line">doc_embedding = embedder(document)</span><br><span class="line">l_embedding = embedder(left_context)</span><br><span class="line">r_embedding = embedder(right_context)</span><br><span class="line"></span><br><span class="line"><span class="comment"># I use LSTM RNNs instead of vanilla RNNs as described in the paper.</span></span><br><span class="line">forward = LSTM(hidden_dim_1, return_sequences = <span class="keyword">True</span>)(l_embedding) <span class="comment"># See equation (1).</span></span><br><span class="line">backward = LSTM(hidden_dim_1, return_sequences = <span class="keyword">True</span>, go_backwards = <span class="keyword">True</span>)(r_embedding) <span class="comment"># See equation (2).</span></span><br><span class="line"><span class="comment"># Keras returns the output sequences in reverse order.</span></span><br><span class="line">backward = Lambda(<span class="keyword">lambda</span> x: backend.reverse(x, axes = <span class="number">1</span>))(backward)</span><br><span class="line">together = concatenate([forward, doc_embedding, backward], axis = <span class="number">2</span>) <span class="comment"># See equation (3).</span></span><br><span class="line"></span><br><span class="line">semantic = Conv1D(hidden_dim_2, kernel_size = <span class="number">1</span>, activation = <span class="string">"tanh"</span>)(together) <span class="comment"># See equation (4).</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Keras provides its own max-pooling layers, but they cannot handle variable length input</span></span><br><span class="line"><span class="comment"># (as far as I can tell). As a result, I define my own max-pooling layer here.</span></span><br><span class="line">pool_rnn = Lambda(<span class="keyword">lambda</span> x: backend.max(x, axis = <span class="number">1</span>), output_shape = (hidden_dim_2, ))(semantic) <span class="comment"># See equation (5).</span></span><br><span class="line"></span><br><span class="line">output = Dense(NUM_CLASSES, input_dim = hidden_dim_2, activation = <span class="string">"softmax"</span>)(pool_rnn) <span class="comment"># See equations (6) and (7).</span></span><br><span class="line"></span><br><span class="line">model = Model(inputs = [document, left_context, right_context], outputs = output)</span><br><span class="line">model.compile(optimizer = <span class="string">"adadelta"</span>, loss = <span class="string">"categorical_crossentropy"</span>, metrics = [<span class="string">"accuracy"</span>])</span><br></pre></td></tr></table></figure></p>
+<p>根据这段源码， <span class="math display">\[y_i^{(2)}=tanh(W^{(2)}x_i+b^{(2)})\]</span> 这个公式可以用</p>
+<p><code>semantic = Conv1D(hidden_dim_2, kernel_size = 1, activation = &quot;tanh&quot;)(together)</code></p>
+<p>来实现。</p>
+<h2 id="读后感">读后感</h2>
+<p>主要是在 Toxic 比赛中看到了有人用这种网络，而且是效果最好的一种，所以看了这篇文章。<br>
+但文章里对 CNN 的描述我还有点没看懂，后来看了源码才理解 <span class="math inline">\(y_i^{(2)}\)</span> 也算是一个移动窗口，好像是卷积的那么个意思……</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/RCNN/" rel="tag"># RCNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/tensor-summary/" rel="next" title="学习笔记——张量（tensor）">
+                <i class="fa fa-chevron-left"></i> 学习笔记——张量（tensor）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Twitter-Sentiment-Analysis-Using-Combined-LSTM-CNN-Models/" rel="prev" title="Twitter Sentiment Analysis Using Combined LSTM-CNN Models">
+                Twitter Sentiment Analysis Using Combined LSTM-CNN Models <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#word-representation-learning"><span class="nav-number">2.1.</span> <span class="nav-text">Word Representation Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-representation-learning"><span class="nav-number">2.2.</span> <span class="nav-text">Text Representation Learning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">4.</span> <span class="nav-text">读后感</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div>「I know nothing except the fact of my ignorance.」</div>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
