@@ -109,7 +109,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/ensemble-learning/1522107491734.png">
 <meta property="og:image" content="http://yoursite.com/ensemble-learning/1522108697859.png">
-<meta property="og:updated_time" content="2018-05-13T06:48:57.111Z">
+<meta property="og:updated_time" content="2018-06-07T01:06:44.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——集成学习（Ensemble Learning）">
 <meta name="twitter:description" content="概述 集成学习（Ensemble learning）通过组合几种模型（学习器）来完成学习任务，也被称为多分类器系统（multi-classifier system）、基于委员会的学习（committee-based learning）等。 集成学习中要求个体学习器的准确率至少不差于弱学习器（弱学习器指泛化性能略优于随机猜测的学习器），并且个体学习器之间要有多样性（diversity）。即 好而不同">
@@ -440,17 +440,17 @@
 <ul>
 <li>平均法，应用于数值型输出</li>
 <li>投票法，应用于分类型输出</li>
-<li>学习法，训练数据很多的时候适用，用另一个学习器来进行结合，比如Stacking和Blending</li>
+<li>学习法，训练数据很多的时候适用，用另一个学习器来进行结合，比如 Stacking 和 Blending</li>
 </ul>
-<p>本文将主要描述Bagging、Boosting、Stacking和Blending的基本概念。</p>
+<p>本文将主要描述 Bagging、Boosting、Stacking 和 Blending 的基本概念。</p>
 <hr>
 <h2 id="baggingbootstrap-aggregating">Bagging（Bootstrap AGGregatING ）</h2>
-<p>Bagging直接基于自主采样法（bootstrap sampling）。<br>
-给定包含m个样本的数据集，我们先随机取出一个样本放入采样集中，再把该样本放回初始数据集，使得下次采样时该样本仍有可能被选中，这样，经过m次随机采样操作，我们得到含m个样本的采样集，初始训练集中有的样本在采样集里多次出现，有的则从未出现，由式<span class="math inline">\(\lim\limits_{m\to \infty} (1-\frac1m)^m\to \frac1e\approx0.368\)</span>可知，初始训练集中约有63.2%的样本出现在采样集中。<br>
-Bagging的基本流程就是采样出T个含有m个训练样本的采样集，然后基于每个采样集训练出一个基学习器，再将这些学习器进行结合（平均/投票）（来源书本：机器学习）</p>
+<p>Bagging 直接基于自主采样法（bootstrap sampling）。<br>
+给定包含 m 个样本的数据集，我们先随机取出一个样本放入采样集中，再把该样本放回初始数据集，使得下次采样时该样本仍有可能被选中，这样，经过 m 次随机采样操作，我们得到含 m 个样本的采样集，初始训练集中有的样本在采样集里多次出现，有的则从未出现，由式 <span class="math inline">\(\lim\limits_{m\to \infty} (1-\frac1m)^m\to \frac1e\approx0.368\)</span> 可知，初始训练集中约有 63.2% 的样本出现在采样集中。<br>
+Bagging 的基本流程就是采样出 T 个含有 m 个训练样本的采样集，然后基于每个采样集训练出一个基学习器，再将这些学习器进行结合（平均/投票）（来源书本：机器学习）</p>
 <h3 id="随机森林random-forest">随机森林（Random Forest）</h3>
-<p>随机森林（Random Forest，简称RF）是bagging的一种扩展变体。RF就是在以决策树为基学习器构建bagging集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。<br>
-具体来说，传统决策树在选择划分属性时是在当前节点的属性集合（假定有<span class="math inline">\(d\)</span>个属性）中选择一个最优属性；而在RF中，对基决策树的每个节点，先从该节点的属性集合中随机选择一个包含<span class="math inline">\(k\)</span>个属性的子集，然后再从这个子集中选择一个最优属性用于划分。这里的参数控制了随机性的引入程度：若令<span class="math inline">\(k = d\)</span>，则基决策树的构建与传统决策树相同；若令<span class="math inline">\(k = 1\)</span>，则是随机选择一个属性用于划分；一般情况下，推荐值 <span class="math inline">\(k = \log_2d\)</span><br>
+<p>随机森林（Random Forest，简称 RF）是 bagging 的一种扩展变体。RF 就是在以决策树为基学习器构建 bagging 集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。<br>
+具体来说，传统决策树在选择划分属性时是在当前节点的属性集合（假定有 <span class="math inline">\(d\)</span> 个属性）中选择一个最优属性；而在 RF 中，对基决策树的每个节点，先从该节点的属性集合中随机选择一个包含 <span class="math inline">\(k\)</span> 个属性的子集，然后再从这个子集中选择一个最优属性用于划分。这里的参数控制了随机性的引入程度：若令 <span class="math inline">\(k = d\)</span>，则基决策树的构建与传统决策树相同；若令 <span class="math inline">\(k = 1\)</span>，则是随机选择一个属性用于划分；一般情况下，推荐值 <span class="math inline">\(k = \log_2d\)</span><br>
 （来源书本：机器学习）</p>
 <p><strong>随机森林的优点</strong></p>
 <ul>
@@ -476,26 +476,26 @@ Boosting设计到的内容比较宽泛，有较多的实现及算法，这里只
 <p><strong>基础算法：</strong>AdaBoost（Adaptive Boosting）、GB（Gradient Boosting）<br>
 <strong>实现：</strong> GBDT（Gradient Boosting Decision Tree）、XGBoost、LightGBM</p>
 <h3 id="adaboost">AdaBoost</h3>
-<p>AdaBoost给每一个样本一个权值，在每一轮训练结束后，提高被前一轮弱学习器错误分类样本的权值，降低被正确分类样本的权值，使得未被正确分类的样本在下一轮中得到更多关注。</p>
-<p>AdaBoost组合弱学习器的时候使用加权多数表决的方法，即使分类误差率小的弱学习器在表决中起较大作用，反之起较小作用。</p>
+<p>AdaBoost 给每一个样本一个权值，在每一轮训练结束后，提高被前一轮弱学习器错误分类样本的权值，降低被正确分类样本的权值，使得未被正确分类的样本在下一轮中得到更多关注。</p>
+<p>AdaBoost 组合弱学习器的时候使用加权多数表决的方法，即使分类误差率小的弱学习器在表决中起较大作用，反之起较小作用。</p>
 <p><strong>算法推导：</strong>（来源书本：统计学习方法）<br>
 输入：</p>
 <ul>
-<li>训练数据集<span class="math inline">\(T=\{(x_1,y_1),(x_2,y_2),...(x_N,y_N)\}\)</span>，其中<span class="math inline">\(x_i\in X\subseteq R^n\)</span>，<span class="math inline">\(y\in Y = \{ -1, +1\}\)</span></li>
+<li>训练数据集 <span class="math inline">\(T=\{(x_1,y_1),(x_2,y_2),...(x_N,y_N)\}\)</span>，其中 <span class="math inline">\(x_i\in X\subseteq R^n\)</span>，<span class="math inline">\(y\in Y = \{ -1, +1\}\)</span></li>
 <li>弱学习算法</li>
 </ul>
 <p>输出：</p>
 <ul>
-<li>最终分类器<span class="math inline">\(G(x)\)</span></li>
+<li>最终分类器 <span class="math inline">\(G(x)\)</span></li>
 </ul>
 <p>步骤：</p>
 <ol type="1">
-<li>初始化训练数据集的权值分布<span class="math inline">\(D_1=(w_{1,1},...,w_{1,i},...,w_{1,N})，w_{1i}=\frac 1N，i=1,2,...,N\)</span></li>
-<li>对于<span class="math inline">\(m=1,2,...,M\)</span>： （a）使用具有权值分布<span class="math inline">\(D_m\)</span>的训练数据集学习，得到基本分类器：<span class="math inline">\(G_m(x):X→\{−1,1\}\)</span> （b）计算<span class="math inline">\(G_m(x)\)</span>在训练数据集上的分类误差率：<span class="math inline">\(e_m=\sum_{i=1}^NP(G_m(x)\not=y_i)=\sum_{i=1}^Nw_{mi}I(G_m(x_i)\not=y_i)\)</span> （c）计算<span class="math inline">\(G_m(x)\)</span>的系数：<span class="math inline">\(\alpha_m=\frac12ln(\frac{1−e_m}{e_m})\)</span><br>
+<li>初始化训练数据集的权值分布 <span class="math inline">\(D_1=(w_{1,1},...,w_{1,i},...,w_{1,N})，w_{1i}=\frac 1N，i=1,2,...,N\)</span></li>
+<li>对于 <span class="math inline">\(m=1,2,...,M\)</span>： （a）使用具有权值分布 <span class="math inline">\(D_m\)</span> 的训练数据集学习，得到基本分类器：<span class="math inline">\(G_m(x):X→\{−1,1\}\)</span> （b）计算 <span class="math inline">\(G_m(x)\)</span> 在训练数据集上的分类误差率：<span class="math inline">\(e_m=\sum_{i=1}^NP(G_m(x)\not=y_i)=\sum_{i=1}^Nw_{mi}I(G_m(x_i)\not=y_i)\)</span> （c）计算 <span class="math inline">\(G_m(x)\)</span> 的系数：<span class="math inline">\(\alpha_m=\frac12ln(\frac{1−e_m}{e_m})\)</span><br>
 （d）更新训练数据集的权值分布 <span class="math display">\[\begin{aligned} 
 D_{m+1}=(w_{m+1,1},...,w_{m+1,i},...,w_{m+1,N})\\
 w_{m+1,i}=\frac {w_{mi}}{Z_{m}}exp(−\alpha_my_iG_m(x_i)),\  i=1,2,...,N
-\end{aligned}\]</span> 这里，<span class="math inline">\(Z_m\)</span>是规范化因子，<span class="math inline">\(Z_m=\sum_{i=1}^{N}w_{mi}exp(−\alpha_my_iG_m(x_i))\)</span>，它使<span class="math inline">\(D_{m+1}\)</span>成为一个概率分布。</li>
+\end{aligned}\]</span> 这里，<span class="math inline">\(Z_m\)</span> 是规范化因子，<span class="math inline">\(Z_m=\sum_{i=1}^{N}w_{mi}exp(−\alpha_my_iG_m(x_i))\)</span>，它使 <span class="math inline">\(D_{m+1}\)</span> 成为一个概率分布。</li>
 <li>构建基本分类器的线性组合： <span class="math display">\[f(x)=\sum_{m=1}^M\alpha_mG_m(x)\]</span><br>
 得到最终分类器： <span class="math display">\[G(x)=sign(f(x))=sign(\sum_{m=1}^M\alpha_mG_m(x))\]</span></li>
 </ol>
@@ -504,37 +504,37 @@ w_{m+1,i}=\frac {w_{mi}}{Z_{m}}exp(−\alpha_my_iG_m(x_i)),\  i=1,2,...,N
 <p><strong>算法推导：</strong>（来源书本：统计学习方法）<br>
 输入：</p>
 <ul>
-<li>训练数据集<span class="math inline">\(T=\{(x_1,y_1),(x_2,y_2),...(x_N,y_N)\}\)</span>，其中<span class="math inline">\(x_i\in X\subseteq R^n\)</span>，<span class="math inline">\(y\in Y = \{ -1, +1\}\)</span></li>
-<li>损失函数<span class="math inline">\(L(y,f(x))\)</span></li>
+<li>训练数据集 <span class="math inline">\(T=\{(x_1,y_1),(x_2,y_2),...(x_N,y_N)\}\)</span>，其中 <span class="math inline">\(x_i\in X\subseteq R^n\)</span>，<span class="math inline">\(y\in Y = \{ -1, +1\}\)</span></li>
+<li>损失函数 <span class="math inline">\(L(y,f(x))\)</span></li>
 </ul>
 <p>输出：</p>
 <ul>
-<li>回归树<span class="math inline">\(\hat f(x)\)</span></li>
+<li>回归树 <span class="math inline">\(\hat f(x)\)</span></li>
 </ul>
 <p>步骤：</p>
 <ol type="1">
 <li>初始化 <span class="math inline">\(f_0(x)=\arg\min\limits_c\sum_{i=1}^NL(y_i,c)\)</span></li>
-<li>对<span class="math inline">\(m=1,2,...,M\)</span>： （a）对<span class="math inline">\(i=1,2,...,N\)</span>，计算<span class="math display">\[r_{mi}=-[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m-1}(x)}\]</span><br>
-（b）对<span class="math inline">\(r_{mi}\)</span>拟合一个回归树，得到第<span class="math inline">\(m\)</span>棵树的叶结点区域<span class="math inline">\(R_{mj}，j=1,2,...,J\)</span><br>
-（c）对<span class="math inline">\(j=1,2,...,J\)</span>，计算<span class="math display">\[c_{mj}=\arg\min\limits_c\sum_{x_i\in R_{mj}}L(y_i,f_{m-1}(x_i)+c)\]</span><br>
-（d）更新<span class="math inline">\(f_m(x)=f_{m-1}(x)+\sum_{j=1}^Jc_{mj}I(x\in R_{mj})\)</span><br>
+<li>对 <span class="math inline">\(m=1,2,...,M\)</span>： （a）对 <span class="math inline">\(i=1,2,...,N\)</span>，计算 <span class="math display">\[r_{mi}=-[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}]_{f(x)=f_{m-1}(x)}\]</span><br>
+（b）对 <span class="math inline">\(r_{mi}\)</span>拟合一个回归树，得到第 <span class="math inline">\(m\)</span> 棵树的叶结点区域 <span class="math inline">\(R_{mj}，j=1,2,...,J\)</span><br>
+（c）对 <span class="math inline">\(j=1,2,...,J\)</span>，计算 <span class="math display">\[c_{mj}=\arg\min\limits_c\sum_{x_i\in R_{mj}}L(y_i,f_{m-1}(x_i)+c)\]</span><br>
+（d）更新 <span class="math inline">\(f_m(x)=f_{m-1}(x)+\sum_{j=1}^Jc_{mj}I(x\in R_{mj})\)</span><br>
 </li>
 <li>得到回归树 <span class="math display">\[\hat f(x)=f_M(x)=\sum_{m=1}^M\sum_{j=1}^Jc_{mj}I(x\in R_{mj}) \]</span></li>
 </ol>
 <h3 id="gbdt">GBDT</h3>
-<p>GBDT（Gradient Boosting Decision Tree），其实就是将GB里的弱学习器选择为决策树，比如CART（Classification And Regression Tree）。 GBDT有一个严重缺陷，就是不能用类似mini-batch的方式来训练，这使得计算压力很大。</p>
+<p>GBDT（Gradient Boosting Decision Tree），其实就是将 GB 里的弱学习器选择为决策树，比如 CART（Classification And Regression Tree）。 GBDT 有一个严重缺陷，就是不能用类似 mini-batch 的方式来训练，这使得计算压力很大。</p>
 <h3 id="xgboostxgb">XGBoost（XGB）</h3>
-<p>XGBoost（eXtreme Gradient Boosting）是Gradient Boosting的一种高效系统实现，其针对GBDT框架，加入了很多改进点。</p>
+<p>XGBoost（eXtreme Gradient Boosting）是 Gradient Boosting 的一种高效系统实现，其针对 GBDT 框架，加入了很多改进点。</p>
 <ul>
 <li>支持并行</li>
 <li>能自动处理缺失值</li>
-<li>在cost函数里加入了正则项</li>
-<li>对cost函数进行了二阶泰勒展开</li>
+<li>在 cost 函数里加入了正则项</li>
+<li>对 cost 函数进行了二阶泰勒展开</li>
 <li>支持线性分类器</li>
 </ul>
 <p>可以看看讨论[5]</p>
 <h3 id="lightgbmlgbm">LightGBM（LGBM）</h3>
-<p>LightGBM比XGBoost快很多。 为了能让 GBDT 高效地用上更多的数据，我们把思路转向了分布式 GBDT， 然后就有了 LightGBM。设计的思路主要是两点，</p>
+<p>LightGBM 比 XGBoost 快很多。 为了能让 GBDT 高效地用上更多的数据，我们把思路转向了分布式 GBDT， 然后就有了 LightGBM。设计的思路主要是两点，</p>
 <ol type="1">
 <li>单个机器在不牺牲速度的情况下，尽可能多地用上更多的数据；</li>
 <li>多机并行的时候，通信的代价尽可能地低，并且在计算上可以做到线性加速。</li>
@@ -542,43 +542,43 @@ w_{m+1,i}=\frac {w_{mi}}{Z_{m}}exp(−\alpha_my_iG_m(x_i)),\  i=1,2,...,N
 <p>基于这两个需求，LightGBM 选择了基于 histogram 的决策树算法。相比于另一个主流的算法 pre-sorted（如 xgboost 中的 exact 算法），histogram 在内存消耗和计算代价上都有不少优势。</p>
 <hr>
 <h2 id="stacking">Stacking</h2>
-<p>Stacking 是一种集成学习技术，通过元分类器或元回归聚合多个分类或回归模型。基础层次模型（level model）基于完整的训练集进行训练，然后元模型基于基础层次模型的输出进行训练。下面两张图能比较好的反应Stacking的流程。</p>
+<p>Stacking 是一种集成学习技术，通过元分类器或元回归聚合多个分类或回归模型。基础层次模型（level model）基于完整的训练集进行训练，然后元模型基于基础层次模型的输出进行训练。下面两张图能比较好的反应 Stacking 的流程。</p>
 <p>图片来源文章[1] <img src="/ensemble-learning/1522107491734.png" alt="Alt text"></p>
 <p>图片来源文章[2] <img src="/ensemble-learning/1522108697859.png" alt="Alt text"></p>
 <p><strong>使用k-fold的原因</strong><br>
-在实现Stacking时，要注意的一点是，避免标签泄漏(Label Leak)。在训练次学习器时，需要上一层学习器对Train Data的测试结果作为特征。如果我们在Train Data上训练，然后在Train Data上预测，就会造成Label Leak。为了避免Label Leak，需要对每个学习器使用K-fold，将K个模型对Valid Set的预测结果拼起来，作为下一层学习器的输入。</p>
+在实现 Stacking 时，要注意的一点是，避免标签泄漏（Label Leak）。在训练次学习器时，需要上一层学习器对 Train Data 的测试结果作为特征。如果我们在 Train Data 上训练，然后在 Train Data 上预测，就会造成 Label Leak。为了避免 Label Leak，需要对每个学习器使用 K-fold，将 K 个模型对 Valid Set 的预测结果拼起来，作为下一层学习器的输入。</p>
 <p><strong>Stacking模型实例</strong><br>
 条件：</p>
 <ol type="1">
-<li>5-flod，2层Stacking，4个Base模型参与，分别为M1，M2，M3，M4</li>
-<li>其中，M1、M2、M3用在第一层，M4用在第二层</li>
-<li>假设train.csv有500行，test.csv有300行</li>
+<li>5-flod，2 层 Stacking，4 个 Base 模型参与，分别为 M1，M2，M3，M4</li>
+<li>其中，M1、M2、M3 用在第一层，M4 用在第二层</li>
+<li>假设 train.csv 有 500 行，test.csv 有 300 行</li>
 </ol>
 <p>步骤：</p>
 <ol type="1">
-<li>对M1进行5-fold交叉验证训练操作并且拼接结果获得500x1的训练集预测值Train1</li>
-<li>在5-fold过程中每次都对测试集进行预测获得300行预测结果，最后将5次预测结果取平均值获得300x1的Pred1</li>
-<li>对M2、M3进行步骤1、2获得Train2、Train3、Pred2、Pred3</li>
-<li>现在到第二层了，使用Train1、Train2、Train3拼接成500x3的矩阵作为输入训练M4</li>
-<li>使用M4预测使用Pred1、Pred2、Pred3拼接成300x3的矩阵获得最终结果</li>
+<li>对 M1 进行 5-fold 交叉验证训练操作并且拼接结果获得 500x1 的训练集预测值 Train1</li>
+<li>在5-fold 过程中每次都对测试集进行预测获得 300 行预测结果，最后将 5 次预测结果取平均值获得 300x1 的 Pred1</li>
+<li>对 M2、M3 进行步骤 1、2 获得 Train2、Train3、Pred2、Pred3</li>
+<li>现在到第二层了，使用 Train1、Train2、Train3 拼接成 500x3 的矩阵作为输入训练 M4</li>
+<li>使用 M4 预测使用 Pred1、Pred2、Pred3 拼接成 300x3 的矩阵获得最终结果</li>
 </ol>
 <p><strong>实现</strong><br>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ensemble</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, n_folds, stacker, base_models)</span>:</span></span><br><span class="line">        self.n_folds = n_folds</span><br><span class="line">        self.stacker = stacker</span><br><span class="line">        self.base_models = base_models</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fit_predict</span><span class="params">(self, X, y, T)</span>:</span></span><br><span class="line">        X = np.array(X)</span><br><span class="line">        y = np.array(y)</span><br><span class="line">        T = np.array(T)</span><br><span class="line"></span><br><span class="line">        folds = list(KFold(len(y), n_folds=self.n_folds, shuffle=<span class="keyword">True</span>, random_state=<span class="number">2016</span>))</span><br><span class="line"></span><br><span class="line">        S_train = np.zeros((X.shape[<span class="number">0</span>], len(self.base_models)))</span><br><span class="line">        S_test = np.zeros((T.shape[<span class="number">0</span>], len(self.base_models)))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i, clf <span class="keyword">in</span> enumerate(self.base_models):</span><br><span class="line">            S_test_i = np.zeros((T.shape[<span class="number">0</span>], len(folds)))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> j, (train_idx, test_idx) <span class="keyword">in</span> enumerate(folds):</span><br><span class="line">                X_train = X[train_idx]</span><br><span class="line">                y_train = y[train_idx]</span><br><span class="line">                X_holdout = X[test_idx]</span><br><span class="line">                <span class="comment"># y_holdout = y[test_idx]</span></span><br><span class="line">                clf.fit(X_train, y_train)</span><br><span class="line">                y_pred = clf.predict(X_holdout)[:]</span><br><span class="line">                S_train[test_idx, i] = y_pred</span><br><span class="line">                S_test_i[:, j] = clf.predict(T)[:]</span><br><span class="line"></span><br><span class="line">            S_test[:, i] = S_test_i.mean(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        self.stacker.fit(S_train, y)</span><br><span class="line">        y_pred = self.stacker.predict(S_test)[:]</span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure></p>
 <hr>
 <h2 id="blending">Blending</h2>
 <p>参考[3]<br>
-blending和stacking很相似，区别在于blending不对训练集创建out-of-fold预测，而是取一小部分（比如10%）的训练集作为holdout set，然后让基模型只在这个holdout set上训练。也就是每个基模型都是基于不相关的训练集数据进行训练的。</p>
-<p><strong>blending的优点</strong></p>
+blending 和 stacking 很相似，区别在于 blending 不对训练集创建 out-of-fold 预测，而是取一小部分（比如 10%）的训练集作为 holdout set，然后让基模型只在这个 holdout set 上训练。也就是每个基模型都是基于不相关的训练集数据进行训练的。</p>
+<p><strong>blending 的优点</strong></p>
 <ol type="1">
-<li>比stacking简单</li>
-<li>防止信息泄漏（information leak）：generalizer和stacker使用不同数据</li>
-<li>不需要和队友分享基模型的种子，只需要把模型拿去blending，由算法决定这个模型的去留</li>
+<li>比 stacking 简单</li>
+<li>防止信息泄漏（information leak）：generalizer 和 stacker 使用不同数据</li>
+<li>不需要和队友分享基模型的种子，只需要把模型拿去 blending，由算法决定这个模型的去留</li>
 </ol>
-<p><strong>blending的缺点</strong></p>
+<p><strong>blending 的缺点</strong></p>
 <ol type="1">
 <li>并没有充分使用所有数据</li>
-<li>最终结果可能对holdout set过拟合</li>
-<li>stacking的CV结果可能比使用holdout set的结果更加牢靠</li>
+<li>最终结果可能对 holdout set 过拟合</li>
+<li>stacking 的 CV 结果可能比使用 holdout set 的结果更加牢靠</li>
 </ol>
 <hr>
 <h2 id="参考资料">参考资料</h2>
@@ -713,7 +713,7 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -805,7 +805,11 @@ blending和stacking很相似，区别在于blending不对训练集创建out-of-f
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

@@ -99,20 +99,20 @@
 
 
 
-  <meta name="description" content="keras 复现 memory networks 系列 概述 参考论文：《End-To-End Memory Networks》[arxiv，笔记] 数据集：bAbI-tasks 最终源码：keras-MemN2N（GitHub）">
+  <meta name="description" content="keras 复现 memory networks 系列 概述 参考论文：《End-To-End Memory Networks》 数据集：bAbI-tasks 最终源码：keras-MemN2N（GitHub） 前期工作：  《End-To-End Memory Networks》论文阅读笔记 Memory Networks 相关论文整理总结">
 <meta name="keywords" content="MemN2N,Keras,论文复现,未完成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 keras 复现 MemN2N">
 <meta property="og:url" content="http://yoursite.com/keras-memn2n/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="keras 复现 memory networks 系列 概述 参考论文：《End-To-End Memory Networks》[arxiv，笔记] 数据集：bAbI-tasks 最终源码：keras-MemN2N（GitHub）">
+<meta property="og:description" content="keras 复现 memory networks 系列 概述 参考论文：《End-To-End Memory Networks》 数据集：bAbI-tasks 最终源码：keras-MemN2N（GitHub） 前期工作：  《End-To-End Memory Networks》论文阅读笔记 Memory Networks 相关论文整理总结">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/keras-memn2n/1526258584285.png">
 <meta property="og:image" content="http://yoursite.com/keras-memn2n/1526950547629.png">
-<meta property="og:updated_time" content="2018-06-05T02:58:15.722Z">
+<meta property="og:updated_time" content="2018-06-07T03:18:37.299Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 keras 复现 MemN2N">
-<meta name="twitter:description" content="keras 复现 memory networks 系列 概述 参考论文：《End-To-End Memory Networks》[arxiv，笔记] 数据集：bAbI-tasks 最终源码：keras-MemN2N（GitHub）">
+<meta name="twitter:description" content="keras 复现 memory networks 系列 概述 参考论文：《End-To-End Memory Networks》 数据集：bAbI-tasks 最终源码：keras-MemN2N（GitHub） 前期工作：  《End-To-End Memory Networks》论文阅读笔记 Memory Networks 相关论文整理总结">
 <meta name="twitter:image" content="http://yoursite.com/keras-memn2n/1526258584285.png">
 
 
@@ -424,25 +424,24 @@
       
         <p>keras 复现 memory networks 系列</p>
 <h2 id="概述">概述</h2>
-<p><strong>参考论文：</strong>《End-To-End Memory Networks》[<a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">arxiv</a>，<a href="https://rocuku.github.io/End-To-End-Memory-Networks/" target="_blank" rel="noopener">笔记</a>]</p>
+<p><strong>参考论文：</strong><a href="https://arxiv.org/abs/1503.08895" target="_blank" rel="noopener">《End-To-End Memory Networks》</a></p>
 <p><strong>数据集：</strong><a href="https://research.fb.com/downloads/babi/" target="_blank" rel="noopener">bAbI-tasks</a></p>
 <p><strong>最终源码：</strong><a href="https://github.com/Rocuku/keras-MemN2N" target="_blank" rel="noopener">keras-MemN2N（GitHub）</a></p>
-<a id="more"></a>
+<p><strong>前期工作：</strong></p>
+<ul>
+<li><a href="https://rocuku.github.io/End-To-End-Memory-Networks/" target="_blank" rel="noopener">《End-To-End Memory Networks》论文阅读笔记</a></li>
+<li><a href="https://rocuku.github.io/memory-networks-summary/" target="_blank" rel="noopener">Memory Networks 相关论文整理总结</a> <a id="more"></a></li>
+</ul>
+<hr>
 <h2 id="论文相关">论文相关</h2>
 <h3 id="数据相关">数据相关</h3>
 <ul>
 <li>数据集里每个任务有 <span class="math inline">\(I\)</span>（<span class="math inline">\(I\le 320\)</span>）个句子作为 input <span class="math inline">\(\{x_i\}\)</span></li>
 <li>词典大小 <span class="math inline">\(V=177\)</span></li>
 </ul>
-<h3 id="模型相关">模型相关</h3>
-<p>默认使用 <span class="math inline">\(K=3\)</span> hops 模型，使用 Adjacent 权重取值方式。</p>
-<p><strong>Sentence Representation：</strong></p>
-<ul>
-<li>BOW</li>
-<li></li>
-</ul>
 <h3 id="维度计算">维度计算</h3>
 <p><strong>架构图</strong> <img src="/keras-memn2n/1526258584285.png" alt="Alt text"></p>
+<p>梳理一下维度关系</p>
 <p>以 bAbI-task-qa1 为例进行计算</p>
 <ul>
 <li><code>vocab_size = 20</code>
@@ -458,41 +457,85 @@
 <ul>
 <li>query 的单词数和 story 里的单词数要统一，这里就定为 6（实际上 query 都是 3 个词）</li>
 </ul></li>
-<li><code>m_emb.shape = (None, 10, 6, d)</code>
+<li><code>m_emb.shape = (None, 10, d)</code>
 <ul>
-<li>story 通过了一个 <code>(vocab_size, embedding_size)</code> 的 embedding 层得到的输出</li>
-<li><code>d</code> 为 <code>embedding_size</code></li>
-<li>架构图里的 Input <span class="math inline">\(m_i\)</span></li>
+<li>story 通过了一个 <code>(embedding_size, vocab_size)</code> 的 embedding 矩阵 <span class="math inline">\(A\)</span> 得到的输出，<code>d</code> 为 <code>embedding_size</code></li>
+<li>架构图里的 Input（<span class="math inline">\(m_i\)</span> 的 shape 为 <code>(None, d)</code>）</li>
+<li>相当于每个句子 embedding 成了一个 <code>d</code> 维向量</li>
+<li>参考公式：<span class="math inline">\(m_i=\sum_jAx_{ij}\)</span>，其中 <span class="math inline">\(x_{ij}\)</span> 为第 <span class="math inline">\(i\)</span> 个句子的第 <span class="math inline">\(j\)</span> 个词（BoW表示句子，最简单的一个公式）</li>
 </ul></li>
-<li><code>c_emb.shape = (None, 10, 6, d)</code>
+<li><code>c_emb.shape = (None, 10, d)</code>
 <ul>
-<li>同 <code>m_emb</code></li>
-<li>架构图里的 Output <span class="math inline">\(c_i\)</span></li>
+<li>基本同 <code>m_emb</code>，embedding 矩阵为 <span class="math inline">\(C\)</span>，<span class="math inline">\(c_i=\sum_jCx_{ij}\)</span></li>
+<li>架构图里的 Output（<span class="math inline">\(c_i\)</span> 的 shape 为 <code>(None, d)</code>）</li>
 </ul></li>
-<li><code>q_emb.shape = (None, 6, d)</code>
+<li><code>u_emb.shape = (None, d)</code>
 <ul>
-<li>query 通过了一个 <code>(vocab_size, embedding_size)</code> 的 embedding 层得到的输出</li>
+<li>query 通过了一个 <code>(embedding_size, vocab_size)</code> 的 embedding 矩阵 <span class="math inline">\(B\)</span> 得到的输出</li>
 <li>架构图里的 <span class="math inline">\(u\)</span></li>
+<li>参考公式：<span class="math inline">\(u = \sum_jBq_j\)</span></li>
 </ul></li>
-<li><p><code>probs.shape = (None, 10, d)</code></p></li>
-<li>词汇表 <span class="math inline">\(V=20\)</span></li>
-<li>最长句长 <span class="math inline">\(S=6\)</span></li>
-<li><p>任务句子数量 <span class="math inline">\(I = 10\)</span></p></li>
-<li><span class="math inline">\(x_{i,j}.shape=(20,1)\)</span></li>
-<li><span class="math inline">\(x_i.shape = (6,20,1)\)</span></li>
-<li><span class="math inline">\(X.shape = (10,6,20,1)\)</span></li>
-<li><p><span class="math inline">\(q.shape = (6,20,1)\)</span></p></li>
-<li><span class="math inline">\(A.shape=d\times V\)</span></li>
-<li><span class="math inline">\(B.shape=d\times V\)</span></li>
-<li><p><span class="math inline">\(C.shape=d\times V\)</span></p></li>
-<li><p>$$</p></li>
+<li><code>probs.shape = (None, 10)</code>
+<ul>
+<li>参考公式：<span class="math inline">\(p_i=Softmax(u^Tm_i)\)</span></li>
+</ul></li>
+<li><code>o_weight.shape = (None, d)</code>
+<ul>
+<li>参考公式：<span class="math inline">\(o=\sum\limits_ip_ic_i\)</span></li>
+</ul></li>
+<li><code>answer.shape = (None, 20)</code>
+<ul>
+<li>参考公式：<span class="math inline">\(\hat a = Softmax(W(o+u))\)</span></li>
+<li>最后的输出应该是字典里的一个词，所以维度是词典的大小</li>
+</ul></li>
 </ul>
+<h3 id="细节设计">细节设计</h3>
+<p>默认使用 <span class="math inline">\(K=3\)</span> hops 模型，使用 Adjacent 权重取值方式。</p>
+<p>几种设计选择：</p>
+<ol type="1">
+<li><strong>Sentence Representation：</strong>
+<ul>
+<li>BoW</li>
+<li>Position Encoding（PE）
+<ul>
+<li><span class="math inline">\(m_i = \sum_jl_j\cdot Ax_{ij}\)</span>（<span class="math inline">\(\cdot\)</span> 是 element-wise multiplication）</li>
+<li><span class="math inline">\(l_{kj}=(1-j/J)-(k/d)(1-2j/J)\)</span>（<span class="math inline">\(J\)</span> 是句子里单词的数量）</li>
+</ul></li>
+</ul></li>
+<li><strong>Training on all 20 tasks：</strong>
+<ul>
+<li>Independently</li>
+<li>Jointly</li>
+</ul></li>
+<li><strong>Phase Training：</strong>
+<ul>
+<li>Linear start（LS）</li>
+<li>Softmax</li>
+</ul></li>
+<li><strong>Hops：</strong> 1~3</li>
+</ol>
 <h3 id="论文最终数据">论文最终数据</h3>
-<figure>
-<img src="/keras-memn2n/1526950547629.png" alt="Alt text"><figcaption>Alt text</figcaption>
-</figure>
+<p><strong>错误率表</strong> <img src="/keras-memn2n/1526950547629.png" alt="Alt text"></p>
+<hr>
 <h2 id="实现">实现</h2>
-<h3 id="hop-bow">1 hop + BoW</h3>
+<p>Keras 的 example 里有一个 <a href="https://github.com/keras-team/keras/blob/master/examples/babi_memnn.py" target="_blank" rel="noopener">babi_memnn.py</a>，说是照着论文复现的，可惜连数据预处理都没对上（代码里直接把一个 tasks 所有句子拼接成一句了），而且也没有实现多 hop，也没有实现论文里 PE、LS 之类的改进，甚至还把模型里最后一层强行改成了 LSTM。完全不能算复现，参考价值也不大。数据预处理部分参考<a href="https://github.com/domluna/memn2n" target="_blank" rel="noopener">一个 MemN2N 的 tensorflow 实现</a>。</p>
+<h3 id="基本实现">基本实现</h3>
+<p>从以最简单的 BoW + Adjacent 为例子</p>
+<h4 id="用现有层搭建网络">用现有层搭建网络</h4>
+<p>输入部分 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">story = Input(shape=(max_story_size, sentence_size,))</span><br><span class="line">question = Input(shape=(sentence_size,))</span><br></pre></td></tr></table></figure></p>
+<p>初始化嵌入层，因为使用 Adjacent 类的权重（<span class="math inline">\(A^{k+1}=C^k,W^T=C^K,B=A^1\)</span>），所以 <span class="math inline">\(k\)</span> hops 的模型只需要训练 <span class="math inline">\(k+1\)</span> 个嵌入矩阵 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Embedding_layer = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(k_hop + <span class="number">1</span>) :</span><br><span class="line">    Embedding_layer.append(Embedding(input_dim=vocab_size, output_dim=d, </span><br><span class="line">                            embeddings_initializer=<span class="string">'random_normal'</span>))</span><br></pre></td></tr></table></figure></p>
+<p>计算第一层的 <span class="math inline">\(m\)</span> 、<span class="math inline">\(c\)</span> 和 <span class="math inline">\(u\)</span>，注意 <span class="math inline">\(m\)</span> 和 <span class="math inline">\(u\)</span> 使用的是嵌入矩阵 <span class="math inline">\(A^1\)</span>，<span class="math inline">\(c\)</span> 使用的是 <span class="math inline">\(A^2=C^1\)</span>。<br>
+以 <span class="math inline">\(m\)</span> 为例，因为经过嵌入层之后的 <code>shape=(None, 10, 6, d)</code>，而我们需要第二维上的 6 个数字之和并把这一维直接消掉才算能得到目标 <code>shape=(None, 10, d)</code>，所以这里用了一个<code>Lambda</code>层来进行求和操作，<span class="math inline">\(u\)</span>、<span class="math inline">\(c\)</span> 同理，就是要注意 <span class="math inline">\(u\)</span> 是在第一维上求和。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m_emb = Embedding_layer[<span class="number">0</span>](story)</span><br><span class="line">m_emb = Lambda(<span class="keyword">lambda</span> x: K.sum(x, axis=<span class="number">2</span>))(m_emb)</span><br><span class="line">u_emb = Embedding_layer[<span class="number">0</span>](question)</span><br><span class="line">u_emb = Lambda(<span class="keyword">lambda</span> x: K.sum(x, axis=<span class="number">1</span>))(u_emb)</span><br><span class="line">c_emb = Embedding_layer[<span class="number">1</span>](story)</span><br><span class="line">c_emb = Lambda(<span class="keyword">lambda</span> x: K.sum(x, axis=<span class="number">2</span>))(c_emb)</span><br></pre></td></tr></table></figure></p>
+<p>接下来计算权重 <span class="math inline">\(p_i=Softmax(u^Tm_i)\)</span>，为了进行 <span class="math inline">\(u^Tm_i\)</span>这一步，我先把<span class="math inline">\(u^T\)</span>复制到和<span class="math inline">\(m_i\)</span>维度一样，然后进行 element-wise multiplication，然后再和上面一样进行求和降维（总觉得应该还有更优雅点的实现…… <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">u_temp = Lambda(<span class="keyword">lambda</span> x: K.expand_dims(x, <span class="number">1</span>))(u_emb)</span><br><span class="line">u_temp = Lambda(<span class="keyword">lambda</span> x: K.tile(x, (<span class="number">1</span>, max_story_size, <span class="number">1</span>)))(u_temp)</span><br><span class="line">probs = multiply([m_emb, u_temp])</span><br><span class="line">probs = Lambda(<span class="keyword">lambda</span> x: K.sum(x, axis=<span class="number">2</span>))(probs)</span><br><span class="line">probs = Activation(<span class="string">'softmax'</span>)(probs)</span><br></pre></td></tr></table></figure></p>
+<p>然后计算加权和 <span class="math inline">\(o=\sum\limits_i p_ic_i\)</span>，也是上面那种复制填充维度，element-wise multiplication，再求和降维 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">probs_temp = Lambda(<span class="keyword">lambda</span> x: K.expand_dims(x, <span class="number">2</span>))(probs)</span><br><span class="line">probs_temp = Lambda(<span class="keyword">lambda</span> x: K.tile(x, (<span class="number">1</span>, <span class="number">1</span>, d)))(probs_temp)</span><br><span class="line">o_weight = multiply([c_emb, probs_temp])</span><br><span class="line">o_weight = Lambda(<span class="keyword">lambda</span> x: K.sum(x, axis=<span class="number">1</span>))(o_weight)</span><br></pre></td></tr></table></figure></p>
+<p>最后求输出 <span class="math inline">\(\hat a = Softmax(W(o+u))\)</span> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">answer = Dense(vocab_size, kernel_initializer=<span class="string">'random_normal'</span>)(u_emb[<span class="number">-1</span>])</span><br><span class="line">answer = Activation(<span class="string">'softmax'</span>)(answer)</span><br></pre></td></tr></table></figure></p>
+<p>这里有一个<a href="https://rocuku.github.io/keras-get-weights/" target="_blank" rel="noopener">问题</a>，就是在 Adjacent 权重取值下，最后的 <span class="math inline">\(W\)</span> 无法取到 <span class="math inline">\(W^T=C^K\)</span>，于是最后还是决定直接封装一个层出来。</p>
+<h4 id="自己封装一个-memn2n-层">自己封装一个 MemN2N 层</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MemN2N</span><span class="params">(Layer)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, max_story_size, sentence_size, vocab_size, embedding_size, k_hop, **kwargs)</span>:</span></span><br><span class="line">        self.max_story_size = max_story_size</span><br><span class="line">        self.sentence_size = sentence_size</span><br><span class="line">        self.vocab_size = vocab_size</span><br><span class="line">        self.embedding_size = embedding_size</span><br><span class="line">        self.k_hop = k_hop</span><br><span class="line">        super(MemN2N, self).__init__(**kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">build</span><span class="params">(self, input_shape)</span>:</span></span><br><span class="line">        self.emb_A = [<span class="number">0</span>] * (self.k_hop + <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.k_hop + <span class="number">1</span>):</span><br><span class="line">            self.emb_A[i] = self.add_weight(name=<span class="string">'Embedding_'</span> + str(i),</span><br><span class="line">                                shape=(self.vocab_size, self.embedding_size),</span><br><span class="line">                                initializer=<span class="string">'uniform'</span>,</span><br><span class="line">                                trainable = <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">        super(MemN2N, self).build(input_shape)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span><span class="params">(self, inputs)</span>:</span></span><br><span class="line">        story = inputs[<span class="number">0</span>]</span><br><span class="line">        question = inputs[<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> K.dtype(story) != <span class="string">'int32'</span>:</span><br><span class="line">            story = K.cast(story, <span class="string">'int32'</span>)</span><br><span class="line">        <span class="keyword">if</span> K.dtype(question) != <span class="string">'int32'</span>:</span><br><span class="line">            question = K.cast(question, <span class="string">'int32'</span>)</span><br><span class="line">            </span><br><span class="line">        u_emb = K.sum(K.gather(self.emb_A[<span class="number">0</span>], question), axis=<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.k_hop) :</span><br><span class="line">            m_emb = K.sum(K.gather(self.emb_A[i], story), axis=<span class="number">2</span>)</span><br><span class="line">            c_emb = K.sum(K.gather(self.emb_A[i + <span class="number">1</span>], story), axis=<span class="number">2</span>)</span><br><span class="line">            </span><br><span class="line">            u_temp = K.tile(K.expand_dims(u_emb, <span class="number">1</span>), (<span class="number">1</span>, self.max_story_size, <span class="number">1</span>))</span><br><span class="line">            probs = K.softmax(K.sum(m_emb * u_temp, axis=<span class="number">2</span>))</span><br><span class="line">            probs = K.tile(K.expand_dims(probs, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">1</span>, self.embedding_size))</span><br><span class="line">            u_emb = K.sum(c_emb * probs, axis=<span class="number">1</span>) + u_emb</span><br><span class="line"> </span><br><span class="line">        output = K.dot(u_emb,  K.transpose(self.emb_A[<span class="number">-1</span>]))</span><br><span class="line">        output = K.softmax(output)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_output_shape</span><span class="params">(self, input_shape)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> (input_shape[<span class="number">0</span>], self.vocab_size)</span><br></pre></td></tr></table></figure>
+<p>思路和用现有层差不多，只是能够取到 <span class="math inline">\(W^T=C^K\)</span> 了。</p>
+<p>效果很差，无论是现有层还是自定义的层，task-1 只能到 0.66+，但是 task-20 能到 1（数据集 1k 还是 10k 都差不多，hop 取 3 和取 1 也差不多）</p>
+<hr>
+<p>待续</p>
 
       
     </div>
@@ -621,7 +664,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -713,7 +756,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -763,7 +810,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文相关"><span class="nav-number">2.</span> <span class="nav-text">论文相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据相关"><span class="nav-number">2.1.</span> <span class="nav-text">数据相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型相关"><span class="nav-number">2.2.</span> <span class="nav-text">模型相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度计算"><span class="nav-number">2.3.</span> <span class="nav-text">维度计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#论文最终数据"><span class="nav-number">2.4.</span> <span class="nav-text">论文最终数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hop-bow"><span class="nav-number">3.1.</span> <span class="nav-text">1 hop + BoW</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文相关"><span class="nav-number">2.</span> <span class="nav-text">论文相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据相关"><span class="nav-number">2.1.</span> <span class="nav-text">数据相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度计算"><span class="nav-number">2.2.</span> <span class="nav-text">维度计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#细节设计"><span class="nav-number">2.3.</span> <span class="nav-text">细节设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#论文最终数据"><span class="nav-number">2.4.</span> <span class="nav-text">论文最终数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本实现"><span class="nav-number">3.1.</span> <span class="nav-text">基本实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用现有层搭建网络"><span class="nav-number">3.1.1.</span> <span class="nav-text">用现有层搭建网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自己封装一个-memn2n-层"><span class="nav-number">3.1.2.</span> <span class="nav-text">自己封装一个 MemN2N 层</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
