@@ -107,10 +107,17 @@
 <meta property="og:site_name" content="ro&#39;s blog">
 <meta property="og:description" content="前篇参考：学习笔记——集成学习（Ensemble Learning） 相关论文：XGBoost: A Scalable Tree Boosting System Github：xgboost">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-05T03:00:58.084Z">
+<meta property="og:image" content="http://yoursite.com/xgboost-summary/1528869525325.png">
+<meta property="og:image" content="http://yoursite.com/xgboost-summary/1528870077238.png">
+<meta property="og:image" content="http://yoursite.com/xgboost-summary/1528880081082.png">
+<meta property="og:image" content="http://yoursite.com/xgboost-summary/1528880907971.png">
+<meta property="og:image" content="http://yoursite.com/xgboost-summary/1528947574101.png">
+<meta property="og:image" content="http://yoursite.com/xgboost-summary/1528961988303.png">
+<meta property="og:updated_time" content="2018-06-16T03:38:12.618Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——XGBoost（eXtreme Gradient Boosting）">
 <meta name="twitter:description" content="前篇参考：学习笔记——集成学习（Ensemble Learning） 相关论文：XGBoost: A Scalable Tree Boosting System Github：xgboost">
+<meta name="twitter:image" content="http://yoursite.com/xgboost-summary/1528869525325.png">
 
 
 
@@ -421,15 +428,300 @@
       
         <p><strong>前篇参考：</strong><a href="https://rocuku.github.io/ensemble-learning/" target="_blank" rel="noopener">学习笔记——集成学习（Ensemble Learning）</a></p>
 <p><strong>相关论文：</strong><a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">XGBoost: A Scalable Tree Boosting System</a></p>
-<p><strong>Github：</strong><a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">xgboost</a> <a id="more"></a> - - - ## 论文总结 XGBoost 是 scalable end-to-end tree boosting system（可扩展的端到端 tree boosting 系统）</p>
+<p><strong>Github：</strong><a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">xgboost</a></p>
+<a id="more"></a>
+<hr>
+<h2 id="论文总结">论文总结</h2>
+<p>XGBoost 是 scalable end-to-end tree boosting system（可扩展的端到端提升树系统）</p>
 <p><strong>主要工作：</strong></p>
 <ol type="1">
-<li>设计并构建了可扩展的端到端 tree boosting 系统</li>
-<li>理论上得到验证的加权分位数略图法</li>
-<li>介绍了一种用于 tree learning 并行计算的全新的稀疏感知算法</li>
-<li></li>
+<li>设计并构建了高度可扩展的端到端提升树系统（highly scalable end-to-end tree boosting system）</li>
+<li>理论上合理的加权分位数略图法（weighted quantile sketch for efficient proposal calculation）</li>
+<li>介绍了一种用于并行树学习的全新的稀疏感知算法（sparsity-aware algorithm）</li>
+<li>设计了一种针对核外计算（out-of-core tree learning）的高效缓存感知数据块结构（effective cache-aware block structure）</li>
 </ol>
-<h2 id="重点">重点</h2>
+<h3 id="提升树tree-boosting">提升树（Tree Boosting）</h3>
+<p><em>可以先回顾一下之前的 <a href="https://rocuku.github.io/ensemble-learning/" target="_blank" rel="noopener">学习笔记——集成学习（Ensemble Learning）</a></em></p>
+<p><strong>输出：</strong> <span class="math display">\[\hat y_i=\phi(x_i)=\sum\limits_{k=1}^Kf_k(x_i), \quad f_k\in\mathcal{F}\]</span> 其中，<span class="math inline">\(\mathcal{F}=\{f(x)=w_{q(x)}\}(q:\mathbb{R}^m\to T,w\in\mathbb{R}^T)\)</span> 是回归树空间（也叫 CART）</p>
+<p><strong>损失函数：</strong> <span class="math display">\[
+\mathcal{L}(\phi)=\sum\limits_il(\hat y_i, y_i)+\sum\limits_k\Omega(f_k) \\
+where \quad \Omega(f)=\gamma T+\frac12\lambda||w||^2
+\]</span> 其中 <span class="math inline">\(\Omega(f)\)</span> 就是惩罚项，相当于剪枝处理，防止过拟合，这是 GBDT 里没有的。<span class="math inline">\(T\)</span> 为叶子结点个数，<span class="math inline">\(w\)</span> 为叶子权重。</p>
+<p>第 t 次迭代的时候的损失函数： <span class="math display">\[
+\mathcal{L}^{(t)}=\sum\limits_{i=1}^nl(y_i, \hat y_i^{(t-1)}+f_t(x_i))+\Omega(f_t) \\
+\]</span> 一通二阶泰勒展开的操作之后： <span class="math display">\[
+\mathcal{\tilde L}^{(t)}=\sum\limits_{j=1}^T[(\sum\limits_{i\in I_j}g_i)w_j+\frac12(\sum\limits_{i\in I_j}h_i+\lambda)w_j^2]+\gamma T
+\]</span> 评价树结构 <span class="math inline">\(q\)</span> 的评分函数： <span class="math display">\[
+\mathcal{\tilde L}^{(t)}(q)=-\frac 12\sum\limits_{j=1}^T\frac{(\sum_{i\in I_j}g_i)^2}{\sum_{i\in I_j}h_i+\lambda}+\gamma T
+\]</span> 评价一个划分的式子： <span class="math display">\[\mathcal{L}_{splite}\frac12[\frac{(\sum_{i\in I_L}g_i)^2}{\sum_{i\in I_L}h_i+\lambda}+\frac{(\sum_{i\in I_R}g_i)^2}{\sum_{i\in I_R}h_i+\lambda}-\frac{(\sum_{i\in I}g_i)^2}{\sum_{i\in I}h_i+\lambda}]-\gamma\]</span> <span class="math inline">\(I_R\)</span>、<span class="math inline">\(I_L\)</span>是划分后右边和左边的节点，<span class="math inline">\(I=I_R\cup I_L\)</span></p>
+<h3 id="划分算法">划分算法</h3>
+<p>树学习的一个主要问题就是找到使上面那个 <span class="math inline">\(\mathcal{L}_{splite}\)</span> 最小的划分方式。</p>
+<h4 id="精确贪婪算法exact-greedy-algorithm">精确贪婪算法（Exact Greedy Algorithm）</h4>
+<p><img src="/xgboost-summary/1528869525325.png" alt="Alt text"> 这个算法是要遍历所有可能的划分，找到损失最小的划分，为了有效率的实现这个算法，要先根据特征值对数据进行排序。</p>
+<p>但是当数据不能全部加载进内存里的时候，就无法进行排序，也就没办法有效率的使用 Exact Greedy Algorithm 了，这种情况下为了高效就只能用近似算法了：</p>
+<h4 id="近似算法approximate-algorithm">近似算法（Approximate Algorithm）</h4>
+<p><img src="/xgboost-summary/1528870077238.png" alt="Alt text"> 近似算法是要先根据特征分布提出一些候选划分，然后将连续特征映射到候选节点划分出的桶里，然后选出最佳的划分。</p>
+<ul>
+<li>global 是指生成一棵树之前就进行划分选择</li>
+<li>local 是指每次划分前再进行划分选择</li>
+</ul>
+<p>算法效果对比图 <img src="/xgboost-summary/1528880081082.png" alt="Alt text"></p>
+<h4 id="加权分位数略图法weighted-quantile-sketch">加权分位数略图法（Weighted Quantile Sketch）</h4>
+<p>提出候选划分是近似算法里重要的一步，这里选取划分的时候应该给每个样本不同的权重，以二阶偏导作为权重。对数据集 <span class="math inline">\(\mathcal{D}_k=\{(x_{1k},h_1),(x_{2k},h_2),...,(x_{nk},h_n)\}\)</span> 定义 rank function： <span class="math display">\[r_k(z)=\frac1{\sum_{(x,h)\in \mathcal{D}_k}h}\sum\limits_{(x,h)\in\mathcal{D}_k,x&lt;z}h\]</span> 表示特征值 <span class="math inline">\(k\)</span> 比 <span class="math inline">\(z\)</span> 小的样本比例。这个 rank function 的目的是找到候选划分 <span class="math inline">\(\{s_{k1},s_{k2},...,s_{kl}\}\)</span> 使得： <span class="math display">\[|r_k(s_{k,j}-r_k(s_{k,j+1}))|&lt;\epsilon,\  s_{k1}=\min\limits_ix_{ik},\  s_{kl}=\max\limits_ix_{ik}\]</span> 其中 <span class="math inline">\(\epsilon\)</span> 是近似因子，也就是大概有 <span class="math inline">\(1/\epsilon\)</span> 个候选划分。每个样本权重为<span class="math inline">\(h_i\)</span>，损失函数可以写为 <span class="math display">\[\mathcal{\tilde L}^{(t)}=\sum\limits_{i=1}^n\frac12h_i(f_t(x_i)-g_i/h_i)^2+\Omega(f_t)+constant\]</span></p>
+<h4 id="稀疏感知算法sparsity-aware-split-finding">稀疏感知算法（Sparsity-aware Split Finding）</h4>
+<p>工程应用中，有几种造成数据稀疏的情况：</p>
+<ol type="1">
+<li>数据缺失</li>
+<li>频繁出现数值为 0 的情况</li>
+<li>古老的编码方式，比如 one-hot 编码</li>
+</ol>
+<p>应对稀疏矩阵中缺失值的情况，一般对每个划分定义一个默认方向，在数值缺失的情况下自动分到默认方向下。默认方向则是由稀疏感知算法自动学习出来的： <img src="/xgboost-summary/1528880907971.png" alt="Alt text"> 其实就是判断将缺失值样本划分到左边和划分到右边哪种增益高，取高的那种作为默认方向。这个算法可以大大提高效率。</p>
+<h3 id="系统设计">系统设计</h3>
+<h4 id="针对并行学习的列数据块column-block-for-parallel-learning">针对并行学习的列数据块（Column Block for Parallel Learning）</h4>
+<p>树学习里最耗时的部分就是将数据排序，为了提高这部分的效率，文章里将数据存进 in-memory units （也叫 block）里，每个 block 里的数据以 compressed column（CSC）的格式存储，这种格式下，每个 column 以相应特征进行排序。这样的格式使输入数据只用在训练之前计算一次，然后每次迭代的时候都可以重复使用。 <img src="/xgboost-summary/1528947574101.png" alt="Alt text"> 使用精确贪婪算法的时候，所有数据存在一个 block 里，使用近似算法的时候则可以存在多个 block 里，这些 block 可以分布在不同的机器上，也可以存在核外硬盘上。</p>
+<h4 id="缓存感知访问cache-aware-access">缓存感知访问（Cache-aware Access）</h4>
+<p><img src="/xgboost-summary/1528961988303.png" alt="Alt text"> CSC 存储格式会使得数据不在连续的内存里，用普通的访问方式会使得划分查找算法效率降低，并可能导致 cache miss。</p>
+<p>对于精确贪婪算法，使用缓存感知预取算法（cache-aware prefetching algorithm）解决问题。首先为每个线程分配一个内部 buffer，然后将 gradient statistics 存进去，使用 mini-batch 的方式来进行累计。这种预取的方式避免了直接读写内存，而是把它变成了一种长期依赖，当数据量很大的时候这种方式可以减少运行开销。</p>
+<p>对于近似算法，选取正确的 block 大小就可以解决问题。</p>
+<h4 id="针对核外计算的数据块blocks-for-out-of-core-computation">针对核外计算的数据块（Blocks for Out-of-core Computation）</h4>
+<p>完全利用机器资源做到可扩展学习（scalable learning）是 XGBoost 的目标。除了处理器和内存之外，利用硬盘空间来存放不能放进主内存（main memory）里的数据是很重要的一点。主要使用了两种技术来提升核外计算：</p>
+<ol type="1">
+<li><strong>数据块压缩（Bock Compression）</strong> 数据块按列压缩，使用之前通过一个单独的线程解压，然后再加载进主内存里</li>
+<li><strong>数据块分片（Block Sharding）</strong>使用一种可选的方式在多个磁盘上共享数据</li>
+</ol>
+<hr>
+<h2 id="参数">参数</h2>
+<h3 id="基本参数">基本参数</h3>
+<ul>
+<li><strong>booster</strong> [default=gbtree]
+<ul>
+<li><strong>gbtree：</strong>树模型</li>
+<li><strong><a href="https://xgboost.readthedocs.io/en/latest/tutorials/dart.html" target="_blank" rel="noopener">dart</a>：</strong>一种新型树结构，Dropouts meet Multiple Additive Regression Trees（增加 drop 树防止过拟合）</li>
+<li><strong>gblinear：</strong>线性模型</li>
+</ul></li>
+<li><strong>silent</strong> [default=0]
+<ul>
+<li>设置为 1 就是静默运行，0 就是正常打印运行信息</li>
+</ul></li>
+<li><strong>nthread</strong> [默认设置为当前系统可获得的最大线程数]
+<ul>
+<li>运行时的线程数</li>
+</ul></li>
+<li><strong>num_pbuffer</strong> [由 xgboost 自动设置，用户无需设置]
+<ul>
+<li>prediction buffer 的大小，buffer 用于存储上一次 boosting 的结果</li>
+</ul></li>
+<li><strong>num_feature</strong> [由 xgboost 自动设置，用户无需设置]
+<ul>
+<li>特征个数</li>
+</ul></li>
+</ul>
+<h3 id="booster-参数">booster 参数</h3>
+<h4 id="gbtree-参数">gbtree 参数</h4>
+<ul>
+<li><strong>eta</strong> [default=0.3]
+<ul>
+<li>就是学习率</li>
+<li>range: [0,1]</li>
+</ul></li>
+<li><strong>gamma</strong> [default=0]
+<ul>
+<li>进行节点进行分裂的 loss 下降的最小值，gamma 越大，算法越保守</li>
+<li>range: [0,∞]</li>
+</ul></li>
+<li><strong>max_depth</strong> [default=6]
+<ul>
+<li>树的最大深度，用于控制树的复杂度，越深越容易过拟合</li>
+<li>range: [1,∞]</li>
+</ul></li>
+<li><strong>min_child_weight</strong> [default=1]
+<ul>
+<li>叶子结点的最小权重和</li>
+<li>range: [0,∞]</li>
+</ul></li>
+<li><strong>max_delta_step</strong> [default=0]
+<ul>
+<li>每棵树权重改变的最大步长，为 0 时表示不限制。这个参数一般用不上，但是在类极不平衡的逻辑回归问题上也许能派上用场</li>
+<li>range: [0,∞]</li>
+</ul></li>
+<li><strong>subsample</strong> [default=1]
+<ul>
+<li>用于训练的子样本比例，可以避免过拟合</li>
+<li>range: (0,1]</li>
+</ul></li>
+<li><strong>colsample_bytree</strong> [default=1]
+<ul>
+<li>构建每棵树的时候的特征采样比例</li>
+<li>range: (0,1]</li>
+</ul></li>
+<li><strong>colsample_bylevel</strong> [default=1]
+<ul>
+<li>决定每次划分的时候使用的子样本比例</li>
+<li>range: (0,1]</li>
+</ul></li>
+<li><strong>lambda</strong> [default=1]
+<ul>
+<li>L2 正则项系数</li>
+</ul></li>
+<li><strong>alpha</strong> [default=0]
+<ul>
+<li>L1 正则项系数</li>
+</ul></li>
+<li><strong>tree_method</strong> string [default=’auto’]
+<ul>
+<li>构建树的时候用的算法</li>
+<li><strong>auto：</strong>启发式选择精确贪婪算法和近似算法里更快的那个（中小型数据集使用精确贪婪，大型使用近似）</li>
+<li><strong>exact：</strong>精确贪婪算法</li>
+<li><strong>approx：</strong>近似算法</li>
+</ul></li>
+<li><strong>sketch_eps</strong> [default=0.03]
+<ul>
+<li>仅用于精确贪婪算法。大致转换成 O(1 / sketch_eps) 箱数，比起直接选择箱数，这样有草图准确性保证</li>
+<li>通常用户不用配置这个，但是可以通过将这个值设置的更小来获得精确枚举</li>
+<li>range: (0, 1)</li>
+</ul></li>
+<li><strong>scale_pos_weight</strong>, [default=0]
+<ul>
+<li>控制正负样本间的平衡，用于处理类不平衡问题，一种典型值：sum(负样本) / sum(正样本)</li>
+</ul></li>
+</ul>
+<h4 id="dart-参数">dart 参数</h4>
+<ul>
+<li><strong>sample_type</strong> [default=”uniform”]
+<ul>
+<li>采样算法的种类</li>
+<li><strong>uniform：</strong>dropped 树均等的选择</li>
+<li><strong>weighted：</strong>dropped 树使用权重来选择</li>
+</ul></li>
+<li><strong>normalize_type</strong> [default=”tree”]
+<ul>
+<li>归一化算法的种类</li>
+<li><strong>tree：</strong> 新的树的系数和每个 dropped 树的系数一致</li>
+<li><strong>forest：</strong> 新的树的系数和 dropped 树的系数之和一致</li>
+</ul></li>
+<li><strong>rate_drop</strong> [default=0.0]
+<ul>
+<li>dropout 比例</li>
+<li>range: [0.0, 1.0]</li>
+</ul></li>
+<li><strong>skip_drop</strong> [default=0.0]
+<ul>
+<li>跳过 dropout 的可能性。当跳过 dropout 的时候，新树以和 gbtree 一样的规则添加</li>
+<li>range: [0.0, 1.0]</li>
+</ul></li>
+</ul>
+<h4 id="gblinear-参数">gblinear 参数</h4>
+<ul>
+<li><strong>lambda</strong> [default=0]
+<ul>
+<li>L2 正则项系数</li>
+</ul></li>
+<li><strong>alpha</strong> [default=0]
+<ul>
+<li>L1 正则项系数</li>
+</ul></li>
+<li><strong>lambda_bias</strong>
+<ul>
+<li>L2 正则项 bias，默认 0</li>
+</ul></li>
+</ul>
+<h3 id="学习任务参数">学习任务参数</h3>
+<ul>
+<li><strong>objective</strong> [default=reg:linear]
+<ul>
+<li><strong>reg:linear</strong> 线性回归</li>
+<li><strong>reg:logistic</strong> 逻辑回归</li>
+<li><strong>binary:logistic</strong> 二分类问题的逻辑回归，输出概率</li>
+<li><strong>binary:logitraw</strong> 二分类问题的逻辑回归，在逻辑转换之前输出 score</li>
+<li><strong>count:poisson</strong> 计数数据的泊松回归，输出泊松分布的均值。柏松回归里 max_delta_step 默认设置为 0.7</li>
+<li><strong>multi:softmax</strong> 使用 softmax 解决多分类问题，需要同时设置 num_class（类别数量）</li>
+<li><strong>multi:softprob</strong> 和 softmax 一样，但是输出 ndata * nclass 向量，可以变形成 ndata, naclass 矩阵，结果里包含每个样本属于每个类别的概率</li>
+<li><strong>rank:pairwise</strong> 使用 pairwise loss 的 ranking 任务</li>
+<li><strong>reg:gamma</strong> 用于严重性数据的 gamma 回归，输出 gamma 分布的均值</li>
+</ul></li>
+<li><strong>base_score</strong> [default=0.5]
+<ul>
+<li>所有实例初始化的初始化预测值，相当于全局 bias。如果迭代次数足够的话，这个值没啥影响</li>
+</ul></li>
+<li><strong>eval_metric</strong> [default according to objective]
+<ul>
+<li>评价指标，不同 objective 的默认评价指标不同( rmse for regression, error for classification, mean average precision for ranking )</li>
+<li><strong>rmse</strong> root mean square error</li>
+<li><strong>mae</strong> mean absolute error</li>
+<li><strong>logloss</strong> negative log-likelihood</li>
+<li><strong>error</strong> Binary classification error rate. It is calculated as #(wrong cases)/#(all cases). For the predictions, the evaluation will regard the instances with prediction value larger than 0.5 as positive instances, and the others as negative instances.</li>
+<li><strong>merror</strong> Multiclass classification error rate. It is calculated as #(wrong cases)/#(all cases).</li>
+<li><strong>mlogloss</strong> Multiclass logloss</li>
+<li><strong>auc</strong> Area under the curve for ranking evaluation. -<strong>ndcg</strong> Normalized Discounted Cumulative Gain ** map** Mean average precision</li>
+<li><strong>ndcg@n, map@n</strong> n can be assigned as an integer to cut off the top positions in the lists for evaluation.</li>
+<li><strong>ndcg-, map-, ndcg@n-, map@n-</strong> In XGBoost, NDCG and MAP will evaluate the score of a list without any positive samples as 1. By adding “-” in the evaluation metric XGBoost will evaluate these score as 0 to be consistent under some conditions. training repeatively</li>
+<li><strong>gamma-deviance</strong> [residual deviance for gamma regression]</li>
+</ul></li>
+<li><strong>seed</strong> [default=0]
+<ul>
+<li>随机种子</li>
+</ul></li>
+</ul>
+<h3 id="命令行参数">命令行参数</h3>
+<ul>
+<li><strong>use_buffer</strong> [default=1]
+<ul>
+<li>是否从文本输入中创建 binary buffer</li>
+</ul></li>
+<li><strong>num_round</strong>
+<ul>
+<li>迭代次数</li>
+</ul></li>
+<li><strong>data</strong>
+<ul>
+<li>训练数据路径</li>
+</ul></li>
+<li><strong>test:data</strong>
+<ul>
+<li>测试数据路径</li>
+</ul></li>
+<li><strong>save_period</strong> [default=0]
+<ul>
+<li>保存模型的周期，设置为 10 表示 10 轮保存一次模型，设置为 0 表示不保存模型</li>
+</ul></li>
+<li><strong>task</strong> [default=train] options: train, pred, eval, dump
+<ul>
+<li><strong>train</strong> 训练</li>
+<li><strong>pred</strong> 预测</li>
+<li><strong>eval</strong> 使用 eval[name]=filename 评估</li>
+<li><strong>dump</strong> 导出模型</li>
+</ul></li>
+<li><strong>model_in</strong> [default=NULL]
+<ul>
+<li>导入模型的路径</li>
+</ul></li>
+<li><strong>model_out</strong> [default=NULL]
+<ul>
+<li>导出模型的路径</li>
+</ul></li>
+<li><strong>model_dir</strong> [default=models]
+<ul>
+<li>训练过程中导出的模型的存放路径</li>
+</ul></li>
+<li><strong>fmap</strong>
+<ul>
+<li>feature map, 导出模型的时候使用</li>
+</ul></li>
+<li><strong>name_dump</strong> [default=dump.txt]
+<ul>
+<li>导出的模型文件的文件名</li>
+</ul></li>
+<li><strong>name_pred</strong> [default=pred.txt]
+<ul>
+<li>输出的预测文件的文件名</li>
+</ul></li>
+<li><strong>pred_margin</strong> [default=0]
+<ul>
+<li>输出预测的边界，而不是转换过的概率</li>
+</ul></li>
+</ul>
+<hr>
+<h2 id="xgboost-的特点">XGBoost 的特点</h2>
 <p>XGBoost 是 Gradient Boosting Machine 的一个 c++ 实现。XGBoost 最大的特点在于，它能够自动利用 CPU 的多线程进行并行，同时在算法上加以改进提高了精度。</p>
 <p>XGBoost 通过如下的优化使得<strong>效率</strong>大幅提高：</p>
 <ol type="1">
@@ -455,7 +747,7 @@
 <ol type="1">
 <li><a href="https://cosx.org/2015/03/xgboost/" target="_blank" rel="noopener">xgboost: 速度快效果好的 boosting 模型</a></li>
 <li><a href="https://www.zhihu.com/question/41354392" target="_blank" rel="noopener">机器学习算法中 GBDT 和 XGBOOST 的区别有哪些？</a></li>
-<li></li>
+<li><a href="http://d0evi1.com/xgboost/" target="_blank" rel="noopener">xgboost code insight-1</a></li>
 </ol>
 
       
@@ -735,7 +1027,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点"><span class="nav-number">1.</span> <span class="nav-text">重点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">2.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#论文总结"><span class="nav-number">1.</span> <span class="nav-text">论文总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提升树tree-boosting"><span class="nav-number">1.1.</span> <span class="nav-text">提升树（Tree Boosting）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#划分算法"><span class="nav-number">1.2.</span> <span class="nav-text">划分算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#精确贪婪算法exact-greedy-algorithm"><span class="nav-number">1.2.1.</span> <span class="nav-text">精确贪婪算法（Exact Greedy Algorithm）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#近似算法approximate-algorithm"><span class="nav-number">1.2.2.</span> <span class="nav-text">近似算法（Approximate Algorithm）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加权分位数略图法weighted-quantile-sketch"><span class="nav-number">1.2.3.</span> <span class="nav-text">加权分位数略图法（Weighted Quantile Sketch）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#稀疏感知算法sparsity-aware-split-finding"><span class="nav-number">1.2.4.</span> <span class="nav-text">稀疏感知算法（Sparsity-aware Split Finding）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统设计"><span class="nav-number">1.3.</span> <span class="nav-text">系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#针对并行学习的列数据块column-block-for-parallel-learning"><span class="nav-number">1.3.1.</span> <span class="nav-text">针对并行学习的列数据块（Column Block for Parallel Learning）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存感知访问cache-aware-access"><span class="nav-number">1.3.2.</span> <span class="nav-text">缓存感知访问（Cache-aware Access）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#针对核外计算的数据块blocks-for-out-of-core-computation"><span class="nav-number">1.3.3.</span> <span class="nav-text">针对核外计算的数据块（Blocks for Out-of-core Computation）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">2.</span> <span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本参数"><span class="nav-number">2.1.</span> <span class="nav-text">基本参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#booster-参数"><span class="nav-number">2.2.</span> <span class="nav-text">booster 参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gbtree-参数"><span class="nav-number">2.2.1.</span> <span class="nav-text">gbtree 参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dart-参数"><span class="nav-number">2.2.2.</span> <span class="nav-text">dart 参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gblinear-参数"><span class="nav-number">2.2.3.</span> <span class="nav-text">gblinear 参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习任务参数"><span class="nav-number">2.3.</span> <span class="nav-text">学习任务参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行参数"><span class="nav-number">2.4.</span> <span class="nav-text">命令行参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xgboost-的特点"><span class="nav-number">3.</span> <span class="nav-text">XGBoost 的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
