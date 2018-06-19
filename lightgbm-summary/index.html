@@ -99,25 +99,32 @@
 
 
 
-  <meta name="description" content="结论：提前创建数据库再执行docker exec -u postgres -i [postgres_container] pg_restore -d postgres &amp;lt; ~/db.backup">
-<meta name="keywords" content="豆知识,PostgreSQL,Docker">
+  <meta name="description" content="前篇参考：学习笔记——集成学习（Ensemble Learning） 相关论文：LightGBM A Highly Efficient Gradient Boosting Github：LightGBM">
+<meta name="keywords" content="论文阅读,学习笔记,Machine Learning,Ensemble Learning,LightGBM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 中使用 pg_restore 遇到的问题">
-<meta property="og:url" content="http://yoursite.com/docker-pgrestore/index.html">
+<meta property="og:title" content="学习笔记——LightGBM（Light Gradient Boosting Machine）">
+<meta property="og:url" content="http://yoursite.com/lightgbm-summary/index.html">
 <meta property="og:site_name" content="ro&#39;s blog">
-<meta property="og:description" content="结论：提前创建数据库再执行docker exec -u postgres -i [postgres_container] pg_restore -d postgres &amp;lt; ~/db.backup">
+<meta property="og:description" content="前篇参考：学习笔记——集成学习（Ensemble Learning） 相关论文：LightGBM A Highly Efficient Gradient Boosting Github：LightGBM">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-07T06:03:00.366Z">
+<meta property="og:image" content="http://yoursite.com/lightgbm-summary/1529307087293.png">
+<meta property="og:image" content="http://yoursite.com/lightgbm-summary/1529307100925.png">
+<meta property="og:image" content="http://yoursite.com/lightgbm-summary/1529308432254.png">
+<meta property="og:image" content="http://yoursite.com/lightgbm-summary/1529308447908.png">
+<meta property="og:image" content="http://yoursite.com/lightgbm-summary/1529382580493.png">
+<meta property="og:image" content="http://yoursite.com/lightgbm-summary/1529382595184.png">
+<meta property="og:updated_time" content="2018-06-19T04:35:38.445Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker 中使用 pg_restore 遇到的问题">
-<meta name="twitter:description" content="结论：提前创建数据库再执行docker exec -u postgres -i [postgres_container] pg_restore -d postgres &amp;lt; ~/db.backup">
+<meta name="twitter:title" content="学习笔记——LightGBM（Light Gradient Boosting Machine）">
+<meta name="twitter:description" content="前篇参考：学习笔记——集成学习（Ensemble Learning） 相关论文：LightGBM A Highly Efficient Gradient Boosting Github：LightGBM">
+<meta name="twitter:image" content="http://yoursite.com/lightgbm-summary/1529307087293.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/docker-pgrestore/"/>
+  <link rel="canonical" href="http://yoursite.com/lightgbm-summary/"/>
 
 
 
@@ -127,7 +134,7 @@
   };
 </script>
 
-  <title>Docker 中使用 pg_restore 遇到的问题 | ro's blog</title>
+  <title>学习笔记——LightGBM（Light Gradient Boosting Machine） | ro's blog</title>
   
 
 
@@ -325,7 +332,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/docker-pgrestore/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/lightgbm-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="rocuku">
@@ -342,7 +349,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker 中使用 pg_restore 遇到的问题</h1>
+          <h1 class="post-title" itemprop="name headline">学习笔记——LightGBM（Light Gradient Boosting Machine）</h1>
         
 
         <div class="post-meta">
@@ -354,7 +361,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-07T14:00:56+08:00">2016-10-07</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-03T12:31:45+08:00">2018-04-03</time>
             
 
             
@@ -375,7 +382,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/豆知识/" itemprop="url" rel="index"><span itemprop="name">豆知识</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
 
                 
                 
@@ -390,8 +397,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/docker-pgrestore/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/docker-pgrestore/" itemprop="commentCount"></span>
+                <a href="/lightgbm-summary/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/lightgbm-summary/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,31 +426,56 @@
       
 
       
-        <p><strong>结论：提前创建数据库再执行<code>docker exec -u postgres -i [postgres_container] pg_restore -d postgres &lt; ~/db.backup</code></strong></p>
+        <p><strong>前篇参考：</strong><a href="https://rocuku.github.io/ensemble-learning/" target="_blank" rel="noopener">学习笔记——集成学习（Ensemble Learning）</a></p>
+<p><strong>相关论文：</strong><a href="https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree.pdf" target="_blank" rel="noopener">LightGBM A Highly Efficient Gradient Boosting</a></p>
+<p><strong>Github：</strong><a href="https://github.com/Microsoft/LightGBM" target="_blank" rel="noopener">LightGBM</a></p>
 <a id="more"></a>
 <hr>
-<p>起因是想把使用<code>pg_dump</code>导出的本地数据导入到云端，就用了下面这个命令</p>
-<p><code>docker exec -u postgres [postgres_container] pg_restore -C -d postgres &lt; ~/db.backup</code></p>
-<p>命令敲进去之后发现终端就没声了，<code>Ctrl + C</code> 可以正常 kill 掉，但是不 kill 它就不会有任何输出，开一晚上也不会有任何反应。</p>
-<p>经过研究，发现应该加个 <code>-i</code>：</p>
-<p><code>docker exec -u postgres -i [postgres_container] pg_restore -C -d postgres &lt; ~/db.backup</code></p>
-<p><code>-h</code>文档里是这样写的：</p>
-<blockquote>
-<p><code>-i, --interactive   Keep STDIN open even if not attached</code></p>
-</blockquote>
-<p>所以我命令中加上<code>-i</code>才能够让在我没有 attach 到容器的情况下正常导入文件。（我的理解）</p>
+<h2 id="论文总结">论文总结</h2>
+<p>LightGBM 是 GBDT 的一个实现</p>
+<p>论文里主要提出了两个技术，用于解决计算分裂点的时候要遍历所有样本计算信息增益所带来的时间开销过大的问题：</p>
+<ul>
+<li>单边梯度采样，Gradient-based One-Side Sampling（<strong>GOSS</strong>）</li>
+<li>互斥特征绑定，Exclusive Feature Bundling（<strong>EFB</strong>）</li>
+</ul>
+<p>结合使用 GOSS 和 EFB 的 GBDT 算法就是 LightGBM。</p>
+<h3 id="histogram-based-algorithm">Histogram-based Algorithm</h3>
+<p>GBDT 中最耗时的部分是进行决策树学习的时候寻找最佳分裂点的过程。现在有两个很流行的最佳分裂点查找算法：</p>
+<ul>
+<li><strong>pre-sorted algorithm</strong>（预排序算法）<br>
+这种算法根据预排序特征值枚举所有可能的分裂点。XGBoost 中的精确贪婪算法就是这种。这种算法简单且能保证获得最优解，但是时间和空间效率都很低</li>
+<li><strong>histogram-based algorithm</strong>（直方图算法）<br>
+这种算法先将连续的特征值离散化，构建成一个直方图。这种算法时间和空间效率都更高。LightGBM 就是使用的这种算法 <img src="/lightgbm-summary/1529307087293.png" alt="Alt text"> histogram-based algorithm 通过特征直方图寻找最佳分裂点。这个算法花费 <span class="math inline">\(O(\#data \times \#feature)\)</span> 构建直方图，花费 <span class="math inline">\(O(\#bin \times \#feature)\)</span> 寻找最佳分裂点。</li>
+</ul>
+<p>histogram-based algorithm 不是 LightGBM 提出的，只使用而已。</p>
+<h3 id="gradient-based-one-side-samplinggoss">Gradient-based One-Side Sampling（GOSS）</h3>
+<p>在训练过程里，每个样本具有不同的梯度，具有较大梯度（绝对值）的样本能贡献更大的信息增益。因此在对样本进行采样的时候，对梯度较大的样本（根据阈值或者样本占比）直接保留，只在梯度较小的样本里进行随机丢弃，这样可以使得每次丢弃的都是一些对信息增益没有帮助的样本。 <img src="/lightgbm-summary/1529307100925.png" alt="Alt text"></p>
+<h3 id="exclusive-feature-bundlingefb">Exclusive Feature Bundling（EFB）</h3>
+<p>在实际应用中，可能会有很多特征，然后特征空间是稀疏的，这为设计无损降维方案提供了便利。稀疏的特征空间里往往有很多特征是互斥的（它们不同时取到非零值），而互斥特征可以绑定为一个单一特征，这就叫互斥特征绑定。进行这种操作后，可以将生成直方图的复杂度由 <span class="math inline">\(O(\#data \times \#feature)\)</span> 降为 <span class="math inline">\(O(\#data \times \#bundle)\)</span> 其中 <span class="math inline">\(\#bundle &lt;&lt; \# feature\)</span>。这可以在不降低精度的前提下大大提高 GBDT 的效率。</p>
+<p>这里有两个问题：</p>
+<ol type="1">
+<li>怎么决定将哪些特征绑定到一起</li>
+<li>怎么实现绑定</li>
+</ol>
+<p>将独立特征绑定到一起是一个 NP-hard 问题，这里是转换为图着色问题来解决的。将特征视为图的顶点，将不互斥的特征之间添上边，然后使用贪婪算法解决图着色问题，也就解决了第一个问题。具体算法如下： <img src="/lightgbm-summary/1529308432254.png" alt="Alt text"></p>
+<p>下面这个融合互斥特征算法用于解决第二个问题。因为 histogram-based 算法是用离散的 bins 来存储特征值的，所以实现绑定的时候将互斥的特征绑定到不同的 bins 里就可以了。这个可以通过给特征原始值添加一个偏移量来实现。具体算法如下： <img src="/lightgbm-summary/1529308447908.png" alt="Alt text"></p>
+<h3 id="leaf-wise">Leaf-wise</h3>
+<p>LightGBM 还使用了 leaf-wise 生长策略（XGBoost 是 lever-wise），这种策略每次从当前所有叶子中，找到分裂增益最大的一个叶子，然后分裂，如此循环，因此不会像 layer-wise 一样为了达到深度而去分裂增益不大的节点，因此在分裂次数相同的情况下，leaf-wise 的精度一般比 lever-wise 要高。在设置参数的时候不进行最大深度限制的话有可能会生成较深的决策树，造成过拟合。</p>
+<p><strong>Lever-wise</strong> <img src="/lightgbm-summary/1529382580493.png" alt="Alt text"></p>
+<p><strong>Leaf-wise</strong> <img src="/lightgbm-summary/1529382595184.png" alt="Alt text"></p>
+<p>这一项论文只在第五节提了一下。</p>
 <hr>
-<p>加上这个<code>-i</code>之后可算有反应了，虽然是报错</p>
-<p><code>pg_restore: [archiver (db)] connection to database &quot;postgres&quot; failed: FATAL:  database &quot;postgres&quot; does not exist</code></p>
-<p>文档里对<code>-C</code>的描述是</p>
-<blockquote>
-<p><code>-C, --create                 create the target database</code></p>
-</blockquote>
-<p>我就以为它会自己创建数据库，然而不是的，参考 <a href="https://dba.stackexchange.com/questions/82161/why-pg-restore-ignores-create-error-failed-fatal-database-new-db-does-n" target="_blank" rel="noopener">why pg_restore ignores –create?</a></p>
-<p>当<code>-C</code> 和<code>-d</code>一起用的时候会，<code>-d</code> 后的数据库会被当作 <em>launchpad</em> 而不是目标。</p>
-<p>所以要达到我的目的，最好就是先删除数据库，再重新创建数据库，然后再导入： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -u postgres [postgres_container] dropdb postgres</span><br><span class="line">docker <span class="built_in">exec</span> -u postgres [postgres_container] createdb postgres</span><br><span class="line">docker <span class="built_in">exec</span> -u postgres -i [postgres_container] pg_restore -d postgres &lt; ~/db.backup</span><br></pre></td></tr></table></figure></p>
+<h2 id="参数">参数</h2>
+<ul>
+<li><a href="http://lightgbm.apachecn.org/cn/latest/Quick-Start.html#id4" target="_blank" rel="noopener">重要参数文档</a></li>
+<li><a href="http://lightgbm.apachecn.org/cn/latest/Parameters.html" target="_blank" rel="noopener">所有参数文档</a></li>
+</ul>
 <hr>
-<p>感觉我对 Docker 和 PostgreSQL 的理解都很浅……</p>
+<h2 id="reference">Reference</h2>
+<ol type="1">
+<li><a href="http://lightgbm.apachecn.org/cn/latest/index.html" target="_blank" rel="noopener">LightGBM 中文文档</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/31986189" target="_blank" rel="noopener">快的不要不要的lightGBM</a></li>
+</ol>
 
       
     </div>
@@ -464,11 +496,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/豆知识/" rel="tag"># 豆知识</a>
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
           
-            <a href="/tags/PostgreSQL/" rel="tag"># PostgreSQL</a>
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
           
-            <a href="/tags/Docker/" rel="tag"># Docker</a>
+            <a href="/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
+          
+            <a href="/tags/Ensemble-Learning/" rel="tag"># Ensemble Learning</a>
+          
+            <a href="/tags/LightGBM/" rel="tag"># LightGBM</a>
           
         </div>
       
@@ -481,8 +517,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/vector-bool/" rel="next" title="关于 vector&lt;bool&gt;">
-                <i class="fa fa-chevron-left"></i> 关于 vector&lt;bool&gt;
+              <a href="/keras-validation-split-shuffle/" rel="next" title="关于 Keras 的 validation_split 与 shuffle">
+                <i class="fa fa-chevron-left"></i> 关于 Keras 的 validation_split 与 shuffle
               </a>
             
           </div>
@@ -491,8 +527,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/css-textarea-placeholder/" rel="prev" title="textArea 的 Placeholder 换行问题">
-                textArea 的 Placeholder 换行问题 <i class="fa fa-chevron-right"></i>
+              <a href="/memory-networks-summary/" rel="prev" title="学习笔记——Memory Networks 相关论文总结">
+                学习笔记——Memory Networks 相关论文总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -545,8 +581,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -701,6 +746,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#论文总结"><span class="nav-number">1.</span> <span class="nav-text">论文总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#histogram-based-algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Histogram-based Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gradient-based-one-side-samplinggoss"><span class="nav-number">1.2.</span> <span class="nav-text">Gradient-based One-Side Sampling（GOSS）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exclusive-feature-bundlingefb"><span class="nav-number">1.3.</span> <span class="nav-text">Exclusive Feature Bundling（EFB）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#leaf-wise"><span class="nav-number">1.4.</span> <span class="nav-text">Leaf-wise</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
