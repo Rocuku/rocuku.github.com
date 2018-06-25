@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525585815510.png">
 <meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525591009291.png">
 <meta property="og:image" content="http://yoursite.com/classifier-evaluation/1525586806492.png">
-<meta property="og:updated_time" content="2018-05-08T01:42:33.007Z">
+<meta property="og:updated_time" content="2018-06-21T02:24:40.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习笔记——分类器性能度量标准">
 <meta name="twitter:description" content="混淆矩阵     正类 负类     预测为正 TP（真正） FP（假正）   预测为负 FN（假负） TN（真负）     TP（真正）: 将正类预测为正类数 FP（假正）: 将负类预测为正类数（误报，Type I error） TN（真负）: 将负类预测为负类数 FN（假负）: 将正类预测为负类数（漏报，Type II error）">
@@ -466,10 +466,10 @@
 <h3 id="tnrtrue-negative-rate-特异度specificity">TNR（True Negative Rate） / 特异度（Specificity）</h3>
 <p>真负样本数占所有预测为负类样本数的比例<br>
 <span class="math display">\[TNR= \frac{TN}{TN + FP}\]</span></p>
-<h3 id="fnrfalse-negatice-rate-漏报率">FNR（False Negatice Rate） / 漏报率</h3>
+<h3 id="fnrfalse-negative-rate-漏报率">FNR（False Negative Rate） / 漏报率</h3>
 <p>假负样本数占所有预测为负类样本数的比例<br>
 <span class="math display">\[FNR= \frac{FN}{TN + FP} = 1 - TNR\]</span></p>
-<h3 id="fprfalse-positice-rate-误报率">FPR（False Positice Rate） / 误报率</h3>
+<h3 id="fprfalse-positive-rate-误报率">FPR（False Positive Rate） / 误报率</h3>
 <p>假正样本数占所有预测为负类样本数的比例<br>
 <span class="math display">\[FPR= \frac{FP}{FP+ TN} =  1 - TPR\]</span></p>
 <h3 id="pr曲线precision-recall-curve">PR曲线（Precision-Recall Curve）</h3>
@@ -673,7 +673,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -823,7 +823,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#混淆矩阵"><span class="nav-number">1.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种指标"><span class="nav-number">2.</span> <span class="nav-text">几种指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准确率accuracy"><span class="nav-number">2.1.</span> <span class="nav-text">准确率（accuracy）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确率-精确率precision-查准率"><span class="nav-number">2.2.</span> <span class="nav-text">正确率 / 精确率（Precision） / 查准率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tprtrue-positive-rate-灵敏度sensitivity-召回率recall-查全率"><span class="nav-number">2.3.</span> <span class="nav-text">TPR（True Positive Rate） / 灵敏度（Sensitivity） / 召回率（Recall） / 查全率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tnrtrue-negative-rate-特异度specificity"><span class="nav-number">2.4.</span> <span class="nav-text">TNR（True Negative Rate） / 特异度（Specificity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fnrfalse-negatice-rate-漏报率"><span class="nav-number">2.5.</span> <span class="nav-text">FNR（False Negatice Rate） / 漏报率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fprfalse-positice-rate-误报率"><span class="nav-number">2.6.</span> <span class="nav-text">FPR（False Positice Rate） / 误报率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pr曲线precision-recall-curve"><span class="nav-number">2.7.</span> <span class="nav-text">PR曲线（Precision-Recall Curve）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f1值f1-score"><span class="nav-number">2.8.</span> <span class="nav-text">F1值（F1-score）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#roc-aucarea-under-the-curve-of-roc"><span class="nav-number">2.9.</span> <span class="nav-text">ROC-AUC（Area under the Curve of ROC）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#roc曲线"><span class="nav-number">2.9.1.</span> <span class="nav-text">ROC曲线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#roc-auc"><span class="nav-number">2.9.2.</span> <span class="nav-text">ROC-AUC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#混淆矩阵"><span class="nav-number">1.</span> <span class="nav-text">混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种指标"><span class="nav-number">2.</span> <span class="nav-text">几种指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准确率accuracy"><span class="nav-number">2.1.</span> <span class="nav-text">准确率（accuracy）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正确率-精确率precision-查准率"><span class="nav-number">2.2.</span> <span class="nav-text">正确率 / 精确率（Precision） / 查准率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tprtrue-positive-rate-灵敏度sensitivity-召回率recall-查全率"><span class="nav-number">2.3.</span> <span class="nav-text">TPR（True Positive Rate） / 灵敏度（Sensitivity） / 召回率（Recall） / 查全率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tnrtrue-negative-rate-特异度specificity"><span class="nav-number">2.4.</span> <span class="nav-text">TNR（True Negative Rate） / 特异度（Specificity）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fnrfalse-negative-rate-漏报率"><span class="nav-number">2.5.</span> <span class="nav-text">FNR（False Negative Rate） / 漏报率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fprfalse-positive-rate-误报率"><span class="nav-number">2.6.</span> <span class="nav-text">FPR（False Positive Rate） / 误报率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pr曲线precision-recall-curve"><span class="nav-number">2.7.</span> <span class="nav-text">PR曲线（Precision-Recall Curve）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#f1值f1-score"><span class="nav-number">2.8.</span> <span class="nav-text">F1值（F1-score）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#roc-aucarea-under-the-curve-of-roc"><span class="nav-number">2.9.</span> <span class="nav-text">ROC-AUC（Area under the Curve of ROC）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#roc曲线"><span class="nav-number">2.9.1.</span> <span class="nav-text">ROC曲线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#roc-auc"><span class="nav-number">2.9.2.</span> <span class="nav-text">ROC-AUC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适用场景"><span class="nav-number">3.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
