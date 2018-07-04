@@ -106,7 +106,7 @@
 <meta property="og:site_name" content="ro&#39;s blog">
 <meta property="og:description" content="本 Blog 主要用于记录一些学习过程  联系我  Mail: rocuku@gmail.com Github: Rocuku Kaggle: rocuku   技术栈  机器学习  主要研究自然语言处理 QA 方向 熟悉 Memory Networks 架构 熟悉神经网络 RNN、GRU、LSTM 等 熟悉集成学习方法 XGBoost、LightGBM 等 熟悉深度学习框架 Keras  Web">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-03T10:21:00.992Z">
+<meta property="og:updated_time" content="2018-07-04T07:27:58.888Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于我">
 <meta name="twitter:description" content="本 Blog 主要用于记录一些学习过程  联系我  Mail: rocuku@gmail.com Github: Rocuku Kaggle: rocuku   技术栈  机器学习  主要研究自然语言处理 QA 方向 熟悉 Memory Networks 架构 熟悉神经网络 RNN、GRU、LSTM 等 熟悉集成学习方法 XGBoost、LightGBM 等 熟悉深度学习框架 Keras  Web">
@@ -354,7 +354,7 @@
 </ul></li>
 <li><strong>Web</strong>
 <ul>
-<li>曾独立完成多个 Web 项目</li>
+<li>能够独立设计、实现并部署 Web 项目</li>
 <li>常用 Web 框架为 Python-Django</li>
 <li>熟悉 HTML / CSS / JS 体系，能独立完成前端开发</li>
 <li>常用 jQuery、Bootstrap 等框架</li>
@@ -409,12 +409,12 @@
 <li>使用 MFC 定时器定时读取电表信息信息并保存到 MySQL 数据库中，保留历史数据</li>
 <li>使用 MFC 完成图形化界面，展示历史电能数据，提供电表设置及报表打印图形化接口</li>
 </ul></li>
-<li><strong>村级站智能化网关软件</strong>（个人） <em>2015.08~2016.01</em>
+<li><strong><a href="https://github.com/Rocuku/Contryside_GW" target="_blank" rel="noopener">村级站智能化网关软件</a></strong>（个人） <em>2015.08~2016.01</em>
 <ul>
 <li>使用串口与读卡器设备进行交互，获取读取到的卡片信息</li>
 <li>使用 Qt5 实现图形化界面，调取第三方 api 实现天气预报展示功能，使用 sqlite3 数据库保存用户数据并实现网页导航及 QQ 登陆等功能</li>
 </ul></li>
-<li><strong>RFID读写小工具</strong>（个人） <em>2015.12~2016.01</em>
+<li><strong><a href="https://github.com/Rocuku/RFIDTOOLS2" target="_blank" rel="noopener">RFID读写小工具</a></strong>（个人） <em>2015.12~2016.01</em>
 <ul>
 <li>使用串口或者网络（TCP / UDP）协议与 RFID 读写器设备进行通信</li>
 <li>使用 MFC 完成图形化界面，能够向 RFID 读写器设备发送自定义命令或预定义命令，并能够收取并显示返回值</li>
@@ -424,15 +424,24 @@
 <hr>
 <h4 id="比赛经历">比赛经历</h4>
 <ul>
-<li><strong>Kaggle比赛： Toxic Comment Classification Challenge</strong>（个人，Top 7%） <em>2017.12~2018.03</em>
+<li><strong>Kaggle比赛： <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge" target="_blank" rel="noopener">Toxic Comment Classification Challenge</a></strong>（个人，Top 7%） <em>2017.12~2018.03</em>
 <ul>
 <li>比赛旨在鉴别维基百科上评论页面上的负面评论，标出其负面类型</li>
 <li><strong>特征提取：</strong>尝试使用了 Word2Vec、fastText 及 GloVe 的预训练词嵌入矩阵分别在基础模型上，最后选择了差异较大且效果相近的 fastText 与 GloVe 的预训练矩阵分别做为基模型的词嵌入矩阵</li>
-<li><strong>模型选择：</strong>使用 Keras 作为开发框架，搭建了 bi-LSTM+CNN、bi-GRU+CNN、Transformer 三种基本网络进行训练。分别获得 0.9850、0.9852、0.9849 的 ROC-AUC</li>
-<li><strong>模型融合：</strong>将训练出的 6 个模型使用 LightGBM 进行 5-fold Stacking 集成学习，将 ROC-AUC 提高到了 0.9865</li>
+<li><strong>模型选择：</strong>使用 Keras 作为开发框架，搭建了 bi-LSTM+CNN、bi-GRU+CNN、Transformer 三种基本网络进行训练</li>
+<li><strong>模型融合：</strong>将训练出的 6 个模型使用 LightGBM 进行 5-fold Stacking 集成学习</li>
+<li><strong>比赛总结：</strong><a href="https://rocuku.github.io/toxic-comment-classification-challenge-summary/" target="_blank" rel="noopener">Blog</a></li>
 </ul></li>
-<li><strong>Kaggle比赛： DonorsChoose.org Application Screening Top </strong>（个人，Top 2%） <em>2017.03~2018.04</em></li>
-<li><strong>Kaggle比赛：TalkingData AdTracking Fraud Detection Challenge </strong>（个人，Top 14%） <em>2017.03~2018.05</em></li>
+<li><strong>Kaggle比赛：<a href="https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection" target="_blank" rel="noopener">TalkingData AdTracking Fraud Detection Challenge</a> </strong>（个人，Top 14%） <em>2017.03~2018.05</em>
+<ul>
+<li>比赛需要根据用户 ip、app、os、channel、点击时间等信息判断用户在点击广告后是否会下载广告推荐的应用，旨在找出频繁进行欺诈点击行为的ip地址。</li>
+<li><strong>特征提取：</strong>将具有同一 ip / app / os / channel 等的点击来源作为同一用户并生成新的特征，再将同一用户距离下一次点击的时间也作为新的特征加入训练中</li>
+<li><strong>模型选择：</strong>使用LightGBM、XGBoost、随机森林3种模型分别对数据进行训练</li>
+<li><strong>模型融合：</strong>使用不同seed训练最佳模型，最终选择出15个训练好的模型进行5-fold Stacking集成学习</li>
+<li><strong>方案分享：</strong><a href="https://www.kaggle.com/c/talkingdata-adtracking-fraud-detection/discussion/56259#325036" target="_blank" rel="noopener">Kaggle Discussion</a></li>
+<li><strong>Pipeline 源码：</strong><a href="https://github.com/Rocuku/kaggle-talkingdata" target="_blank" rel="noopener">Github</a></li>
+</ul></li>
+<li><strong>Kaggle比赛： <a href="https://www.kaggle.com/c/donorschoose-application-screening" target="_blank" rel="noopener">DonorsChoose.org Application Screening</a> </strong>（个人，Top 2%） <em>2017.03~2018.04</em></li>
 <li><strong>IEEEXTREME大赛</strong>（全球排名 373 / 3342）<em>2017.10</em></li>
 <li><strong>全国大学生电子设计竞赛</strong>（省一等奖） <em>2013.09</em></li>
 <li><strong>TI 杯大学生电子设计竞赛</strong>（省一等奖） <em>2014.09</em></li>
