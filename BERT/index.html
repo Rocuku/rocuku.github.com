@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="arxiv Google AI Language 2018.10 主要工作  提出 BERT (Bidirectional Encoder Representations from Transformers) 提出新的 pre-training objective MLM (masked language model)  Transformer 来源于 《Attention is all you">
+<meta name="keywords" content="论文阅读,Attention,Transformer,BERT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》">
+<meta property="og:url" content="http://yoursite.com/BERT/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="arxiv Google AI Language 2018.10 主要工作  提出 BERT (Bidirectional Encoder Representations from Transformers) 提出新的 pre-training objective MLM (masked language model)  Transformer 来源于 《Attention is all you">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/BERT/1539648526557.png">
+<meta property="og:image" content="http://yoursite.com/BERT/1539648634895.png">
+<meta property="og:image" content="http://yoursite.com/BERT/1539650629682.png">
+<meta property="og:updated_time" content="2018-11-21T09:42:10.414Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》">
+<meta name="twitter:description" content="arxiv Google AI Language 2018.10 主要工作  提出 BERT (Bidirectional Encoder Representations from Transformers) 提出新的 pre-training objective MLM (masked language model)  Transformer 来源于 《Attention is all you">
+<meta name="twitter:image" content="http://yoursite.com/BERT/1539648526557.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/BERT/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》 | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/BERT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-01T17:38:14+08:00">2018-11-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/BERT/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/BERT/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener">arxiv</a><br>
+<strong>Google AI Language</strong><br>
+2018.10</p>
+<h2 id="主要工作">主要工作</h2>
+<ul>
+<li>提出 <strong>BERT</strong> (Bidirectional Encoder Representations from Transformers)</li>
+<li>提出新的 pre-training objective <strong>MLM</strong> (masked language model)</li>
+</ul>
+<p><strong>Transformer</strong> 来源于 <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">《Attention is all you need》</a>(<a href="http://blog.rocuku.cc/attention-is-all-you-need/" target="_blank" rel="noopener">论文笔记</a>)</p>
+<a id="more"></a>
+<h2 id="模型">模型</h2>
+<h3 id="模型架构">模型架构</h3>
+<p><strong>Transformer 架构</strong> <img src="/BERT/1539648526557.png" alt="Alt text"></p>
+<p><strong>BERT 与 OpenAI GPT, ELMo 的结构对比</strong> <img src="/BERT/1539648634895.png" alt="Alt text"></p>
+<h3 id="input-representation">Input Representation</h3>
+<p><strong>Input Representation 图示</strong> <img src="/BERT/1539650629682.png" alt="Alt text"></p>
+<ul>
+<li>这里的 Input Representation 可以表示一个句子或者是一对句子 (例如 QA 对)</li>
+<li>Input Representation 包括 Token, Segment, Position Embeddings</li>
+<li>使用 WordPiece embeddings (来源论文：<a href="https://arxiv.org/abs/1609.08144" target="_blank" rel="noopener">Google’s Neural Machine Translation System: Bridging the Gap between Human and Machine Translation</a>)
+<ul>
+<li>这个 WordPiece Model 介于 Word Model 和 Character Model 之间，就是将 OOV 的词拆开来编码，比如上图中 playing 就被拆成 play 和 ##ing (<code>##</code> 用于表示被切分开的词的接续部分)</li>
+</ul></li>
+<li>Position Embeddings 支持的最长序列为 512 个 token</li>
+<li>Token Embeddings 的第一个 token 都是<code>[CLS]</code>，对于分类任务，这一位对应的输出是 aggregate sequence representation，对于非分类任务，这一位无效。</li>
+<li>输入是一对句子的时候，这些句子将被打包成一句。这里使用两种编码方式分离句子，第一是加入一个特别的 token <code>[SEP]</code>，第二是给句子 A 里的每一个 token 都加上 <span class="math inline">\(E_A\)</span> (learned sentence A embedding) ，给句子 B 里的每一个 token 都加上 <span class="math inline">\(E_B\)</span></li>
+<li>输入是一个句子的时候只使用 <span class="math inline">\(E_A\)</span></li>
+</ul>
+<h3 id="pre-training-tasks">Pre-training Tasks</h3>
+<p>Pre-training 是 BERT 最重要的一部分。</p>
+<p>BERT 的 pre-training 使用的是两个新的无监督任务。</p>
+<h4 id="task-1-masked-lm">Task #1: Masked LM</h4>
+<p>deep bidirectional 模型比传统的 left-to-right 模型和 shallow bidirectional 模型的效果都要好，但是标准 conditional language 模型只能通过这种传统方式训练，因为 deep bidirectional 模型需要每个词都能在多层上下文中间接 “see itself”。为了解决这个问题，文章提出了 masked LM (MLM)，即随机屏蔽一些输入中的 token，然后只对这些被屏蔽的 token 进行预测。在本文的实验中，随机屏蔽了 WordPiece tokens 中的 15%。<em>(有点不太懂为什么这样就能训练出 deep bidirectional representation)</em></p>
+<ul>
+<li>80% 的情况：替换选中词为 <code>[MASK]</code> (my dog is hairy -&gt; my dog is [MASK])</li>
+<li>10% 的情况：替换选中词为一个随机词 (my dog is hairy -&gt; my dog is apple)</li>
+<li>10% 的情况：不替换选中词 (my dog is hairy -&gt; my dog is hairy)</li>
+</ul>
+<h4 id="task-2-next-sentence-prediction">Task #2: Next Sentence Prediction</h4>
+<p>这是针对不能通过语言模型直接学习的下游任务的，例如问答 (QA) 和自然语言推理 (NLI) 之类基于理解句子间关系的任务。</p>
+<p>Next sentence prediction 任务可以由任何的 monolingual 语料库构造，就是将语料库中的句子 A 和 B 作为样本，有 50% 的样本里的 B 为 A 在语料库中的下一句，另外 50% 里就是语料库里的一个随机句子。例如：</p>
+<p><strong>Input</strong> = <em>[CLS] the man went to [MASK] store [SEP]</em><br>
+<em>he bought a gallon [MASK] milk [SEP]</em><br>
+<strong>Label</strong> = <code>IsNext</code></p>
+<p><strong>Input</strong> = <em>[CLS] the man [MASK] to the store [SEP]</em><br>
+<em>penguin [MASK] are flight ##less birds [SEP]</em> <strong>Label</strong> = <code>NotNext</code></p>
+<h3 id="pre-training-procedure">Pre-training Procedure</h3>
+<p>基本基于现有的语言模型 pre-training。</p>
+<p>语料库使用 <strong>BookCorpus</strong> (800M 词) 和 <strong>English Wikipedia</strong> (2500M 词)。</p>
+<p>生成训练输入序列的方法如下：先从语料库中采样两段文本 (本文里称为 “sentences”)，第一段接受 A embedding，第二段接受 B embedding。这里对应 next sentence prediction 任务，B 只有 50% 的几率为 A 在语料库中的下一句。采样的时候保证总长度不超过 512 tokens。LM masking 在 WordPiece 序列化之后进行，对应任务 Masked LM。</p>
+<h3 id="fine-tuning-procedure">Fine-tuning Procedure</h3>
+<p>fine-tuning 的超参在大部分模型中都是和 pre-training 时相同的。dropout 在所有任务中都是 0.1，其他超参根据不同任务有所不同，不过都在以下列举的范围内</p>
+<ul>
+<li><strong>Batch size:</strong> 16, 32</li>
+<li><strong>Learning rate (Adam):</strong> 5e-5, 3e-5, 2e-5</li>
+<li><strong>Number of epochs:</strong> 3, 4</li>
+</ul>
+<p>小数据集相较于大数据集对超参的变化更加敏感。Fine-tuning 一般是很快的，所以在 development set 上穷举所有上述超参，找到效果最好的就行了。</p>
+<h3 id="bert-与-openai-gpt-的比较">BERT 与 OpenAI GPT 的比较</h3>
+<p>现有的 pre-training 模式中和 BERT 最接近的就是在大型文本语料库中训练了 left-to-right Transformer 语言模型的 <strong>OpenAI GPT</strong>。</p>
+<p>BERT 和 GPT 最大的区别就是提出了前面说的两个 pre-training tasks (这也是 BERT 效果好的主要来源 )，其他还有几点区别如下：</p>
+<ul>
+<li>GPT 训练使用的语料库是 <strong>BooksCorpus</strong>，BERT 使用的是 <strong>BookCorpus</strong> 和 <strong>English Wikipedia</strong></li>
+<li>GPT 只在 fine-tuning 的时候使用<code>[SEP]</code>和<code>[CLS]</code>，BERT 在 pre-training 的时候就使用<code>[SEP]</code>，<code>[CLS]</code>以及 A/B embeddings</li>
+<li>GPT 使用 32000 词的 batch size 训练 1M steps，BERT 使用 128000 词的 batch size 训练 1M steps</li>
+<li>GPT 在所有的 fine-tuning 实验中都使用 5e-5 的学习率，BERT 则为不同任务分别选取表现最好的学习率</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/论文阅读/" rel="tag"># 论文阅读</a>
+          
+            <a href="/tags/Attention/" rel="tag"># Attention</a>
+          
+            <a href="/tags/Transformer/" rel="tag"># Transformer</a>
+          
+            <a href="/tags/BERT/" rel="tag"># BERT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/keras-memn2n/" rel="next" title="使用 keras 复现 MemN2N">
+                <i class="fa fa-chevron-left"></i> 使用 keras 复现 MemN2N
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主要工作"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型架构"><span class="nav-number">2.1.</span> <span class="nav-text">模型架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#input-representation"><span class="nav-number">2.2.</span> <span class="nav-text">Input Representation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-training-tasks"><span class="nav-number">2.3.</span> <span class="nav-text">Pre-training Tasks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#task-1-masked-lm"><span class="nav-number">2.3.1.</span> <span class="nav-text">Task #1: Masked LM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#task-2-next-sentence-prediction"><span class="nav-number">2.3.2.</span> <span class="nav-text">Task #2: Next Sentence Prediction</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-training-procedure"><span class="nav-number">2.4.</span> <span class="nav-text">Pre-training Procedure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fine-tuning-procedure"><span class="nav-number">2.5.</span> <span class="nav-text">Fine-tuning Procedure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bert-与-openai-gpt-的比较"><span class="nav-number">2.6.</span> <span class="nav-text">BERT 与 OpenAI GPT 的比较</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div>「I know nothing except the fact of my ignorance.」</div>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
