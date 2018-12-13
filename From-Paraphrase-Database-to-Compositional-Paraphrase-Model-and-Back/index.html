@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="arxiv 2015.06 之前关于词嵌入的理解：学习笔记——词嵌入（Word Embedding） 概述 释义检测（Paraphrase Detection）任务的目标是辨别两个结构和用词有所不同的句子是否拥有相同的含义。释义检测对多个 NLP 任务都很有用，例如 QA，语义分析（Semantic Parsing），文本蕴含关系（Textual Entailment）以及机器翻译。 本文是围绕">
+<meta name="keywords" content="Papers,NLP,Word Embedding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《From Paraphrase Database to Compositional Paraphrase Model and Back》">
+<meta property="og:url" content="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/index.html">
+<meta property="og:site_name" content="ro&#39;s blog">
+<meta property="og:description" content="arxiv 2015.06 之前关于词嵌入的理解：学习笔记——词嵌入（Word Embedding） 概述 释义检测（Paraphrase Detection）任务的目标是辨别两个结构和用词有所不同的句子是否拥有相同的含义。释义检测对多个 NLP 任务都很有用，例如 QA，语义分析（Semantic Parsing），文本蕴含关系（Textual Entailment）以及机器翻译。 本文是围绕">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/1544709933883.png">
+<meta property="og:image" content="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/1544709948534.png">
+<meta property="og:updated_time" content="2018-12-13T14:06:41.153Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《From Paraphrase Database to Compositional Paraphrase Model and Back》">
+<meta name="twitter:description" content="arxiv 2015.06 之前关于词嵌入的理解：学习笔记——词嵌入（Word Embedding） 概述 释义检测（Paraphrase Detection）任务的目标是辨别两个结构和用词有所不同的句子是否拥有相同的含义。释义检测对多个 NLP 任务都很有用，例如 QA，语义分析（Semantic Parsing），文本蕴含关系（Textual Entailment）以及机器翻译。 本文是围绕">
+<meta name="twitter:image" content="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/1544709933883.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《From Paraphrase Database to Compositional Paraphrase Model and Back》 | ro's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ro's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+    
+
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+    
+
+  
+
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《From Paraphrase Database to Compositional Paraphrase Model and Back》</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-13T15:57:31+08:00">2018-12-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://arxiv.org/abs/1506.03487" target="_blank" rel="noopener">arxiv</a><br>
+2015.06</p>
+<p>之前关于词嵌入的理解：<a href="https://blog.rocuku.cc/word-embedding-summary/" target="_blank" rel="noopener">学习笔记——词嵌入（Word Embedding）</a></p>
+<h2 id="概述">概述</h2>
+<p>释义检测（Paraphrase Detection）任务的目标是辨别两个结构和用词有所不同的句子是否拥有相同的含义。释义检测对多个 NLP 任务都很有用，例如 QA，语义分析（Semantic Parsing），文本蕴含关系（Textual Entailment）以及机器翻译。</p>
+<p>本文是围绕 <a href="http://paraphrase.org/#/" target="_blank" rel="noopener">PPDB</a>（Paraphrase Database，自动提取了数百万个释义的数据库，数据库中包含了很多具有相同释义的短语/单词对）来进行讨论的。</p>
+<p>PPDB 的几个<strong>缺点</strong>：</p>
+<ul>
+<li><strong>覆盖率</strong>不够高，需要进行释义检测的两个短语必须都在 PPDB 数据库里</li>
+<li><strong>非参数</strong>释义模型（nonparametric paraphrase model），参数（短语对）数量根据数据集大小变化，在实际使用中可能会大到很难处理</li>
+<li><strong>置信度估计</strong>是特征的启发式组合，其质量尚不明确</li>
+</ul>
+<p>本文的<strong>主要工作</strong>：</p>
+<ul>
+<li>提出新的 <strong>PARAGRAM</strong> 词向量</li>
+<li>提出使用 PPDB 来 embed 短语的一些方法</li>
+<li>提出两个新的数据集，<strong>Annotated-PPDB</strong> 和 <strong>ML-Paraphrase</strong></li>
+</ul>
+<a id="more"></a>
+<h2 id="数据集">数据集</h2>
+<h3 id="annotated-ppdb">Annotated-PPDB</h3>
+<p>数据集来源于 PPDB 中的短语对子集，根据释义关系强度进行标注。</p>
+<p>通过以下步骤建立：</p>
+<ol type="1">
+<li>过滤短语，只保留 tokens 在词汇表里的短语，删除重复的释义对</li>
+<li>过滤掉词汇重叠度（word overlap score）大于 0.5 的短语对，例如<code>&lt;my dad had, my father had&gt;</code></li>
+<li>根据可释义性的范围选择，10M 中每 1M 采样 5,000 （这个不太确定）</li>
+<li>根据短语长度选择，从上一步的 5,000 对里选择多种不同长度的短语对 1,500 对，合计 15,000 对</li>
+<li>精简到 3,000 对，形成 <strong>Annotated-PPDB-3K</strong></li>
+<li>使用 Mechanical Turk 进行标注，1～5 之间，5 代表释义几乎一致，1 代表释义几乎完全不一致甚至矛盾</li>
+<li>精简到 1,260 对，形成 <strong>Annotated-PPDB</strong>。这里根据上一步的得分将短语对分成三类，[1, 2.5)，[2.5, 3.5]，(3.5, 5]</li>
+</ol>
+<h3 id="ml-paraphrase">ML-Paraphrase</h3>
+<p>根据Mitchell和Lapata提出的二元语法相似度任务（bigram similarity task）进行重新标注的数据集。</p>
+<p>数据集中包含三类二元语法：adjective-noun (JN)，noun-noun (NN)，and verb-noun (VN)。</p>
+<p>本文发现原有标注中除了功能和定义相似性，还反映了主题相似性，例如<code>&lt;older man, elderly woman&gt;</code>这一对是 JN 中排名最高的。</p>
+<p>所以本文的两位作者对数据进行了重新标注，1～5 之间，5 代表释义几乎一致，1 代表释义完全不一致，然后再将评分 1～2 的合并，4～5 的合并，形成了 <strong>ML-Paraphrase</strong>。</p>
+<h2 id="释义模型paraphrase-models">释义模型（Paraphrase Models）</h2>
+<p>这里提出一个参数释义模型解决之前提到的 PPDB 的第二个缺点。这个模型的目标是将短语映射到低纬的空间中，空间中的余弦相似度代表短语间的释义关系强度。</p>
+<p>用的是类似于 <a href="https://nlp.stanford.edu/~socherr/EMNLP2013_RNTN.pdf" target="_blank" rel="noopener">Recursive Deep Models for Semantic Compositionality Over a Sentiment Treebank</a> 这篇文章中的 RNN。</p>
+<p>首先使用成分解析器来获取短语的二进制化解析。对于短语<span class="math inline">\(p\)</span>，通过对其解析的递归计算来获得其向量<span class="math inline">\(g(p)\)</span>，如下 <span class="math display">\[g(p)=f(W[g(c_1);g(c_2)]+b)\]</span> 其中 <span class="math inline">\(c_1\)</span>，<span class="math inline">\(c_2\)</span> 是 <span class="math inline">\(p\)</span> 的两个子短语，<span class="math inline">\(f\)</span> 是 element-wise 的 <span class="math inline">\(\tanh\)</span>。当 <span class="math inline">\(p\)</span> 没有子词的时候，定义<span class="math inline">\(g(p)=W_w^{(p)}\)</span>，<span class="math inline">\(W_w\)</span> 就是词嵌入矩阵。</p>
+<p>通过短语对来训练词向量时使用目标函数如下 <span class="math display">\[
+\min_{W_w}\frac{1}{|X|}(\sum_{&lt;x_1,x_2&gt;\in X}\max(0,\delta-W_w^{(x_1)}\cdot W_w^{(x_2)}+W_w^{(x_1)}\cdot W_w^{(t_1)})\\+\max(0,\delta-W_w^{(x_1)}\cdot W_w^{(x_2)}+W_w^{(x_2)}\cdot W_w^{(t_2)}))\\+\lambda_{W_w}||W_{w_{initial}}-W_w||^2
+\]</span></p>
+<p>其中 <span class="math inline">\(t_1\)</span>，<span class="math inline">\(t_2\)</span> 是负样本。</p>
+<h2 id="实验">实验</h2>
+<h3 id="word-paraphrasing">Word Paraphrasing</h3>
+<p>这个实验用于学习词汇释义，使用来源于 PPDB 的词汇对训练，并使用 SimLex-999（SL999）数据集进行评价。通过这个训练出了 <strong>PARAGRAM</strong> 词向量，在 SL999 上 ρ 可以达到 0.57。</p>
+<p>为了测试 <strong>PARAGRAM</strong> 词向量，这里把它用在了用于完成情感分析任务的 CNN 里，效果甚至比更高维度的 skip-grams 更好。（但是没有比较 300 维的时候的情况） <img src="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/1544709933883.png" alt="Alt text"></p>
+<h3 id="compositional-paraphrasing">Compositional Paraphrasing</h3>
+<p>这节包括了各种基于组合短语的释义任务的实验。实验由最简单的二元词组开始到短语结束，每个任务都是从 PPDB 中选取适合的数据进行训练，然后用各种数据集进行验证，包括前面的 Annotated-PPDB 和 ML-Paraphrase。</p>
+<h2 id="读后感">读后感</h2>
+<p>因为 <a href="https://www.kaggle.com/c/quora-insincere-questions-classification" target="_blank" rel="noopener">Kaggle: Quora Insincere Questions Classification</a> 比赛里有涉及到 <code>paragram_300_sl999</code>这个预训练词嵌入矩阵，所以来看一下这篇论文。</p>
+<p>不过文章前面都是用的 25 维的 PARAGRAM 向量和 skip-grams 对比的，最后和 300 维的 GloVe 在自己造的数据集上做了个比较，当然效果是 PARAGRAM 比较好…… <img src="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/1544709948534.png" alt="Alt text"></p>
+<p>在比赛里的表现感觉还是挺靠谱的，不输 GloVe 和 fasttext 的样子。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Papers/" rel="tag"># Papers</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/Word-Embedding/" rel="tag"># Word Embedding</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Quora-Insincere-Questions-Classification/" rel="next" title="Kaggle: Quora Insincere Questions Classification">
+                <i class="fa fa-chevron-left"></i> Kaggle: Quora Insincere Questions Classification
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">rocuku</p>
+              <p class="site-description motion-element" itemprop="description">I know nothing except the fact of my ignorance</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/rocuku" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:rocuku@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">2.</span> <span class="nav-text">数据集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#annotated-ppdb"><span class="nav-number">2.1.</span> <span class="nav-text">Annotated-PPDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ml-paraphrase"><span class="nav-number">2.2.</span> <span class="nav-text">ML-Paraphrase</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#释义模型paraphrase-models"><span class="nav-number">3.</span> <span class="nav-text">释义模型（Paraphrase Models）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">4.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#word-paraphrasing"><span class="nav-number">4.1.</span> <span class="nav-text">Word Paraphrasing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compositional-paraphrasing"><span class="nav-number">4.2.</span> <span class="nav-text">Compositional Paraphrasing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读后感"><span class="nav-number">5.</span> <span class="nav-text">读后感</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div>「I know nothing except the fact of my ignorance.」</div>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">rocuku</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="https://s22.cnzz.com/z_stat.php?id=1273679041&web_id=1273679041" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'dr0tt1EJca5IeOAwrgmemg4h-gzGzoHsz',
+        appKey: 'qFvYTrsP9GkeaYJtvIzsbCMR',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

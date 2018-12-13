@@ -324,6 +324,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/" itemprop="url">《From Paraphrase Database to Compositional Paraphrase Model and Back》</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-13T15:57:31+08:00">2018-12-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><a href="https://arxiv.org/abs/1506.03487" target="_blank" rel="noopener">arxiv</a><br>
+2015.06</p>
+<p>之前关于词嵌入的理解：<a href="https://blog.rocuku.cc/word-embedding-summary/" target="_blank" rel="noopener">学习笔记——词嵌入（Word Embedding）</a></p>
+<h2 id="概述">概述</h2>
+<p>释义检测（Paraphrase Detection）任务的目标是辨别两个结构和用词有所不同的句子是否拥有相同的含义。释义检测对多个 NLP 任务都很有用，例如 QA，语义分析（Semantic Parsing），文本蕴含关系（Textual Entailment）以及机器翻译。</p>
+<p>本文是围绕 <a href="http://paraphrase.org/#/" target="_blank" rel="noopener">PPDB</a>（Paraphrase Database，自动提取了数百万个释义的数据库，数据库中包含了很多具有相同释义的短语/单词对）来进行讨论的。</p>
+<p>PPDB 的几个<strong>缺点</strong>：</p>
+<ul>
+<li><strong>覆盖率</strong>不够高，需要进行释义检测的两个短语必须都在 PPDB 数据库里</li>
+<li><strong>非参数</strong>释义模型（nonparametric paraphrase model），参数（短语对）数量根据数据集大小变化，在实际使用中可能会大到很难处理</li>
+<li><strong>置信度估计</strong>是特征的启发式组合，其质量尚不明确</li>
+</ul>
+<p>本文的<strong>主要工作</strong>：</p>
+<ul>
+<li>提出新的 <strong>PARAGRAM</strong> 词向量</li>
+<li>提出使用 PPDB 来 embed 短语的一些方法</li>
+<li>提出两个新的数据集，<strong>Annotated-PPDB</strong> 和 <strong>ML-Paraphrase</strong></li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/From-Paraphrase-Database-to-Compositional-Paraphrase-Model-and-Back/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/Quora-Insincere-Questions-Classification/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -539,7 +712,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/论文阅读/" itemprop="url" rel="index"><span itemprop="name">论文阅读</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Papers/" itemprop="url" rel="index"><span itemprop="name">Papers</span></a></span>
 
                 
                 
@@ -1751,164 +1924,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/xgboost-summary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rocuku">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ro's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/xgboost-summary/" itemprop="url">学习笔记——XGBoost（eXtreme Gradient Boosting）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-31T12:20:08+08:00">2018-03-31</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/xgboost-summary/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/xgboost-summary/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>前篇参考：</strong><a href="https://rocuku.github.io/ensemble-learning/" target="_blank" rel="noopener">学习笔记——集成学习（Ensemble Learning）</a></p>
-<p><strong>相关论文：</strong><a href="https://arxiv.org/abs/1603.02754" target="_blank" rel="noopener">XGBoost: A Scalable Tree Boosting System</a></p>
-<p><strong>Github：</strong><a href="https://github.com/dmlc/xgboost" target="_blank" rel="noopener">xgboost</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/xgboost-summary/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1956,7 +1971,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
