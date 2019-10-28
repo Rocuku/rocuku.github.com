@@ -324,6 +324,167 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/keras-validation-split-shuffle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="rocuku">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ro's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/keras-validation-split-shuffle/" itemprop="url">关于 Keras 的 validation_split 与 shuffle</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-03T08:17:35+09:00">2018-04-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/豆知识/" itemprop="url" rel="index"><span itemprop="name">豆知识</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/keras-validation-split-shuffle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/keras-validation-split-shuffle/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><code>model.fit(X_train, y_train, epochs=2, verbose=1, validation_split=0.9, shuffle=True)</code></p>
+<ul>
+<li>Keras 的 <code>validation_split</code> 并不会随机抽取验证集，而是直接取数据的最后 10% （<code>validation_split=0.9</code>时）</li>
+<li>Keras 的 <code>shuffle</code> 是在 <code>validation_split</code> 之后进行的</li>
+</ul>
+<p><strong>结论：样本分布不均匀的时候最好事先手动 shuffle，然后再用 validation_split 取验证集，不要依赖 Keras 自带的 shuffle</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/keras-validation-split-shuffle/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/xgboost-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -355,7 +516,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-31T12:20:08+08:00">2018-03-31</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-31T12:20:08+09:00">2018-03-31</time>
             
 
             
@@ -513,7 +674,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-30T15:05:32+08:00">2018-03-30</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-30T15:05:32+09:00">2018-03-30</time>
             
 
             
@@ -672,7 +833,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-27T15:34:56+08:00">2018-03-27</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-27T15:34:56+09:00">2018-03-27</time>
             
 
             
@@ -830,7 +991,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-23T17:36:57+08:00">2018-02-23</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-23T17:36:57+09:00">2018-02-23</time>
             
 
             
@@ -989,7 +1150,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-19T17:36:57+08:00">2018-02-19</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-19T17:36:57+09:00">2018-02-19</time>
             
 
             
@@ -1152,7 +1313,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-24T07:44:24+08:00">2018-01-24</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-24T07:44:24+09:00">2018-01-24</time>
             
 
             
@@ -1310,7 +1471,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-12T14:04:30+08:00">2017-12-12</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-12T14:04:30+09:00">2017-12-12</time>
             
 
             
@@ -1466,7 +1627,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-01T14:03:09+08:00">2017-12-01</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-01T14:03:09+09:00">2017-12-01</time>
             
 
             
@@ -1629,7 +1790,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-15T14:03:15+08:00">2017-10-15</time>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-15T14:03:15+09:00">2017-10-15</time>
             
 
             
@@ -1749,171 +1910,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/word-embedding-summary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="rocuku">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ro's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/word-embedding-summary/" itemprop="url">学习笔记——词嵌入（Word Embedding）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-23T13:04:27+08:00">2017-08-23</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/word-embedding-summary/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/word-embedding-summary/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="词汇表征方式从one-hot到词嵌入">词汇表征方式——从one-hot到词嵌入</h2>
-<h3 id="one-hot表征">one-hot表征</h3>
-<p>1个单词对应向量中的1个位置，比如一个有1w个单词的词典中每个词需要由10000x1的向量表示，该单词对应的位置的元素为1，其余位置为0。<br>
-例如单词a在词典中的位置为1，则其表征向量为<span class="math inline">\([1\;0\;0\;0… 0]^T\)</span></p>
-<p><strong>one-hot的缺点：</strong></p>
-<ul>
-<li>任意两个词之间的乘积都为0，无法表示词汇间的关系，对相关词的泛化能力不强</li>
-<li>维度太高，计算压力大</li>
-<li>向量过于稀疏</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/word-embedding-summary/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1961,7 +1957,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1984,7 +1980,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -2122,7 +2120,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <div>「I know nothing except the fact of my ignorance.」</div>
-<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2018</span>
+<div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -2319,9 +2317,9 @@
   
     
       
-        
-      
     
+      
+        
       
     
       
